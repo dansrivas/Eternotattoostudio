@@ -1,0 +1,173 @@
+
+/* ============================================================
+   IMMERSIVE SIMULATOR OVERLAY — v3 BULLETPROOF
+   ============================================================ */
+
+/* The overlay itself */
+.simulator-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: none;
+}
+
+/* Header — fixed to viewport top */
+.sim-immersive-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.88), transparent);
+  pointer-events: none;
+}
+.sim-immersive-header > * { pointer-events: auto; }
+
+.btn-close-immersive {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #fff;
+  font-size: 1.8rem;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.btn-close-immersive:hover { background: rgba(255,50,50,0.38); border-color: #ff3333; }
+
+.sim-progress-container {
+  display: flex; gap: 0.55rem; flex: 1; justify-content: center;
+}
+.sim-step-indicator {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 2px solid rgba(255,255,255,0.2);
+  color: #555;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 0.78rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.sim-step-indicator.active  { background: #FFD700; border-color: #FFD700; color: #000; box-shadow: 0 0 14px rgba(255,215,0,.5); }
+.sim-step-indicator.completed { background: transparent; border-color: #FFD700; color: #FFD700; }
+
+/* Canvas — fills the fixed overlay */
+.immersive-canvas-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+.immersive-canvas-wrapper .ar-canvas {
+  width: 100%; height: 100%;
+  display: block; touch-action: none;
+}
+
+/* Floating panel — sits above canvas */
+.simulator-floating-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10001;
+  padding: 3rem 1.5rem 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 55%, transparent 100%);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Upload button */
+.btn--upload-immersive {
+  display: inline-flex; flex-direction: column; align-items: center;
+  gap: 0.6rem;
+  background: rgba(255,215,0,0.1);
+  border: 2px dashed #FFD700;
+  color: #FFD700;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  padding: 1.4rem 2.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 0.3rem;
+  max-width: 400px; width: 90%;
+}
+.btn--upload-immersive:hover { background: rgba(255,215,0,0.18); transform: scale(1.02); }
+
+/* Tool buttons */
+.imm-toolbar {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  max-width: 380px; margin: 0.5rem auto 0;
+}
+.btn--imm-tool {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #ddd;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 0.82rem;
+  padding: 0.7rem 0.5rem;
+  border-radius: 8px; cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+}
+.btn--imm-tool:hover:not(:disabled) { background: #FFD700; color: #000; border-color: #FFD700; }
+.btn--imm-tool:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Navigation */
+.imm-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 380px; margin: 0.8rem auto 0; gap: 1rem;
+}
+.btn--imm-link {
+  background: transparent; border: none;
+  color: #888; font-family: 'Inter', sans-serif;
+  font-size: 0.85rem; text-decoration: underline; cursor: pointer;
+}
+.btn--imm-link:hover { color: #fff; }
+.btn--imm-gold {
+  background: #FFD700; color: #000; border: none;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 0.95rem; padding: 0.7rem 1.4rem;
+  border-radius: 8px; cursor: pointer; transition: transform 0.2s;
+}
+.btn--imm-gold:hover { transform: scale(1.04); }
+
+/* Final actions */
+.imm-final-actions {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.8rem; max-width: 360px; margin: 0.4rem auto 0.8rem;
+}
+.btn--imm-save {
+  background: #FFD700; color: #000; border: none;
+  font-family: 'Raven Hell Bold', sans-serif; font-size: 0.95rem;
+  padding: 0.8rem 1rem; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  box-shadow: 0 0 18px rgba(255,215,0,0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn--imm-save:hover { box-shadow: 0 0 28px rgba(255,215,0,0.6); transform: translateY(-2px); }
+.btn--imm-send {
+  background: #0050ff; color: #fff; border: none;
+  font-family: 'Raven Hell Bold', sans-serif; font-size: 0.95rem;
+  padding: 0.8rem 1rem; border-radius: 8px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  box-shadow: 0 0 18px rgba(0,80,255,0.4);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.btn--imm-send:hover { box-shadow: 0 0 28px rgba(0,80,255,0.6); transform: translateY(-2px); }
+
+/* instruction text */
+.simulator-floating-panel .step-instruction {
+  color: #ccc; font-family: 'Inter', sans-serif;
+  font-size: 0.95rem; margin-bottom: 0.8rem;
+}
+
+/* legacy compat */
+.simulator-stepper-container { display: flex; flex-direction: column; gap: 1.5rem; }
