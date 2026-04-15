@@ -147,6 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnGcDownload = document.getElementById('btn-gc-download');
   const generatedGcContainer = document.getElementById('generated-gc-image');
 
+  // Navegación secuencial de teclado para el formulario de Tarjeta de Regalo
+  [inPara, inDe, inMonto, inPhone].forEach((input, index, arr) => {
+    if (!input) return;
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const next = arr[index + 1] || btnSiguiente;
+        if (next) next.focus();
+      }
+    });
+  });
+
   // --- QUOTE METHOD SELECTOR ---
   const btnSelectSimulator = document.getElementById('btn-select-simulator');
   const viewSimulator = document.getElementById('simulator-overlay');
@@ -324,6 +336,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (step1) step1.style.display = 'none';
             if (step2) step2.style.display = 'block';
+            
+            // Posicionar al usuario hasta arriba en la nueva pantalla
+            if (giftCardModal) giftCardModal.scrollTop = 0;
 
           } catch (err) {
             console.error("Error en Native Canvas Capture:", err);
@@ -355,7 +370,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const msgStudio = `Hola Eterno Tattoo, acabo de pagar una tarjeta de regalo en tu página.\n\nCódigo: *${data.codeVal}*\nMonto: ${data.visibleMontoText}\nDe: ${data.deVal}\nPara: ${data.paraVal}\nMi Celular: ${data.phoneVal}\n\nAquí adjunto mi comprobante y la tarjeta generada para validación.`;
         
         const waUrl = `https://wa.me/${studioPhone}?text=${encodeURIComponent(msgStudio)}`;
-        window.open(waUrl, '_blank');
+        // Usamos asignación directa para evitar que quede una ventana en blanco al regresar
+        window.location.href = waUrl;
       });
     }
 
