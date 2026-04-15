@@ -682,31 +682,41 @@
 
         <div class="bank-details">
           <p class="bank-label"><strong>Transferencia Electrónica (Nu México):</strong></p>
-          <p class="account-number">6381 8001 0110 4099 38</p>
+          <div class="account-copy-row">
+            <p class="account-number">6381 8001 0110 4099 38</p>
+            <button class="copy-btn" data-copy="6381 8001 0110 4099 38" aria-label="Copiar número de cuenta">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
           <p class="bank-owner">A nombre de: Daniel Rivas</p>
         </div>
 
         <div class="bank-details" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem;">
           <p class="bank-label"><strong>Depósito en Efectivo (Cuenta Nu de Débito 🟣):</strong></p>
           <p style="color:#ccc; margin-bottom:1rem; font-size: 1rem;">¡Hola! Te comparto mi código para que hagas un depósito directo:</p>
-          <p class="account-number" style="letter-spacing: 0.15em; font-size: 1.8rem;">5101 2543 6520 4127</p>
+          <div class="account-copy-row">
+            <p class="account-number" style="letter-spacing: 0.15em; font-size: 1.8rem;">5101 2543 6520 4127</p>
+            <button class="copy-btn" data-copy="5101 2543 6520 4127" aria-label="Copiar código de depósito">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
           
           <div style="text-align: left; margin-top: 1.5rem; background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,215,0,0.1);">
             <p style="color: #FFD700; font-weight: bold; margin-bottom: 0.8rem; font-family: 'Raven Hell Bold', sans-serif;">¿Cómo funciona?</p>
             <ol style="color: #bbb; padding-left: 1.2rem; line-height: 1.6; font-family: 'Inter', sans-serif; font-size: 0.95rem;">
-              <li style="margin-bottom: 0.5rem;">Ve a una tienda con la que Nu tenga convenio como <strong>Chedraui, Soriana, Finabien</strong> o tiendas de conveniencia.</li>
-              <li style="margin-bottom: 0.5rem;">Dale al cajero mi código y el monto del depósito.</li>
-              <li>Recibiré una notificación cuando se complete el depósito.</li>
+              <li style="margin-bottom: 0.5rem;">Ve a una tienda participante y solicita un depósito a cuenta Nu.</li>
+              <li style="margin-bottom: 0.5rem;">Dicta el código de 16 dígitos que aparece arriba y el monto a depositar.</li>
+              <li>Recibiré una notificación inmediata al completarse.</li>
             </ol>
             
-            <div class="deposit-partners" style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; opacity: 0.85;">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Walmart_logo.svg/2560px-Walmart_logo.svg.png" alt="Walmart" style="height: 22px; filter: brightness(0) invert(1);">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Bodega_Aurrera_logo.svg/2560px-Bodega_Aurrera_logo.svg.png" alt="Bodega Aurrera" style="height: 40px; filter: brightness(0) invert(1);">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Soriana_logo.svg/2560px-Soriana_logo.svg.png" alt="Soriana" style="height: 25px; filter: brightness(0) invert(1);">
-              <img src="https://logodownload.org/wp-content/uploads/2019/08/chedraui-logo.png" alt="Chedraui" style="height: 25px; filter: brightness(0) invert(1);">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Sam%27s_Club_logo.svg/1024px-Sam%27s_Club_logo.svg.png" alt="Sams Club" style="height: 25px; filter: brightness(0) invert(1);">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Oxxo_Logo.svg/1024px-Oxxo_Logo.svg.png" alt="Oxxo" style="height: 20px; filter: brightness(0) invert(1);">
-              <img src="https://www.gob.mx/cms/uploads/attachment/file/770131/LOGO_FINABIEN_HORIZONTAL.png" alt="Finabien" style="height: 30px; filter: brightness(0) invert(1);">
+            <div class="deposit-partners" style="margin-top: 1.8rem; display: flex; align-items: center; justify-content: center; gap: 0.6rem; flex-wrap: wrap;">
+              <span class="store-badge">Walmart</span>
+              <span class="store-badge">Bodega Aurrera</span>
+              <span class="store-badge">Soriana</span>
+              <span class="store-badge">Chedraui</span>
+              <span class="store-badge">Sam's Club</span>
+              <span class="store-badge">OXXO</span>
+              <span class="store-badge">Fcia. Guadalajara</span>
             </div>
           </div>
         </div>
@@ -933,8 +943,12 @@
 
         <div class="bank-details" style="margin: 0 auto 2rem auto;">
           <p style="color:#00d2ff; margin-bottom:1rem;"><strong>Transferencia Electrónica (Nu México):</strong></p>
-          <p class="account-number" style="font-size:1.5rem; font-family:'Bebas Neue', sans-serif;">6381 8001 0110 4099
-            38</p>
+          <div class="account-copy-row">
+            <p class="account-number" style="font-size:1.5rem; font-family:'Bebas Neue', sans-serif;">6381 8001 0110 4099 38</p>
+            <button class="copy-btn" data-copy="6381 8001 0110 4099 38" aria-label="Copiar número de cuenta">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
           <p style="color:#aaa;">A nombre de: Daniel Rivas</p>
         </div>
 

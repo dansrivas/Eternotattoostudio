@@ -1321,9 +1321,54 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'ArrowRight') nextBtn.click();
       if (e.key === 'Escape') closeLightbox.click();
     });
+
+    // Soporte para swipe táctil (deslizar con el dedo)
+    let lbTouchStartX = 0;
+    let lbTouchStartY = 0;
+    lightboxModal.addEventListener('touchstart', (e) => {
+      lbTouchStartX = e.touches[0].clientX;
+      lbTouchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    lightboxModal.addEventListener('touchend', (e) => {
+      const diffX = lbTouchStartX - e.changedTouches[0].clientX;
+      const diffY = lbTouchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
+        if (diffX > 0) nextBtn.click(); // deslizar izquierda = siguiente
+        else prevBtn.click();           // deslizar derecha  = anterior
+      }
+    }, { passive: true });
   }
 
-  if (galleryModal) {
+  // --- CLIPBOARD COPY BUTTONS ---
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    const text = btn.getAttribute('data-copy');
+    if (!text) return;
+    const originalHTML = btn.innerHTML;
+    const doCopied = () => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = originalHTML; }, 1600);
+    };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(doCopied).catch(() => {
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); doCopied(); } catch(_){}
+        document.body.removeChild(ta);
+      });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); doCopied(); } catch(_){}
+      document.body.removeChild(ta);
+    }
+  });
+
     styleTriggers.forEach(trigger => {
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
