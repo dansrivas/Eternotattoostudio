@@ -337,8 +337,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (step1) step1.style.display = 'none';
             if (step2) step2.style.display = 'block';
             
-            // Posicionar al usuario hasta arriba en la nueva pantalla
-            if (giftCardModal) giftCardModal.scrollTop = 0;
+            // Posicionar al usuario hasta arriba en la nueva pantalla (targeteando el contenedor correcto)
+            const modalContent = giftCardModal.querySelector('.modal-content');
+            if (modalContent) modalContent.scrollTop = 0;
+            else giftCardModal.scrollTop = 0;
 
           } catch (err) {
             console.error("Error en Native Canvas Capture:", err);
