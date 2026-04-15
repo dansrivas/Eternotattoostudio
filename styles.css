@@ -2133,35 +2133,47 @@ body.sim-active .simulator-floating-panel {
 
 .lightbox-content {
   position: relative;
-  max-width: 95%;
-  max-height: 85vh;
+  width: 100%;
+  height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* Muy importante para el carrusel */
+  touch-action: pan-y; /* Solo permite scroll vertical si es necesario, bloquea horizontal para el JS */
 }
 
-.lightbox-content img {
+/* La tira que contiene todas las fotos */
+.lightbox-track {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+
+/* El contenedor de cada foto individual */
+.lightbox-slide {
+  flex: 0 0 100%; /* Cada slide ocupa el 100% del contenedor padre */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px; /* Margen entre fotos durante el movimiento */
+}
+
+.lightbox-slide img {
   max-width: 100%;
-  max-height: 85vh;
+  max-height: 100%;
   object-fit: contain;
   border-radius: 4px;
   box-shadow: 0 0 50px rgba(0,0,0,0.9);
-  transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.3s ease;
+  pointer-events: none; /* Evita que el arrastre nativo de la imagen interfiera */
 }
 
-/* Durante el arrastre con el dedo quitamos la transición */
-.lightbox-dragging .lightbox-content img {
+/* Durante el arrastre con el dedo quitamos la transición para respuesta inmediata */
+.lightbox-dragging .lightbox-track {
   transition: none !important;
-}
-
-.lightbox-img.sliding-out-left {
-  transform: translateX(-100vw);
-  opacity: 0;
-}
-
-.lightbox-img.sliding-out-right {
-  transform: translateX(100vw);
-  opacity: 0;
 }
 
 

@@ -1257,7 +1257,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Lógica del Lightbox (Visualizador en pantalla completa)
   const lightboxModal = document.getElementById('lightbox-modal');
-  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTrack = document.getElementById('lightbox-track');
   const lightboxCategory = document.getElementById('lightbox-category');
   const btnLightboxQuote = document.getElementById('btn-lightbox-quote');
   const closeLightbox = document.getElementById('close-lightbox');
@@ -1268,17 +1268,36 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentCategory = "";
   let currentIndex = 0;
 
-  function updateLightboxContent() {
-    if (!lightboxImg || !lightboxCategory || !btnLightboxQuote) return;
+  function populateLightboxTrack() {
+    if (!lightboxTrack) return;
+    lightboxTrack.innerHTML = '';
     
-    // Update Image
-    const imgSrc = currentGalleryImages[currentIndex];
-    lightboxImg.src = imgSrc;
+    currentGalleryImages.forEach((imgSrc, index) => {
+      const slide = document.createElement('div');
+      slide.className = 'lightbox-slide';
+      
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = `Tatuaje ${index + 1}`;
+      img.loading = "lazy"; // Optimización de carga
+      
+      slide.appendChild(img);
+      lightboxTrack.appendChild(slide);
+    });
+  }
+
+  function updateLightboxContent() {
+    if (!lightboxTrack || !lightboxCategory || !btnLightboxQuote) return;
+    
+    // Mover el track al índice actual
+    const offset = currentIndex * 100;
+    lightboxTrack.style.transform = `translateX(-${offset}%)`;
     
     // Update Category Text
     lightboxCategory.textContent = currentCategory.toUpperCase();
 
     // Update WhatsApp Link
+    const imgSrc = currentGalleryImages[currentIndex];
     const phone = "526675819798";
     const pageUrl = window.location.href.split('#')[0];
     const fullImgUrl = pageUrl.substring(0, pageUrl.lastIndexOf('/') + 1) + imgSrc;
@@ -1289,6 +1308,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openLightbox(index, category) {
     currentIndex = index;
     currentCategory = category;
+    populateLightboxTrack(); // Cargar todas las fotos de la categoría
     updateLightboxContent();
     lightboxModal.classList.add('active');
   }
@@ -1309,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     lightboxModal.addEventListener('click', (e) => {
-      if(e.target === lightboxModal || e.target === document.querySelector('.lightbox-content')) {
+      if(e.target === lightboxModal || e.target.id === 'lightbox-content') {
         lightboxModal.classList.remove('active');
       }
     });
@@ -1322,7 +1342,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Escape') closeLightbox.click();
     });
 
-    // Soporte para swipe táctil DINÁMICO (se mueve con el dedo)
+    // Soporte para swipe táctil DINÁMICO (Carrusel social media)
     let lbStartX = 0;
     let lbDistX = 0;
     let lbIsDragging = false;
@@ -1337,9 +1357,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!lbIsDragging) return;
       lbDistX = e.touches[0].clientX - lbStartX;
       
-      // Aplicamos el movimiento directamente a la imagen
-      if (lightboxImg) {
-        lightboxImg.style.transform = `translateX(${lbDistX}px)`;
+      // Movemos TODO el track basándonos en el índice actual + el desplazamiento del dedo
+      const trackWidth = lightboxModal.clientWidth;
+      const currentOffset = -(currentIndex * trackWidth);
+      const totalMove = currentOffset + lbDistX;
+      
+      if (lightboxTrack) {
+        lightboxTrack.style.transform = `translateX(${totalMove}px)`;
       }
     }, { passive: true });
 
@@ -1348,20 +1372,18 @@ document.addEventListener('DOMContentLoaded', () => {
       lbIsDragging = false;
       lightboxModal.classList.remove('lightbox-dragging');
 
-      const threshold = window.innerWidth * 0.25; // 25% del ancho de pantalla para cambiar
+      const threshold = window.innerWidth * 0.20; // 20% para cambiar de foto
 
       if (Math.abs(lbDistX) > threshold) {
-        if (lbDistX > 0) {
-          prevBtn.click(); // deslizar derecha = anterior
-        } else {
-          nextBtn.click(); // deslizar izquierda = siguiente
+        if (lbDistX > 0 && currentIndex > 0) {
+          currentIndex--; // deslizar derecha = anterior
+        } else if (lbDistX < 0 && currentIndex < currentGalleryImages.length - 1) {
+          currentIndex++; // deslizar izquierda = siguiente
         }
       }
 
-      // Siempre reseteamos la posición visual al terminar
-      if (lightboxImg) {
-        lightboxImg.style.transform = '';
-      }
+      // Snap final (suave por el CSS transition)
+      updateLightboxContent();
       lbDistX = 0;
     }, { passive: true });
   }
