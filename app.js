@@ -1342,48 +1342,59 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Escape') closeLightbox.click();
     });
 
-    // Soporte para swipe táctil DINÁMICO (Carrusel social media)
+    // Soporte para swipe táctil DINÁMICO (Carrusel social media) - VERSIÓN ESTABILIZADA
     let lbStartX = 0;
     let lbDistX = 0;
+    let lbStartTranslate = 0;
     let lbIsDragging = false;
 
     lightboxModal.addEventListener('touchstart', (e) => {
+      if (!lightboxTrack) return;
       lbStartX = e.touches[0].clientX;
       lbIsDragging = true;
+      
+      // Capturamos el ancho actual y la posición inicial exacta en píxeles
+      const trackWidth = lightboxTrack.offsetWidth;
+      lbStartTranslate = -(currentIndex * trackWidth);
+      
       lightboxModal.classList.add('lightbox-dragging');
     }, { passive: true });
 
     lightboxModal.addEventListener('touchmove', (e) => {
-      if (!lbIsDragging) return;
+      if (!lbIsDragging || !lightboxTrack) return;
+      
       lbDistX = e.touches[0].clientX - lbStartX;
+      const totalMove = lbStartTranslate + lbDistX;
       
-      // Movemos TODO el track basándonos en el índice actual + el desplazamiento del dedo
-      const trackWidth = lightboxModal.clientWidth;
-      const currentOffset = -(currentIndex * trackWidth);
-      const totalMove = currentOffset + lbDistX;
+      // Aplicamos el movimiento en píxeles para máxima precisión
+      lightboxTrack.style.transform = `translateX(${totalMove}px)`;
       
-      if (lightboxTrack) {
-        lightboxTrack.style.transform = `translateX(${totalMove}px)`;
+      // Prevenir que el navegador intente navegar atrás/adelante o hacer scroll horizontal
+      if (Math.abs(lbDistX) > 10 && e.cancelable) {
+        e.preventDefault();
       }
-    }, { passive: true });
+    }, { passive: false }); // passive: false permite usar preventDefault()
 
     lightboxModal.addEventListener('touchend', (e) => {
       if (!lbIsDragging) return;
       lbIsDragging = false;
       lightboxModal.classList.remove('lightbox-dragging');
 
-      const threshold = window.innerWidth * 0.20; // 20% para cambiar de foto
+      const trackWidth = lightboxTrack.offsetWidth;
+      const threshold = trackWidth * 0.20; // 20% para cambiar
 
       if (Math.abs(lbDistX) > threshold) {
         if (lbDistX > 0 && currentIndex > 0) {
-          currentIndex--; // deslizar derecha = anterior
+          currentIndex--; // anterior
         } else if (lbDistX < 0 && currentIndex < currentGalleryImages.length - 1) {
-          currentIndex++; // deslizar izquierda = siguiente
+          currentIndex++; // siguiente
         }
       }
 
-      // Snap final (suave por el CSS transition)
+      // Snap final suave mediante updateLightboxContent (que usa %)
       updateLightboxContent();
+      
+      // Reset de variables
       lbDistX = 0;
     }, { passive: true });
   }
