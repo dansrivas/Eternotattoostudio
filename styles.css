@@ -2548,16 +2548,22 @@ body.modal-open {
 
   /* Reduce excessive black space and optimize booking width */
   .residents, .giftcards, .calculator, .booking, .contact {
-    padding: 3rem 1.5rem; /* Agregamos un poco de padding lateral al contenedor base */
+    padding: 3rem 1rem; /* Margen base de sección */
+  }
+  .booking {
+    padding: 3rem 0; /* Eliminamos margen extra lateral en reserva */
   }
   .booking-card {
-    padding: 2rem 0.5rem; /* Minimizamos padding para ganar ancho horizontal */
+    padding: 2rem 0; /* Maximizamos ancho interno */
   }
   .bank-details {
     padding: 0.5rem 0;
   }
+  .how-to-box {
+    padding: 1rem 0.5rem; /* El cuadro ahora es mucho más ancho */
+  }
   .account-number {
-    font-size: 1.4rem !important; /* Ajuste ligero para que no se rompa */
+    font-size: 1.4rem !important;
   }
 
   /* Slider items on mobile: */
@@ -2915,7 +2921,7 @@ body.modal-open {
 .aftercare-intro {
   text-align: center;
   max-width: 800px;
-  margin: -2rem auto 4rem;
+  margin: 0 auto 2rem;
   color: #aaa;
   font-size: 1.1rem;
   line-height: 1.6;
