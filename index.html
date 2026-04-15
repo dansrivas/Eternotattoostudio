@@ -226,9 +226,22 @@
 }
 
 
+/* ====== HERO IMAGE RESPONSIVE ====== */
+.hero__bg--mobile { display: none !important; }
+.hero__bg--desktop { display: block !important; }
 
-
-
+/* ====== LOGO NAVBAR LINK ====== */
+.navbar__logo a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+.navbar__logo a:hover {
+  opacity: 0.8;
+}
 
   </style>
 </head>
@@ -250,7 +263,9 @@
   <!-- ==================== NAVBAR ==================== -->
   <header class="navbar">
     <div class="navbar__logo">
-      <img src="Eterno Tattoo Studio LOGO 2.png" alt="Eterno Tattoo Studio" />
+      <a href="#hero" aria-label="Ir al inicio">
+        <img src="Eterno Tattoo Studio LOGO 2.png" alt="Eterno Tattoo Studio" />
+      </a>
     </div>
     <div class="hamburger" id="hamburger-menu">
       <span></span>
@@ -279,7 +294,8 @@
         Somos artistas comprometidos con nuestro trabajo, enfocados en mejorar cada día, perfeccionar nuestra técnica y ofrecer la mejor experiencia posible. Cada pieza es realizada con atención al detalle, buscando siempre resultados de alto nivel y clientes satisfechos.
       </p>
     </div>
-    <img src="Gemini_Generated_Image_9sfxq69sfxq69sfx.png" alt="Banner de Eterno Tattoo Studio" class="hero__bg" />
+    <img src="Gemini_Generated_Image_9sfxq69sfxq69sfx.png" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--desktop" />
+    <img src="portadamobil.png" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--mobile" />
   </section>
 
   <!-- ==================== RESIDENTES ==================== -->

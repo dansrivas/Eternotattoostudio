@@ -2274,25 +2274,29 @@ body.modal-open {
   .hero {
     margin-top: 0 !important; 
     padding-top: 0 !important;
-    min-height: 500px !important; 
+    min-height: 100svh !important; 
+    height: 100svh !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
     position: relative !important;
     overflow: hidden !important;
-    background-color: #050a0f !important; /* Volvemos al original, NO amarillo */
+    background-color: #050a0f !important;
   }
-  .hero__bg {
-    position: absolute !important; 
-    left: 50% !important;
-    top: 10% !important;
-    transform: translate(-50%, -50%) scale(3.375) !important;
-    width: 100% !important; 
+  /* En móvil: ocultar imagen de escritorio, mostrar imagen móvil a pantalla completa */
+  .hero__bg--desktop { display: none !important; }
+  .hero__bg--mobile {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important; 
-    opacity: 1 !important; 
-    z-index: 1;
+    object-fit: cover !important;
+    object-position: center center !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    transform: none !important;
     filter: none !important;
   }
   .hero__content {
