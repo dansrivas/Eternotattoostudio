@@ -322,28 +322,28 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.textBaseline = "top"; // Align to top edge like CSS 'top' property
 
             // 4. Draw Names (PARA and DE)
-            ctx.font = "bold 28px 'Inter', sans-serif";
-            ctx.fillText(paraVal.toUpperCase(), 240, 435);
-            ctx.fillText(deVal.toUpperCase(), 180, 535);
+            ctx.font = "bold 34px 'Inter', sans-serif";
+            ctx.fillText(paraVal.toUpperCase(), 240, 261); // 43.5% of 600
+            ctx.fillText(deVal.toUpperCase(), 180, 321); // 53.5% of 600
 
             // 5. Draw Amount / "Diseño Seleccionado"
             if (inHideAmount && inHideAmount.checked) {
-              ctx.font = "normal 24px 'Inter', sans-serif";
-              ctx.fillText("DISEÑO", 275, 600); // 275px X
-              ctx.fillText("SELECCIONADO", 275, 625);
-            } else {
               ctx.font = "normal 28px 'Inter', sans-serif";
-              ctx.fillText(`$${rawMonto}`, 280, 635); // 280px X, 635px Y
+              ctx.fillText("DISEÑO", 275, 366); // 61.0% line 1
+              ctx.fillText("SELECCIONADO", 275, 396); // line 2
+            } else {
+              ctx.font = "normal 34px 'Inter', sans-serif";
+              ctx.fillText(`$${rawMonto}`, 280, 381); // 63.5% of 600
             }
 
             // 6. Draw Code
-            ctx.font = "bold 28px 'Inter', sans-serif";
-            ctx.fillText(codeVal, 850, 625);
+            ctx.font = "bold 32px 'Inter', sans-serif";
+            ctx.fillText(codeVal, 850, 381);
 
             // 7. Output Result
             const imgData = canvas.toDataURL('image/png');
             if (generatedGcContainer) {
-              generatedGcContainer.innerHTML = `<img src="${imgData}" style="width:100%; max-width:600px; border-radius:12px; margin-bottom:1.5rem; box-shadow: 0 8px 25px rgba(0,0,0,0.6); display: block; margin-left: auto; margin-right: auto;">`;
+              generatedGcContainer.innerHTML = `<img src="${imgData}" style="width:100%; max-width:600px; border-radius:8px; display: block; margin: 0 auto;">`;
             }
 
             canvas.toBlob(blob => {
