@@ -2186,6 +2186,21 @@ body.sim-active .simulator-floating-panel {
   transition: none !important;
 }
 
+/* Caja "¿Cómo funciona?" en sección de depósitos */
+.how-to-box {
+  text-align: left;
+  margin-top: 1.5rem;
+  background: rgba(0,0,0,0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,215,0,0.1);
+}
+
+@media (max-width: 900px) {
+  .how-to-box {
+    padding: 1rem 0.8rem; /* Menos padding lateral para que sea más ancha en móvil */
+  }
+}
 
 .lightbox-bottom-info {
   position: absolute;
