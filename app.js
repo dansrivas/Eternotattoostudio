@@ -216,11 +216,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateMontoPreview = () => {
       if (!valMonto) return;
       if (inHideAmount && inHideAmount.checked) {
-        valMonto.textContent = 'DISEÑO SELECCIONADO';
-        valMonto.style.fontSize = '2.5cqw'; // Slightly smaller to fit
+        valMonto.innerHTML = 'DISEÑO<br>SELECCIONADO';
+        valMonto.style.fontSize = '2.2cqi'; 
+        valMonto.style.lineHeight = '1';
+        valMonto.style.top = '61.0%'; 
+        valMonto.style.left = '26.2%';
       } else {
         valMonto.textContent = inMonto && inMonto.value ? `$${inMonto.value}` : '';
-        valMonto.style.fontSize = '4cqw'; // Original size
+        valMonto.style.fontSize = '2.8cqi'; 
+        valMonto.style.top = '63.5%';
+        valMonto.style.left = '26.7%';
       }
     };
 
@@ -261,84 +266,82 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSiguiente.textContent = 'Generando...';
         btnSiguiente.disabled = true;
 
-        // MOTOR DE RENDERIZADO NATIVO (API CANVAS 2D) - 100% FIABLE / CERO LIBRERÍAS
-        document.fonts.ready.then(async () => {
-          const bgImg = document.getElementById('gc-bg-image');
-          if (!bgImg) {
-            alert('Error: No se encontró el fondo de la tarjeta.');
-            btnSiguiente.textContent = 'GENERAR TARJETA Y CONTINUAR';
-            btnSiguiente.disabled = false;
-            return;
-          }
+        // --- html2canvas FLOW (High Fidelity Capture) ---
+        const captureArea = document.getElementById('gift-card-capture');
+        const captureBg = document.getElementById('gc-capture-bg');
+        const mainBg = document.getElementById('gc-bg-image');
 
-          // 1. Configuración del Canvas en HD (1600x1012 px para 800x506 a escala 2x)
-          const canvas = document.createElement('canvas');
-          canvas.width = 1600;
-          canvas.height = 1012;
-          const ctx = canvas.getContext('2d', { alpha: true });
+        // Rule: Sync background src before capture
+        if (mainBg && captureBg) {
+          captureBg.src = mainBg.src;
+        }
 
-          // 2. Aplicar recorte de esquinas redondeadas (Transparency Check: Sin fondo blanco)
-          const r = 24; // 12px originales x 2 de escala
-          ctx.beginPath();
-          if (ctx.roundRect) {
-            ctx.roundRect(0, 0, canvas.width, canvas.height, r);
+        // Sync contents to capture spans
+        const capPara = document.getElementById('gcp-capture-para');
+        const capDe = document.getElementById('gcp-capture-de');
+        const capMonto = document.getElementById('gcp-capture-monto');
+        const capCodigo = document.getElementById('gcp-capture-codigo');
+
+        if (capPara) capPara.textContent = paraVal;
+        if (capDe) capDe.textContent = deVal;
+        if (capMonto) {
+          if (inHideAmount && inHideAmount.checked) {
+            capMonto.innerHTML = 'DISEÑO<br>SELECCIONADO';
+            capMonto.style.fontSize = '24px';
+            capMonto.style.lineHeight = '1';
+            capMonto.style.top = '600px';
           } else {
-            ctx.moveTo(r, 0); ctx.lineTo(canvas.width - r, 0); ctx.arcTo(canvas.width, 0, canvas.width, r, r);
-            ctx.lineTo(canvas.width, canvas.height - r); ctx.arcTo(canvas.width, canvas.height, canvas.width - r, canvas.height, r);
-            ctx.lineTo(r, canvas.height); ctx.arcTo(0, canvas.height, 0, canvas.height - r, r);
-            ctx.lineTo(0, r); ctx.arcTo(0, 0, r, 0, r);
+            capMonto.textContent = `$${rawMonto}`;
+            capMonto.style.fontSize = '28px';
+            capMonto.style.top = '615px';
           }
-          ctx.closePath();
-          ctx.clip(); // Todo lo que se dibuje a partir de aquí se ajustará al recorte transparente
+        }
+        if (capCodigo) capCodigo.textContent = codeVal;
 
-          // 3. Dibujar Imagen de Fondo
-          // Asegurar carga
-          if (!bgImg.complete) {
-            await new Promise(res => { bgImg.onload = res; bgImg.onerror = res; });
-          }
-          ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-
-          // 4. Dibujar Textos (Mapeo de Coordenadas Maestro)
-          // Estilo general
-          ctx.fillStyle = '#000000';
-          ctx.textBaseline = 'middle';
-          
-          const drawText = (id, x, y, size, weight = '700', spacing = 0) => {
-            const originalNode = document.getElementById(id);
-            const text = originalNode ? originalNode.textContent.trim() : "";
-            ctx.font = `${weight} ${size}px 'Inter', sans-serif`;
-            
-            if (spacing > 0) {
-              // Dibujar letra por letra para respetar letter-spacing de forma nativa
-              let currentX = x;
-              for (let i = 0; i < text.length; i++) {
-                ctx.fillText(text[i], currentX, y);
-                currentX += ctx.measureText(text[i]).width + (size * spacing);
-              }
-            } else {
-              ctx.fillText(text, x, y);
-            }
-          };
-
-          // Coordenadas calculadas matemáticamente para alineación perfecta con las líneas
-          // PARA: 24% Left, 43.5% Top (base)
-          drawText('gcp-preview-para', 384, 442, 60);
-          
-          // DE: 17% Left, 53.5% Top
-          drawText('gcp-preview-de', 272, 542, 60);
-
-          // MONTO / DISEÑO SELECCIONADO: 28% Left, 62.5% Top
-          const isHideAmount = inHideAmount && inHideAmount.checked;
-          const montoSize = isHideAmount ? 36 : 64;
-          const montoTop = isHideAmount ? 636 : 632;
-          drawText('gcp-preview-monto', 448, montoTop, montoSize, '900');
-
-          // CÓDIGO: 84% Left, 65% Top
-          drawText('gcp-preview-codigo', 1344, 656, 52, '900', 0.1);
-
-          // 5. Finalizar y exportar
+        // --- NATIVE CANVAS FLOW (High Fidelity & File Protocol Safe) ---
+        const performCapture = async () => {
           try {
-            const imgData = canvas.toDataURL('image/png'); // Exporta con transparencia real
+            const canvas = document.createElement('canvas');
+            canvas.width = 1050;
+            canvas.height = 600;
+            const ctx = canvas.getContext('2d');
+
+            // 1. Get/Wait for Background Image
+            const bgImage = document.getElementById('main-gift-card-bg');
+            if (!bgImage) throw new Error("No se encontró el fondo de la tarjeta.");
+
+            // Wait for fonts to be ready so 'Inter' renders correctly
+            if (document.fonts) await document.fonts.ready;
+
+            // 2. Clear and Draw Background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(bgImage, 0, 0, 1050, 600);
+
+            // 3. Configure Text Styling
+            ctx.fillStyle = "#000000";
+            ctx.textBaseline = "top"; // Align to top edge like CSS 'top' property
+
+            // 4. Draw Names (PARA and DE)
+            ctx.font = "bold 28px 'Inter', sans-serif";
+            ctx.fillText(paraVal.toUpperCase(), 240, 435);
+            ctx.fillText(deVal.toUpperCase(), 180, 535);
+
+            // 5. Draw Amount / "Diseño Seleccionado"
+            if (inHideAmount && inHideAmount.checked) {
+              ctx.font = "normal 24px 'Inter', sans-serif";
+              ctx.fillText("DISEÑO", 275, 600); // 275px X
+              ctx.fillText("SELECCIONADO", 275, 625);
+            } else {
+              ctx.font = "normal 28px 'Inter', sans-serif";
+              ctx.fillText(`$${rawMonto}`, 280, 635); // 280px X, 635px Y
+            }
+
+            // 6. Draw Code
+            ctx.font = "bold 28px 'Inter', sans-serif";
+            ctx.fillText(codeVal, 850, 625);
+
+            // 7. Output Result
+            const imgData = canvas.toDataURL('image/png');
             if (generatedGcContainer) {
               generatedGcContainer.innerHTML = `<img src="${imgData}" style="width:100%; max-width:600px; border-radius:12px; margin-bottom:1.5rem; box-shadow: 0 8px 25px rgba(0,0,0,0.6); display: block; margin-left: auto; margin-right: auto;">`;
             }
@@ -349,17 +352,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btnSiguiente.textContent = 'GENERAR TARJETA Y CONTINUAR';
             btnSiguiente.disabled = false;
-            
+
             if (step1) step1.style.display = 'none';
             if (step2) step2.style.display = 'block';
 
           } catch (err) {
-            console.error("Native Render Error:", err);
-            alert("Error al procesar la imagen nativa.");
+            console.error("Error en Native Canvas Capture:", err);
+            alert("Hubo un error al generar la imagen nativa: " + err.message);
             btnSiguiente.textContent = 'GENERAR TARJETA Y CONTINUAR';
             btnSiguiente.disabled = false;
           }
-        });
+        };
+
+        // Wait for capture image to be ready
+        if (captureBg.complete || captureBg.src.startsWith('data:')) {
+          performCapture();
+        } else {
+          captureBg.onload = performCapture;
+          captureBg.onerror = performCapture;
+        }
       });
     }
 

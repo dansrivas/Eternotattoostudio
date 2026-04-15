@@ -1899,7 +1899,7 @@ body.sim-active .simulator-floating-panel {
 
 /* Golden Gift Card Preview */
 .gift-card-preview {
-  background: linear-gradient(135deg, #d4af37 0%, #aa8000 50%, #e6ca6f 100%);
+  background: #c5a059 !important; /* Forced background color */
   color: #000;
   padding: 2rem;
   border-radius: 12px;
@@ -1908,6 +1908,7 @@ body.sim-active .simulator-floating-panel {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   font-family: 'Inter', sans-serif;
   overflow: hidden;
+  width: 100%;
 }
 
 .gift-card-preview::before {
@@ -1937,10 +1938,13 @@ body.sim-active .simulator-floating-panel {
   display: flex;
   gap: 1.5rem;
 }
-.gcp-label {
-  font-weight: 700;
-  margin-right: 0.5rem;
-  white-space: nowrap;
+.gc-label, #gcp-wrapper strong {
+  display: inline-block !important;
+  font-weight: 700 !important;
+  width: 100px !important; /* Rigid alignment */
+  margin-right: 0.5rem !important;
+  white-space: nowrap !important;
+  color: #000 !important;
 }
 .gcp-value {
   flex: 1;
@@ -1994,12 +1998,18 @@ body.sim-active .simulator-floating-panel {
 
 /* OVERRIDES PARA RECORTAR FOTO Y AJUSTAR COORDENADAS */
 #gcp-wrapper {
-  max-width: 700px !important;
-  aspect-ratio: 1.58 !important;
+  background-color: #c5a059 !important;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+  border: none !important;
+}
   overflow: hidden !important;
   border-radius: 12px !important;
-  background: #000 !important;
+  background: #c5a059 !important; /* Dorado Eterno */
   position: relative !important;
+  margin: 0 auto 2rem auto !important;
 }
 
 #gc-bg-image {
