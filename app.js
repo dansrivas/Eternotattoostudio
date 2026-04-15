@@ -1322,20 +1322,47 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Escape') closeLightbox.click();
     });
 
-    // Soporte para swipe táctil (deslizar con el dedo)
-    let lbTouchStartX = 0;
-    let lbTouchStartY = 0;
+    // Soporte para swipe táctil DINÁMICO (se mueve con el dedo)
+    let lbStartX = 0;
+    let lbDistX = 0;
+    let lbIsDragging = false;
+
     lightboxModal.addEventListener('touchstart', (e) => {
-      lbTouchStartX = e.touches[0].clientX;
-      lbTouchStartY = e.touches[0].clientY;
+      lbStartX = e.touches[0].clientX;
+      lbIsDragging = true;
+      lightboxModal.classList.add('lightbox-dragging');
     }, { passive: true });
-    lightboxModal.addEventListener('touchend', (e) => {
-      const diffX = lbTouchStartX - e.changedTouches[0].clientX;
-      const diffY = lbTouchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
-        if (diffX > 0) nextBtn.click(); // deslizar izquierda = siguiente
-        else prevBtn.click();           // deslizar derecha  = anterior
+
+    lightboxModal.addEventListener('touchmove', (e) => {
+      if (!lbIsDragging) return;
+      lbDistX = e.touches[0].clientX - lbStartX;
+      
+      // Aplicamos el movimiento directamente a la imagen
+      if (lightboxImg) {
+        lightboxImg.style.transform = `translateX(${lbDistX}px)`;
       }
+    }, { passive: true });
+
+    lightboxModal.addEventListener('touchend', (e) => {
+      if (!lbIsDragging) return;
+      lbIsDragging = false;
+      lightboxModal.classList.remove('lightbox-dragging');
+
+      const threshold = window.innerWidth * 0.25; // 25% del ancho de pantalla para cambiar
+
+      if (Math.abs(lbDistX) > threshold) {
+        if (lbDistX > 0) {
+          prevBtn.click(); // deslizar derecha = anterior
+        } else {
+          nextBtn.click(); // deslizar izquierda = siguiente
+        }
+      }
+
+      // Siempre reseteamos la posición visual al terminar
+      if (lightboxImg) {
+        lightboxImg.style.transform = '';
+      }
+      lbDistX = 0;
     }, { passive: true });
   }
 
@@ -1344,13 +1371,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('.copy-btn');
     if (!btn) return;
     const text = btn.getAttribute('data-copy');
-    if (!text) return;
+    if (!text || btn.classList.contains('copied')) return;
+
+    const label = btn.querySelector('span');
+    const originalText = label ? label.textContent : "Copiar número";
     const originalHTML = btn.innerHTML;
+
     const doCopied = () => {
       btn.classList.add('copied');
-      btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = originalHTML; }, 1600);
+      if (label) label.textContent = "¡Copiado!";
+      
+      // Feedback visual del icono
+      const svg = btn.querySelector('svg');
+      if (svg) {
+        svg.outerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+      }
+
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = originalHTML; 
+      }, 1500);
     };
+
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(doCopied).catch(() => {
         // fallback
