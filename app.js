@@ -144,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const btnGcWhatsStudio = document.getElementById('btn-gc-whatsapp-studio');
   const btnGcWhatsFriend = document.getElementById('btn-gc-whatsapp-friend');
+  const btnGcDownload = document.getElementById('btn-gc-download');
   const generatedGcContainer = document.getElementById('generated-gc-image');
 
   // --- QUOTE METHOD SELECTOR ---
@@ -195,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(inMonto && !inMonto.value) if (valMonto) valMonto.textContent = '';
       
       if(valCodigo && (!valCodigo.textContent || valCodigo.textContent === "")) {
-        valCodigo.textContent = Math.floor(1000 + Math.random() * 9000).toString();
+        valCodigo.textContent = Math.floor(100000 + Math.random() * 900000).toString();
       }
     });
     
@@ -257,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         textMessage = `¡Felicidades ${paraVal}! 🥳\n${deVal} te ha enviado una Tarjeta de Regalo de Eterno Tattoo Studio por ${montoVal}.\n\nVálido para diseño personalizado y sesión de tatuaje. Para canjearla visítanos en:\n📍 Calle Carlos Lineo 2401, Culiacán, Sinaloa.\n\nMás detalle de nuestro trabajo aquí: ${pageUrl}`;
         
         // Generar código único y aplicarlo directamente al elemento visual (ya que el resto se aplica en tiempo real)
-        const codeVal = `E-${Math.floor(10000 + Math.random() * 90000)}`;
+        const codeVal = Math.floor(100000 + Math.random() * 900000).toString();
         if (valCodigo) valCodigo.textContent = codeVal;
         
         // Save these globally so they can be accessed by the Whatsapp buttons later
@@ -395,6 +396,33 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open(waUrl, '_blank');
       });
     }
+
+    // --- DOWNLOAD BUTTON ---
+    if (btnGcDownload) {
+      btnGcDownload.addEventListener('click', () => {
+        if (!generatedBlob) return alert('Primero genera la tarjeta.');
+        const dlUrl = URL.createObjectURL(generatedBlob);
+        const a = document.createElement('a');
+        a.href = dlUrl;
+        a.download = 'tarjeta_regalo_eterno.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(dlUrl);
+      });
+    }
+  }
+
+  // --- LOGO SMOOTH SCROLL ---
+  const navLogoLink = document.querySelector('.navbar__logo a');
+  if (navLogoLink) {
+    navLogoLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const heroEl = document.getElementById('hero');
+      if (heroEl) {
+        heroEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
   }
 
   // --- AR SIMULATOR (ADVANCED) ---

@@ -1795,6 +1795,17 @@ body.sim-active .simulator-floating-panel {
   margin-bottom: 2rem;
 }
 
+/* Variante compacta para modales de tarjeta de regalo */
+.modal-title--compact {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.32em !important;
+  margin-bottom: 0.5rem !important;
+  opacity: 0.6;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.18);
+  display: block;
+}
+
 /* Gallery Modal — contenedor scrollable específico */
 .gallery-modal-content {
   width: 94%;
