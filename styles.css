@@ -1581,19 +1581,28 @@ body.sim-active .simulator-floating-panel {
 .booking-card {
   max-width: 800px;
   margin: 0 auto;
-  background-color: rgba(255,255,255, 0.02);
-  border: 1px solid rgba(255,255,255, 0.05);
+  background-color: transparent; /* Eliminamos el fondo pesado exterior */
+  border: none; /* Eliminamos el cuadro encerrado en cuadros */
   border-radius: 8px;
-  padding: 4rem;
+  padding: 4rem 2rem; /* Reducimos padding lateral base */
   text-align: center;
 }
 
 .bank-details {
-  background-color: rgba(0, 210, 255, 0.05);
-  border: 1px solid rgba(0, 210, 255, 0.2);
-  padding: 2rem;
-  border-radius: 8px;
-  margin: 2rem 0;
+  background-color: transparent;
+  border: none;
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+/* Divisor sutil entre secciones de pago */
+.bank-separator {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+  margin: 3rem 0;
+  border: none;
 }
 
 /* Tiendas participantes — chips de texto (reemplazo de logos externos que no cargan en móvil) */
@@ -2522,16 +2531,18 @@ body.modal-open {
     font-size: 0.8rem;
   }
 
-  /* Reduce excessive black space */
+  /* Reduce excessive black space and optimize booking width */
   .residents, .giftcards, .calculator, .booking, .contact {
-    padding: 3rem 0;
+    padding: 3rem 1.5rem; /* Agregamos un poco de padding lateral al contenedor base */
   }
-  .section-title {
-    margin-bottom: 2rem;
+  .booking-card {
+    padding: 2rem 0.5rem; /* Minimizamos padding para ganar ancho horizontal */
   }
-  .calculator__desc {
-    margin-top: -1rem;
-    margin-bottom: 2.5rem;
+  .bank-details {
+    padding: 0.5rem 0;
+  }
+  .account-number {
+    font-size: 1.4rem !important; /* Ajuste ligero para que no se rompa */
   }
 
   /* Slider items on mobile: */
