@@ -1293,6 +1293,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const offset = currentIndex * 100;
     lightboxTrack.style.transform = `translateX(-${offset}%)`;
     
+    // Control de visibilidad de flechas (limites)
+    if (prevBtn) {
+      if (currentIndex === 0) prevBtn.classList.add('lightbox-btn--hidden');
+      else prevBtn.classList.remove('lightbox-btn--hidden');
+    }
+    if (nextBtn) {
+      if (currentIndex === currentGalleryImages.length - 1) nextBtn.classList.add('lightbox-btn--hidden');
+      else nextBtn.classList.remove('lightbox-btn--hidden');
+    }
+
     // Update Category Text
     lightboxCategory.textContent = currentCategory.toUpperCase();
 
@@ -1313,24 +1323,40 @@ document.addEventListener('DOMContentLoaded', () => {
     lightboxModal.classList.add('active');
   }
 
+  function closeLightboxFunc() {
+    if (!lightboxModal) return;
+    
+    // Sincronizar el scroll de la galería vertical al cerrar
+    const galleryItems = galleryGrid.querySelectorAll('.gallery-item');
+    if (galleryItems && galleryItems[currentIndex]) {
+      galleryItems[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    lightboxModal.classList.remove('active');
+  }
+
   if (lightboxModal) {
-    closeLightbox.addEventListener('click', () => lightboxModal.classList.remove('active'));
+    closeLightbox.addEventListener('click', closeLightboxFunc);
     
     prevBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      currentIndex = (currentIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-      updateLightboxContent();
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateLightboxContent();
+      }
     });
 
     nextBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      currentIndex = (currentIndex + 1) % currentGalleryImages.length;
-      updateLightboxContent();
+      if (currentIndex < currentGalleryImages.length - 1) {
+        currentIndex++;
+        updateLightboxContent();
+      }
     });
 
     lightboxModal.addEventListener('click', (e) => {
       if(e.target === lightboxModal || e.target.id === 'lightbox-content') {
-        lightboxModal.classList.remove('active');
+        closeLightboxFunc();
       }
     });
 

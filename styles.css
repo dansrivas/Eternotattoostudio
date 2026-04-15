@@ -2109,6 +2109,7 @@ body.sim-active .simulator-floating-panel {
   justify-content: center;
   flex-direction: column;
   padding: 2rem;
+  touch-action: manipulation;
 }
 
 .lightbox.active {
@@ -2223,6 +2224,7 @@ body.sim-active .simulator-floating-panel {
   opacity: 0.8;
   transition: all 0.3s ease;
   text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  touch-action: manipulation;
 }
 
 .lightbox-close:hover {
@@ -2250,6 +2252,13 @@ body.sim-active .simulator-floating-panel {
   justify-content: center;
   transition: all 0.3s;
   user-select: none;
+  touch-action: manipulation;
+}
+
+.lightbox-btn--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .lightbox-btn:hover {
