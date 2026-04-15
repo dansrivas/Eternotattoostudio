@@ -1369,6 +1369,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- GALLERY MODAL LOGIC (PORTFOLIO) ---
+  if (galleryModal) {
     styleTriggers.forEach(trigger => {
       trigger.addEventListener('click', (e) => {
         e.preventDefault();
