@@ -418,10 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navLogoLink) {
     navLogoLink.addEventListener('click', (e) => {
       e.preventDefault();
-      const heroEl = document.getElementById('hero');
-      if (heroEl) {
-        heroEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
