@@ -266,38 +266,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSiguiente.textContent = 'Generando...';
         btnSiguiente.disabled = true;
 
-        // --- html2canvas FLOW (High Fidelity Capture) ---
-        const captureArea = document.getElementById('gift-card-capture');
-        const captureBg = document.getElementById('gc-capture-bg');
-        const mainBg = document.getElementById('gc-bg-image');
-
-        // Rule: Sync background src before capture
-        if (mainBg && captureBg) {
-          captureBg.src = mainBg.src;
-        }
-
-        // Sync contents to capture spans
-        const capPara = document.getElementById('gcp-capture-para');
-        const capDe = document.getElementById('gcp-capture-de');
-        const capMonto = document.getElementById('gcp-capture-monto');
-        const capCodigo = document.getElementById('gcp-capture-codigo');
-
-        if (capPara) capPara.textContent = paraVal;
-        if (capDe) capDe.textContent = deVal;
-        if (capMonto) {
-          if (inHideAmount && inHideAmount.checked) {
-            capMonto.innerHTML = 'DISEÑO<br>SELECCIONADO';
-            capMonto.style.fontSize = '24px';
-            capMonto.style.lineHeight = '1';
-            capMonto.style.top = '600px';
-          } else {
-            capMonto.textContent = `$${rawMonto}`;
-            capMonto.style.fontSize = '28px';
-            capMonto.style.top = '615px';
-          }
-        }
-        if (capCodigo) capCodigo.textContent = codeVal;
-
         // --- NATIVE CANVAS FLOW (High Fidelity & File Protocol Safe) ---
         const performCapture = async () => {
           try {
@@ -307,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const ctx = canvas.getContext('2d');
 
             // 1. Get/Wait for Background Image
-            const bgImage = document.getElementById('main-gift-card-bg');
+            const bgImage = document.getElementById('gc-bg-image');
             if (!bgImage) throw new Error("No se encontró el fondo de la tarjeta.");
 
             // Wait for fonts to be ready so 'Inter' renders correctly
@@ -329,11 +297,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // 5. Draw Amount / "Diseño Seleccionado"
             if (inHideAmount && inHideAmount.checked) {
               ctx.font = "normal 28px 'Inter', sans-serif";
-              ctx.fillText("DISEÑO", 275, 366); // 61.0% line 1
-              ctx.fillText("SELECCIONADO", 275, 396); // line 2
+              ctx.fillText("DISEÑO", 275, 366); 
+              ctx.fillText("SELECCIONADO", 275, 396); 
             } else {
               ctx.font = "normal 34px 'Inter', sans-serif";
-              ctx.fillText(`$${rawMonto}`, 280, 381); // 63.5% of 600
+              ctx.fillText(`$${rawMonto}`, 280, 381); 
             }
 
             // 6. Draw Code
@@ -364,13 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         };
 
-        // Wait for capture image to be ready
-        if (captureBg.complete || captureBg.src.startsWith('data:')) {
-          performCapture();
-        } else {
-          captureBg.onload = performCapture;
-          captureBg.onerror = performCapture;
-        }
+        // Execute capture
+        performCapture();
       });
     }
 
