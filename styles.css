@@ -2213,8 +2213,8 @@ body.modal-open {
     visibility: visible !important;
   }
   .navbar__logo {
-    height: 55px;
-    max-width: 65%; /* Asegura que no choque con el menú */
+    height: 42px;
+    max-width: 50%; /* Asegura que no choque con el menú hamburguesa */
     flex-shrink: 0;
     display: flex;
     align-items: center;
