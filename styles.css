@@ -2213,15 +2213,23 @@ body.modal-open {
     visibility: visible !important;
   }
   .navbar__logo {
-    height: 42px;
-    max-width: 50%; /* Asegura que no choque con el menú hamburguesa */
+    height: 32px;
+    max-width: 40%;
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    overflow: visible;
+  }
+  .navbar__logo a {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    overflow: visible;
   }
   .navbar__logo img {
-    height: 100%;
-    width: auto;
+    height: 32px !important;
+    width: auto !important;
+    max-width: none !important;
     object-fit: contain;
   }
   .hamburger {
