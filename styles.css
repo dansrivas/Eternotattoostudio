@@ -2084,14 +2084,8 @@ body.sim-active .simulator-floating-panel {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
   border: none !important;
 }
-  overflow: hidden !important;
-  border-radius: 12px !important;
-  background: #c5a059 !important; /* Dorado Eterno */
-  position: relative !important;
-  margin: 0 auto 2rem auto !important;
-}
 
-#gc-bg-image {
+# gc-bg-image {
   position: absolute !important;
   width: 100% !important;
   height: 100% !important;

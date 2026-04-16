@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap"
     rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=1.2" />
   <style>
 /* ============================================================
    IMMERSIVE SIMULATOR OVERLAY — v5 GOLDEN GLOW + SITE FIX
@@ -188,8 +188,8 @@
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
-  height: 80px !important; /* Vuelve al tamaño original */
-  background: rgba(10, 15, 20, 0.25) !important; /* Súper transparente como cristal */
+  height: 80px !important;
+  background: rgba(10, 15, 20, 0.25) !important;
   backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
   -webkit-backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
   z-index: 10000 !important;
@@ -705,7 +705,7 @@
             </button>
           </div>
           
-          <div class="how-to-box">
+          <div class="how-to-box" style="margin-left: -1rem !important; margin-right: -1rem !important; width: calc(100% + 2rem) !important; padding: 1.5rem 1rem !important;">
             <p style="color: #FFD700; font-weight: bold; margin-bottom: 0.8rem; font-family: 'Raven Hell Bold', sans-serif;">¿Cómo funciona?</p>
             <ol style="color: #bbb; padding-left: 1.2rem; line-height: 1.6; font-family: 'Inter', sans-serif; font-size: 0.95rem;">
               <li style="margin-bottom: 0.5rem;">Ve a una tienda participante y solicita un depósito a cuenta Nu.</li>
@@ -731,8 +731,11 @@
   <!-- ==================== CUIDADOS DEL TATUAJE ==================== -->
   <section id="cuidados" class="aftercare">
     <div class="container">
-      <h2 class="section-title" style="margin-bottom: 0.5rem;"><span class="diamond">◆</span> CUIDADOS DEL TATUAJE</h2>
-      <p class="aftercare-intro">Tu tatuaje es una obra de arte. Sigue estos pasos para garantizar una cicatrización perfecta y mantener la intensidad de los colores por años.</p>
+      <h2 class="section-title" style="margin-bottom: 0.2rem !important; flex-direction: column !important; gap: 0 !important; line-height: 1 !important; justify-content: center !important;">
+        <span class="diamond" style="margin-bottom: -0.5rem !important;">◆</span> 
+        CUIDADOS DEL TATUAJE
+      </h2>
+      <p class="aftercare-intro" style="margin: 0.2rem auto 2rem !important; padding-top: 0 !important; line-height: 1.2 !important;">Tu tatuaje es una obra de arte. Sigue estos pasos para garantizar una cicatrización perfecta y mantener la intensidad de los colores por años.</p>
       
       <div class="aftercare-grid">
         <!-- Paso 1: Limpieza -->
