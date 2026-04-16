@@ -2473,11 +2473,11 @@ body.modal-open {
 
   /* Typography */
   .section-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     justify-content: center;
     text-align: center;
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: 1rem;
   }
 
   /* Artist Section */
