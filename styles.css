@@ -2480,10 +2480,11 @@ body.modal-open {
   /* Typography */
   .section-title {
     font-size: 2.2rem;
+    flex-direction: column; /* Forzamos columna para control total */
+    gap: 0.1rem; /* Casi pegamos el rombo al texto */
+    line-height: 1.1; /* Reducimos el aire entre líneas */
     justify-content: center;
     text-align: center;
-    flex-wrap: wrap;
-    gap: 0.5rem; /* Menos espacio entre el rombo y el texto */
   }
 
   /* Artist Section */
@@ -2564,7 +2565,11 @@ body.modal-open {
     padding: 1rem 0.5rem; /* El cuadro ahora es mucho más ancho */
   }
   .aftercare {
-    padding: 3rem 0; /* Reducimos el padding exagerado en móvil */
+    padding: 2rem 0; /* Subimos la sección entera */
+  }
+  .aftercare-intro {
+    margin: 0.5rem auto 1.5rem; /* Pegamos el texto al título y la tabla al texto */
+    font-size: 1rem;
   }
   .account-number {
     font-size: 1.4rem !important;
