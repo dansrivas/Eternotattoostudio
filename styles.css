@@ -2483,6 +2483,7 @@ body.modal-open {
     justify-content: center;
     text-align: center;
     flex-wrap: wrap;
+    gap: 0.5rem; /* Menos espacio entre el rombo y el texto */
   }
 
   /* Artist Section */
@@ -2561,6 +2562,9 @@ body.modal-open {
   }
   .how-to-box {
     padding: 1rem 0.5rem; /* El cuadro ahora es mucho más ancho */
+  }
+  .aftercare {
+    padding: 3rem 0; /* Reducimos el padding exagerado en móvil */
   }
   .account-number {
     font-size: 1.4rem !important;
