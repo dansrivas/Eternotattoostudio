@@ -1768,5 +1768,135 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --- PROMOCIONES LOGIC ---
+  const promoModal = document.getElementById('promo-modal');
+  const promoModalContent = document.getElementById('promo-modal-content');
+
+  const promos = {
+    'flash': {
+      title: '¿Qué es un Flash?',
+      detail: 'Los diseños Flash son piezas originales creadas por nuestros artistas, listas para ser tatuadas sin modificaciones. Son ideales si buscas algo listo y único del artista.',
+      requirements: [
+        'Diseños originales del artista',
+        'Tamaño predeterminado (ajustable levemente)',
+        'Sin cambios en el diseño original',
+        'Precio especial por ser diseño de catálogo'
+      ],
+      icons: ['zap', 'image', 'star'],
+      whatsappMsg: 'Hola Eterno, me interesa saber más sobre los diseños Flash que vi en la web.'
+    },
+    'trilogia': {
+      title: 'Trilogía de Línea',
+      price: '$1,000',
+      detail: 'Llévate 3 mini tattoos por un precio increíble. Perfecto para esos detalles minimalistas que siempre has querido.',
+      requirements: [
+        '3 mini tattoos de hasta 5cm c/u',
+        'Válido para una sola persona',
+        'Estilo Fine Line (solo línea)',
+        'Zonas simples (brazos, piernas, hombros)'
+      ],
+      image: 'flash1.webp',
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Trilogía de Línea ($1,000) que vi en la web.'
+    },
+    'detalle': {
+      title: 'Paquete de Detalle',
+      price: '$1,500',
+      detail: 'Sube de nivel tus mini tattoos con sombras y texturas detalladas. Ideal para micro-realismo o puntillismo.',
+      requirements: [
+        '3 mini tattoos de hasta 5cm c/u',
+        'Válido para una sola persona',
+        'Incluye sombras y puntillismo',
+        'Diseños con mayor complejidad'
+      ],
+      icons: ['sparkles', 'fingerprint', 'binary'],
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Paquete de Detalle ($1,500) que vi en la web.'
+    },
+    'gemelas': {
+      title: 'Almas Gemelas',
+      price: '$1,200',
+      detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle.',
+      requirements: [
+        '2 personas (1 tatuaje c/u)',
+        'Diseños de hasta 6cm c/u',
+        'Incluye sombras y detalles simples',
+        'Deben acudir juntos a la cita'
+      ],
+      icons: ['users', 'heart', 'link'],
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Almas Gemelas ($1,200) que vi en la web.'
+    }
+  };
+
+  window.openPromoModal = function(id) {
+    const promo = promos[id];
+    if (!promo || !promoModal || !promoModalContent) return;
+
+    let mediaHtml = '';
+    if (promo.image) {
+      mediaHtml = `
+        <div class="my-6 px-2">
+          <img src="${promo.image}" alt="${promo.title}" 
+               class="w-full h-auto max-h-[500px] object-contain rounded-[12px] shadow-lg brightness-[1.1] border border-white/10 mx-auto block">
+        </div>
+      `;
+    } else if (promo.icons) {
+      mediaHtml = `
+        <div style="display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0;">
+          ${promo.icons.map(icon => `<div style="background: rgba(250, 186, 32, 0.1); padding: 1rem; border-radius: 9999px; color: #FABA20;"><i data-lucide="${icon}" style="width: 2rem; height: 2rem;"></i></div>`).join('')}
+        </div>
+      `;
+    }
+
+    promoModalContent.innerHTML = `
+      <div style="text-align: center;">
+        <h2 style="font-family: 'Raven Hell Bold', sans-serif; font-size: 3rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase;">${promo.title}</h2>
+        ${promo.price ? `<p style="color: #FABA20; font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">${promo.price}</p>` : ''}
+        <p style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${promo.detail}</p>
+      </div>
+
+      ${mediaHtml}
+
+      <div style="background: rgba(255,255,255,0.05); rounded-xl: 12px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px;">
+        <h4 style="color: #fff; font-weight: bold; margin-bottom: 1rem; text-transform: uppercase; font-size: 0.875rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i data-lucide="check-circle" style="width: 1rem; height: 1rem; color: #FABA20;"></i> Requisitos y Detalles
+        </h4>
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+          ${promo.requirements.map(req => `
+            <li style="display: flex; align-items: start; gap: 0.75rem; color: #ddd;">
+              <span style="color: #FABA20;">•</span>
+              <span>${req}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsappMsg)}" 
+         target="_blank"
+         style="background: #FABA20; color: #000; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.5rem; padding: 1rem; border-radius: 12px; text-align: center; text-decoration: none; margin-top: 1rem; transition: all 0.3s ease;">
+        AGENDAR VÍA WHATSAPP
+      </a>
+    `;
+
+    promoModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    if (window.lucide) window.lucide.createIcons();
+  };
+
+  window.closePromoModal = function() {
+    if (!promoModal) return;
+    promoModal.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  if (promoModal) {
+    promoModal.addEventListener('click', (e) => {
+      if (e.target === promoModal) closePromoModal();
+    });
+  }
+
+  // Initialize Lucide Icons for the main page
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
+
   console.log("Eterno App: Initialization complete");
 });
