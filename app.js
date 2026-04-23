@@ -252,9 +252,82 @@ document.addEventListener('DOMContentLoaded', () => {
   safeClick('close-gallery', () => document.getElementById('gallery-modal')?.classList.remove('active'));
   safeClick('close-lightbox', () => document.getElementById('lightbox-modal')?.classList.remove('active'));
 
-  // --- PROMOCIONES MODAL ---
-  window.openPromoModal = (id) => document.getElementById('promo-modal').style.display = 'flex';
-  window.closePromoModal = () => document.getElementById('promo-modal').style.display = 'none';
+  // --- PROMOCIONES DATA & MODAL ---
+  const promos = {
+    'flash': {
+      title: '¿Qué es un Flash?',
+      subtitle: 'Diseños Listos para Tatuar',
+      desc: 'Un flash es un diseño original creado por el artista, listo para ser tatuado tal cual. <br><br>• <b>Ventajas:</b> Son más económicos que un diseño personalizado y se pueden tatuar de inmediato.<br>• <b>Regla de Oro:</b> No se modifican (pueden ser de tamaño fijo o ajustable).',
+      price: 'Varía según diseño',
+      whatsapp: 'Hola, me interesa saber más sobre los diseños Flash disponibles.'
+    },
+    'trilogia': {
+      title: 'Trilogía de Línea',
+      subtitle: '3 Tatuajes Minimalistas',
+      desc: 'Ideal para quienes aman lo sutil. Obtén 3 tatuajes de línea fina (hasta 5cm cada uno) en la misma sesión.<br><br>• <b>Condiciones:</b> Deben ser para la misma persona y en la misma cita.<br>• <b>Estilo:</b> Únicamente línea fina negra.',
+      price: '$1,000 MXN',
+      whatsapp: 'Hola, quiero agendar la promo Trilogía de Línea ($1,000).'
+    },
+    'detalle': {
+      title: 'Paquete Detalle',
+      subtitle: 'Realismo y Precisión',
+      desc: 'Un tatuaje con alto nivel de detalle (hasta 10cm) especializado en micro-realismo o geometría fina.<br><br>• <b>Incluye:</b> Diseño personalizado y kit de cuidados básico.',
+      price: '$1,500 MXN',
+      whatsapp: 'Hola, me interesa el Paquete Detalle de $1,500.'
+    },
+    'gemelas': {
+      title: 'Almas Gemelas',
+      subtitle: 'Promoción para Parejas o Amigos',
+      desc: 'Dos tatuajes iguales o complementarios (uno para cada persona) de hasta 6cm.<br><br>• <b>Perfecto para:</b> Parejas, mejores amigos o hermanos.<br>• <b>Incluye:</b> Foto de recuerdo de la sesión.',
+      price: '$1,200 MXN',
+      image: 'flash pareja.webp',
+      whatsapp: 'Hola, queremos la promo de Almas Gemelas ($1,200).'
+    }
+  };
+
+  window.openPromoModal = function(id) {
+    const promo = promos[id];
+    if (!promo) return;
+
+    const modal = document.getElementById('promo-modal');
+    const content = document.getElementById('promo-modal-content');
+
+    if (modal && content) {
+      let imageHtml = '';
+      if (promo.image) {
+        imageHtml = `<img src="${promo.image}" style="width:100%; border-radius:12px; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.1);">`;
+      }
+
+      content.innerHTML = `
+        <div style="text-align: center;">
+          ${imageHtml}
+          <h2 style="font-family: 'Raven Hell Bold', sans-serif; color: #FABA20; font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase;">${promo.title}</h2>
+          <p style="color: #00d2ff; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">${promo.subtitle}</p>
+          <div style="color: #ccc; line-height: 1.6; font-size: 1rem; text-align: left; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+            ${promo.desc}
+          </div>
+          <div style="margin-bottom: 2rem;">
+            <span style="display: block; color: #888; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Precio Especial</span>
+            <span style="color: #fff; font-size: 2.5rem; font-family: 'Bebas Neue', sans-serif; font-weight: bold; letter-spacing: 0.05em;">${promo.price}</span>
+          </div>
+          <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsapp)}" target="_blank" 
+             style="display: block; background: #25D366; color: #fff; text-decoration: none; padding: 1.2rem; border-radius: 12px; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.2rem; transition: transform 0.3s ease;">
+            AGENDAR POR WHATSAPP
+          </a>
+        </div>
+      `;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  window.closePromoModal = function() {
+    const modal = document.getElementById('promo-modal');
+    if (modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  };
 
   // --- COPY CLIPBOARD ---
   document.addEventListener('click', (e) => {
