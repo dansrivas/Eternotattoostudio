@@ -1,10 +1,10 @@
 /**
  * ETERNO TATTOO STUDIO - MAIN APPLICATION
- * Restored with Full Gift Card Preview & Interaction Logic.
+ * Final Version: Optimized Performance + Restored Legacy Gift Card Precision.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("Eterno App: Initializing core systems...");
+  console.log("Eterno App: Starting core...");
 
   const safeListen = (id, event, callback) => {
     const el = document.getElementById(id);
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- MOBILE MENU ---
   const hbMenu = document.getElementById('hamburger-menu');
   const navLinks = document.querySelector('.navbar__links');
-
   if (hbMenu && navLinks) {
     hbMenu.onclick = (e) => {
       if(e) e.preventDefault();
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.classList.toggle('active');
       document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     };
-
     document.querySelectorAll('.navbar__links a').forEach(link => {
       link.onclick = () => {
         hbMenu.classList.remove('active');
@@ -37,15 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- DYNAMIC LOADER FOR SIMULATOR ---
   let isSimulatorLoaded = false;
   const simOverlay = document.getElementById('simulator-overlay');
-
   window.openSimulator = function() {
     if (!simOverlay) return;
     simOverlay.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-
     if (!isSimulatorLoaded) {
       const script = document.createElement('script');
-      script.src = 'simulator.js?v=1.3';
+      script.src = 'simulator.js?v=1.4';
       script.onload = () => {
         isSimulatorLoaded = true;
         if (window.initSimulator) window.initSimulator();
@@ -53,32 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
       document.head.appendChild(script);
     }
   };
-
   window.closeSimulator = function() {
     if (simOverlay) {
       simOverlay.style.display = 'none';
       document.body.style.overflow = '';
     }
   };
-
   safeClick('btn-select-simulator', openSimulator);
   safeClick('btn-close-sim', closeSimulator);
 
-  // --- GIFT CARD MODAL OPEN/CLOSE ---
-  const openGiftCard = () => {
+  // --- GIFT CARD MODAL ---
+  safeClick('giftcard-trigger', () => {
     const modal = document.getElementById('giftcard-modal');
     if(modal) {
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
-  };
-  safeClick('giftcard-trigger', openGiftCard);
+  });
   safeClick('close-giftcard', () => {
     document.getElementById('giftcard-modal')?.classList.remove('active');
     document.body.style.overflow = '';
   });
 
-  // --- GIFT CARD LIVE PREVIEW ---
+  // --- GIFT CARD LIVE PREVIEW & GENERATION ---
   const gcInputPara = document.getElementById('gc-input-para');
   const gcInputDe = document.getElementById('gc-input-de');
   const gcInputMonto = document.getElementById('gc-input-monto');
@@ -86,112 +79,95 @@ document.addEventListener('DOMContentLoaded', () => {
   const gcHideAmount = document.getElementById('gc-hide-amount');
 
   function updatePreview() {
-    const paraDisp = document.getElementById('gcp-preview-para');
-    const deDisp = document.getElementById('gcp-preview-de');
-    const montoDisp = document.getElementById('gcp-preview-monto');
-    const codeDisp = document.getElementById('gcp-preview-codigo');
+    const pPara = document.getElementById('gcp-preview-para');
+    const pDe = document.getElementById('gcp-preview-de');
+    const pMonto = document.getElementById('gcp-preview-monto');
+    const pCode = document.getElementById('gcp-preview-codigo');
 
-    if(paraDisp) paraDisp.textContent = (gcInputPara?.value || "").toUpperCase();
-    if(deDisp) deDisp.textContent = (gcInputDe?.value || "").toUpperCase();
-    
-    if(montoDisp) {
+    if(pPara) pPara.textContent = (gcInputPara?.value || "").toUpperCase();
+    if(pDe) pDe.textContent = (gcInputDe?.value || "").toUpperCase();
+    if(pMonto) {
       if (gcHideAmount?.checked) {
-        montoDisp.textContent = "DISEÑO SELECCIONADO";
-        montoDisp.style.fontSize = "1.8cqi";
+        pMonto.textContent = "DISEÑO SELECCIONADO";
+        pMonto.style.fontSize = "1.8cqi";
       } else {
-        montoDisp.textContent = gcInputMonto?.value ? `$${gcInputMonto.value} MXN` : "";
-        montoDisp.style.fontSize = "2.6cqi";
+        pMonto.textContent = gcInputMonto?.value ? `$${gcInputMonto.value} MXN` : "";
+        pMonto.style.fontSize = "2.6cqi";
       }
     }
-    
-    if(codeDisp) {
-      const phone = gcInputPhone?.value || "";
-      codeDisp.textContent = phone.length >= 4 ? phone.slice(-4) : "";
+    if(pCode) {
+      const ph = gcInputPhone?.value || "";
+      pCode.textContent = ph.length >= 4 ? ph.slice(-4) : "";
     }
   }
 
-  if(gcInputPara) gcInputPara.addEventListener('input', updatePreview);
-  if(gcInputDe) gcInputDe.addEventListener('input', updatePreview);
-  if(gcInputMonto) gcInputMonto.addEventListener('input', updatePreview);
-  if(gcInputPhone) gcInputPhone.addEventListener('input', updatePreview);
-  if(gcHideAmount) gcHideAmount.addEventListener('change', updatePreview);
+  [gcInputPara, gcInputDe, gcInputMonto, gcInputPhone, gcHideAmount].forEach(input => {
+    if(input) input.addEventListener(input.type === 'checkbox' ? 'change' : 'input', updatePreview);
+  });
 
-  // --- GIFT CARD GENERATION ---
   const btnGcSiguiente = document.getElementById('btn-gc-siguiente');
   if (btnGcSiguiente) {
     btnGcSiguiente.onclick = async () => {
-      const para = gcInputPara?.value;
-      const de = gcInputDe?.value;
-      const monto = gcInputMonto?.value;
-      const phone = gcInputPhone?.value;
-
-      if (!para || !de || !monto || !phone) {
-        alert("Por favor llena todos los campos para continuar.");
+      if (!gcInputPara?.value || !gcInputDe?.value || !gcInputMonto?.value || !gcInputPhone?.value) {
+        alert("Por favor llena todos los campos.");
         return;
       }
 
-      // Sync Capture Area
-      const capPara = document.getElementById('gcp-capture-para');
-      const capDe = document.getElementById('gcp-capture-de');
-      const capMonto = document.getElementById('gcp-capture-monto');
-      const capCode = document.getElementById('gcp-capture-codigo');
+      // 1. SYNC CAPTURE AREA (Legacy Precision)
+      const cPara = document.getElementById('gcp-capture-para');
+      const cDe = document.getElementById('gcp-capture-de');
+      const cMonto = document.getElementById('gcp-capture-monto');
+      const cCode = document.getElementById('gcp-capture-codigo');
 
-      if(capPara) capPara.textContent = para.toUpperCase();
-      if(capDe) capDe.textContent = de.toUpperCase();
-      if(capMonto) {
-         if (gcHideAmount?.checked) {
-           capMonto.textContent = "DISEÑO SELECCIONADO";
-           capMonto.style.fontSize = "20px";
-         } else {
-           capMonto.textContent = `$${monto} MXN`;
-           capMonto.style.fontSize = "28px";
-         }
+      if(cPara) cPara.textContent = gcInputPara.value.toUpperCase();
+      if(cDe) cDe.textContent = gcInputDe.value.toUpperCase();
+      if(cMonto) {
+        if (gcHideAmount?.checked) {
+          cMonto.textContent = "DISEÑO SELECCIONADO";
+          cMonto.style.fontSize = "20px";
+        } else {
+          cMonto.textContent = `$${gcInputMonto.value} MXN`;
+          cMonto.style.fontSize = "28px"; // Original Legacy Size
+        }
       }
-      if(capCode) capCode.textContent = phone.slice(-4);
+      if(cCode) cCode.textContent = gcInputPhone.value.slice(-4);
 
       btnGcSiguiente.textContent = "GENERANDO...";
       btnGcSiguiente.disabled = true;
 
       try {
         const captureArea = document.getElementById('gift-card-capture');
-        if (!window.html2canvas) {
-           alert("Cargando motor de imagen... espera 2 segundos.");
-           return;
-        }
-
-        const canvas = await html2canvas(captureArea, { scale: 2, useCORS: true });
+        const canvas = await html2canvas(captureArea, { scale: 2, useCORS: true, backgroundColor: null });
         const dataUrl = canvas.toDataURL('image/png');
         
-        const imgContainer = document.getElementById('generated-gc-image');
-        if(imgContainer) imgContainer.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:500px; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">`;
+        const imgCont = document.getElementById('generated-gc-image');
+        if(imgCont) imgCont.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:500px; border-radius:12px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">`;
 
-        // UI Switches
+        // Step transition
         document.getElementById('giftcard-step-2').style.display = 'block';
         document.getElementById('giftcard-step-1').style.display = 'none';
         document.querySelector('.gift-form').style.display = 'none';
         document.querySelector('.giftcard-how-to').style.display = 'none';
         document.getElementById('gcp-wrapper').style.display = 'none';
 
-        // Update Links
+        // Set up links
         const studioWA = document.getElementById('btn-gc-whatsapp-studio');
-        if(studioWA) {
-          const msg = `Hola Eterno, activo mi tarjeta para ${para} por $${monto}.`;
-          studioWA.href = `https://wa.me/526675819798?text=${encodeURIComponent(msg)}`;
-        }
+        if(studioWA) studioWA.href = `https://wa.me/526675819798?text=${encodeURIComponent("Hola Eterno, envío comprobante de tarjeta de regalo.")}`;
+
+        const friendWA = document.getElementById('btn-gc-whatsapp-friend');
+        if(friendWA) friendWA.href = `https://wa.me/52${gcInputPhone.value}?text=${encodeURIComponent("¡Sorpresa! Te regalé un tatuaje en Eterno.")}`;
 
         const downloadBtn = document.getElementById('btn-gc-download');
-        if(downloadBtn) {
-          downloadBtn.onclick = () => {
-            const link = document.createElement('a');
-            link.download = `tarjeta-eterno-${para}.png`;
-            link.href = dataUrl;
-            link.click();
-          };
-        }
+        if(downloadBtn) downloadBtn.onclick = () => {
+          const l = document.createElement('a');
+          l.download = `tarjeta-eterno-${gcInputPara.value}.png`;
+          l.href = dataUrl;
+          l.click();
+        };
 
-      } catch (err) {
-        console.error("Capture Error:", err);
-        alert("Error al generar imagen. Revisa tu conexión.");
+      } catch (e) {
+        console.error(e);
+        alert("Error al generar imagen.");
       } finally {
         btnGcSiguiente.textContent = "GENERAR TARJETA Y CONTINUAR";
         btnGcSiguiente.disabled = false;
@@ -207,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('gcp-wrapper').style.display = 'block';
   });
 
-  // --- PORTFOLIO & LIGHTBOX ---
+  // --- PORTFOLIO & GALLERY ---
   const styleTriggers = document.querySelectorAll('.style-trigger');
   styleTriggers.forEach(t => {
     t.onclick = (e) => {
@@ -216,20 +192,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const artist = t.getAttribute('data-artist');
       const style = t.getAttribute('data-style');
       const grid = document.getElementById('gallery-grid');
-      const images = window.portfolioData[artist]?.[style] || [];
+      const imgs = window.portfolioData[artist]?.[style] || [];
       if(grid) {
         grid.innerHTML = '';
-        images.forEach((src, i) => {
-          const item = document.createElement('div');
-          item.className = 'gallery-item';
-          item.innerHTML = `<img src="${src}" loading="lazy">`;
-          item.onclick = () => {
+        imgs.forEach((s, i) => {
+          const it = document.createElement('div');
+          it.className = 'gallery-item';
+          it.innerHTML = `<img src="${s}" loading="lazy">`;
+          it.onclick = () => {
             const lb = document.getElementById('lightbox-modal');
             const track = document.getElementById('lightbox-track');
-            if(track) track.innerHTML = `<img src="${src}">`;
+            if(track) track.innerHTML = `<img src="${s}">`;
             if(lb) lb.classList.add('active');
           };
-          grid.appendChild(item);
+          grid.appendChild(it);
         });
       }
       document.getElementById('gallery-modal')?.classList.add('active');
@@ -239,23 +215,20 @@ document.addEventListener('DOMContentLoaded', () => {
   safeClick('close-gallery', () => document.getElementById('gallery-modal')?.classList.remove('active'));
   safeClick('close-lightbox', () => document.getElementById('lightbox-modal')?.classList.remove('active'));
 
-  // --- PROMOCIONES ---
-  window.openPromoModal = function(id) {
-    const modal = document.getElementById('promo-modal');
-    if(modal) modal.style.display = 'flex';
-  };
+  // --- PROMOCIONES MODAL ---
+  window.openPromoModal = (id) => document.getElementById('promo-modal').style.display = 'flex';
   window.closePromoModal = () => document.getElementById('promo-modal').style.display = 'none';
 
-  // --- CLIPBOARD ---
+  // --- COPY CLIPBOARD ---
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.copy-btn');
-    if(!btn) return;
-    navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(() => {
-      const span = btn.querySelector('span');
-      if(span) { 
-        const oldText = span.textContent;
-        span.textContent = "¡Copiado!"; 
-        setTimeout(() => span.textContent = oldText, 1500); 
+    const b = e.target.closest('.copy-btn');
+    if(!b) return;
+    navigator.clipboard.writeText(b.getAttribute('data-copy')).then(() => {
+      const s = b.querySelector('span');
+      if(s) { 
+        const t = s.textContent; 
+        s.textContent = "¡Copiado!"; 
+        setTimeout(() => s.textContent = t, 1500); 
       }
     });
   });
