@@ -218,11 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'Diseños originales creados por el artista, listos para ser tatuados. Una forma rápida y profesional de llevar arte único en tu piel.',
       requirements: [
         'Diseños de autor (no se modifican)',
-        'Tamaño definido por el artista',
+        'Tamaño: No mayor a 5 cm',
         'Precio reducido comparado con piezas personalizadas',
         'Disponibilidad inmediata'
       ],
-      image: 'flash1.webp',
+      image: 'exampleflash.webp',
       whatsappMsg: 'Hola Eterno, me interesa saber más sobre los diseños Flash disponibles.'
     },
     'trilogia': {
@@ -231,23 +231,24 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'La promo favorita de todos. Tres tatuajes minimalistas para una sola persona en una misma sesión.',
       requirements: [
         'Solo línea negra',
-        'Hasta 5cm por diseño',
+        'Tamaño: No mayor a 5 cm c/u',
         'Misma persona, misma sesión',
         'No incluye sombras ni rellenos sólidos'
       ],
-      image: 'flash 2.webp',
+      images: ['flash1.webp', 'flash1.1.webp'],
       whatsappMsg: 'Hola Eterno, me interesa la promoción Trilogía de Línea ($1,000) que vi en la web.'
     },
     'detalle': {
       title: 'Paquete Detalle',
       price: '$1,500',
-      detail: 'Especializado en piezas con alto nivel de realismo o micro-detalle. Perfecto para tatuajes pequeños pero complejos.',
+      detail: 'Flash con detalles a sombra y puntillismo sencillos. Especializado en piezas con alto nivel de precisión.',
       requirements: [
-        'Hasta 10cm de tamaño',
-        'Realismo, micro-detalle o geometría',
-        'Incluye diseño personalizado',
-        'Ideal para antebrazo, pantorrilla o pecho'
+        'Tamaño: No mayor a 5 cm',
+        'Detalles a sombra y puntillismo sencillos',
+        'Incluye diseño seleccionado del catálogo',
+        'Ideal para antebrazo o pierna'
       ],
+      image: 'flash 2.webp',
       whatsappMsg: 'Hola Eterno, me interesa la promoción Paquete de Detalle ($1,500) que vi en la web.'
     },
     'gemelas': {
@@ -256,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle.',
       requirements: [
         '2 personas (1 tatuaje c/u)',
-        'Diseños de hasta 6cm c/u',
+        'Tamaño: No mayor a 5 cm c/u',
         'Incluye sombras y detalles simples',
         'Deben acudir juntos a la cita'
       ],
@@ -270,22 +271,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('promo-modal');
     const content = document.getElementById('promo-modal-content');
     if (!promo || !modal || !content) return;
-    let mediaHtml = promo.image ? `<div style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);"><img src="${promo.image}" style="width:100%; height:auto; display:block;"></div>` : '';
+
+    let mediaHtml = '';
+    if (promo.images) {
+      mediaHtml = `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem;">
+        ${promo.images.map(img => `<div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);"><img src="${img}" style="width:100%; height:auto; display:block;"></div>`).join('')}
+      </div>`;
+    } else if (promo.image) {
+      mediaHtml = `
+        <div style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+          <img src="${promo.image}" alt="${promo.title}" style="width:100%; height:auto; display:block;">
+        </div>
+      `;
+    }
+
     content.innerHTML = `
       <div style="text-align: center;">
         ${mediaHtml}
         <h2 style="font-family: 'Raven Hell Bold', sans-serif; color: #FABA20; font-size: 2.2rem; margin-bottom: 0.5rem; text-transform: uppercase;">${promo.title}</h2>
         <p style="color: #fff; font-size: 2.8rem; font-family: 'Bebas Neue', sans-serif; font-weight: bold; letter-spacing: 0.05em; margin-bottom: 1rem;">${promo.price}</p>
-        <p style="color: #ccc; line-height: 1.6; font-size: 1rem; margin-bottom: 2rem; text-align: left;">${promo.detail}</p>
+        
+        <p style="color: #ccc; line-height: 1.6; font-size: 1rem; margin-bottom: 2rem; text-align: left;">
+          ${promo.detail}
+        </p>
+
         <div style="text-align: left; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
           <h4 style="color: #FABA20; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 1rem;">REQUISITOS Y DETALLES</h4>
           <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem;">
-            ${promo.requirements.map(req => `<li style="display: flex; align-items: start; gap: 0.75rem; color: #ddd;"><span style="color: #FABA20;">•</span><span>${req}</span></li>`).join('')}
+            ${promo.requirements.map(req => `
+              <li style="display: flex; align-items: start; gap: 0.75rem; color: #ddd;">
+                <span style="color: #FABA20;">•</span>
+                <span>${req}</span>
+              </li>
+            `).join('')}
           </ul>
         </div>
-        <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsappMsg)}" target="_blank" style="display: block; background: #FABA20; color: #000; text-decoration: none; padding: 1.2rem; border-radius: 12px; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.3rem; transition: transform 0.3s ease;">AGENDAR POR WHATSAPP</a>
+
+        <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsappMsg)}" target="_blank" 
+           style="display: block; background: #FABA20; color: #000; text-decoration: none; padding: 1.2rem; border-radius: 12px; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.3rem; transition: transform 0.3s ease;">
+          AGENDAR POR WHATSAPP
+        </a>
       </div>
     `;
+
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   };
@@ -324,6 +352,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   safeClick('close-gallery', () => document.getElementById('gallery-modal').classList.remove('active'));
   safeClick('close-lightbox', () => document.getElementById('lightbox-modal').classList.remove('active'));
+
+  // --- PREMIUM SLIDER ARROWS ---
+  document.querySelectorAll('.slider-arrow').forEach(arrow => {
+    arrow.onclick = () => {
+      const targetId = arrow.getAttribute('data-target');
+      const slider = document.getElementById(targetId);
+      if (slider) {
+        const scrollAmount = slider.offsetWidth * 0.8;
+        slider.scrollBy({
+          left: arrow.classList.contains('slider-arrow--next') ? scrollAmount : -scrollAmount,
+          behavior: 'smooth'
+        });
+      }
+    };
+  });
 
   // --- COPY CLIPBOARD ---
   document.addEventListener('click', (e) => {
