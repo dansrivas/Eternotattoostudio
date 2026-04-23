@@ -1,172 +1,227 @@
 /* ============================================================
-   IMMERSIVE SIMULATOR OVERLAY — v3 BULLETPROOF
+   IMMERSIVE SIMULATOR OVERLAY — v5 GOLDEN GLOW + SITE FIX
    ============================================================ */
 
-/* The overlay itself */
 .simulator-overlay {
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 9999;
+  z-index: 99999;
   display: none;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-/* Header — fixed to viewport top */
+/* 1. Header Band */
 .sim-immersive-header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 10002;
+  position: relative;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.8rem 1.2rem;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.88), transparent);
-  pointer-events: none;
+  padding: 1rem;
+  background: #0a1118;
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+  z-index: 10002;
 }
-.sim-immersive-header > * { pointer-events: auto; }
 
 .btn-close-immersive {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.28);
+  background: #1a2228;
+  border: 1px solid #333;
   color: #fff;
-  font-size: 1.8rem;
-  width: 42px; height: 42px;
-  border-radius: 50%;
+  font-size: 1.4rem;
+  width: 40px; height: 40px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
-  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
-.btn-close-immersive:hover { background: rgba(255,50,50,0.38); border-color: #ff3333; }
+.btn-close-immersive:hover { background: #ff3333; border-color: #ff3333; transform: rotate(90deg); }
 
 .sim-progress-container {
-  display: flex; gap: 0.55rem; flex: 1; justify-content: center;
+  display: flex; gap: 0.8rem; flex: 1; justify-content: center;
 }
 .sim-step-indicator {
-  width: 30px; height: 30px;
+  width: 28px; height: 28px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(255,255,255,0.2);
+  background: #111;
+  border: 1px solid #333;
   color: #555;
   font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s;
 }
-.sim-step-indicator.active  { background: #FFD700; border-color: #FFD700; color: #000; box-shadow: 0 0 14px rgba(255,215,0,.5); }
-.sim-step-indicator.completed { background: transparent; border-color: #FFD700; color: #FFD700; }
+.sim-step-indicator.active { background: #FFD700; color: #000; border-color: #FFD700; box-shadow: 0 0 15px rgba(255,215,0,0.4); }
 
-/* Canvas — fills the fixed overlay */
+/* 2. Main Area (The Image Box) */
 .immersive-canvas-wrapper {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: #0a0a0a;
+  position: relative;
+  flex: 1;
+  width: 100%;
+  background: #050505;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.immersive-canvas-wrapper .ar-canvas {
+.ar-canvas {
   width: 100%; height: 100%;
   display: block; touch-action: none;
 }
 
-/* Floating panel — sits above canvas */
+/* 3. Controls Band — THE NEW GOLD BOX */
 .simulator-floating-panel {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 10001;
-  padding: 3rem 1.5rem 1.5rem;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 55%, transparent 100%);
-  text-align: center;
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  background: #0a1118;
+  border-top: 2px solid #FFD700;
   box-sizing: border-box;
+  height: 210px; /* Fixed height — canvas never shifts between steps */
+  overflow-y: auto;
 }
 
-/* Upload button */
-.btn--upload-immersive {
-  display: inline-flex; flex-direction: column; align-items: center;
-  gap: 0.6rem;
-  background: rgba(255,215,0,0.1);
-  border: 2px dashed #FFD700;
-  color: #FFD700;
+/* Standard Aesthetic Buttons (matching Hero) */
+.btn--imm-gold {
+  background: #FFD700;
+  color: #000;
+  border: none;
   font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
-  padding: 1.4rem 2.5rem;
-  border-radius: 12px;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-  margin-top: 0.3rem;
-  max-width: 400px; width: 90%;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
 }
-.btn--upload-immersive:hover { background: rgba(255,215,0,0.18); transform: scale(1.02); }
+.btn--imm-gold:hover {
+  transform: scale(1.05);
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.4);
+}
 
-/* Tool buttons */
 .imm-toolbar {
   display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-  max-width: 380px; margin: 0.5rem auto 0;
+  gap: 0.5rem; max-width: 420px; margin: 0 auto;
 }
 .btn--imm-tool {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: #ddd;
+  background: #16212a;
+  border: 1px solid #333;
+  color: #FFD700;
+  padding: 0.5rem;
+  border-radius: 8px;
   font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.82rem;
-  padding: 0.7rem 0.5rem;
-  border-radius: 8px; cursor: pointer;
-  transition: all 0.2s;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
-.btn--imm-tool:hover:not(:disabled) { background: #FFD700; color: #000; border-color: #FFD700; }
-.btn--imm-tool:disabled { opacity: 0.3; cursor: not-allowed; }
+.btn--imm-tool:hover:not(:disabled) {
+  background: #FFD700;
+  color: #000;
+  border-color: #FFD700;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
+}
+.btn--imm-tool.active { 
+  background: #fff; color: #000; border-color: #fff;
+}
+.btn--imm-tool:disabled { opacity: 0.2; }
 
-/* Navigation */
-.imm-nav {
-  display: flex; justify-content: space-between; align-items: center;
-  max-width: 380px; margin: 0.8rem auto 0; gap: 1rem;
+/* Restoring site-wide Modal & Catalog styles (in case styles.css fails) */
+.modal {
+  display: none; position: fixed; z-index: 100000; inset: 0;
+  background: rgba(0,0,0,0.92); backdrop-filter: blur(10px);
+  align-items: center; justify-content: center;
 }
-.btn--imm-link {
-  background: transparent; border: none;
-  color: #888; font-family: 'Inter', sans-serif;
-  font-size: 0.85rem; text-decoration: underline; cursor: pointer;
+.modal.active { display: flex; }
+.modal-content {
+  background: #0d161d; padding: 2.5rem; border-radius: 12px;
+  width: 95%; max-width: 1000px; border: 1px solid #333;
+  max-height: 90vh; overflow-y: auto; position: relative;
 }
-.btn--imm-link:hover { color: #fff; }
-.btn--imm-gold {
-  background: #FFD700; color: #000; border: none;
-  font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.95rem; padding: 0.7rem 1.4rem;
-  border-radius: 8px; cursor: pointer; transition: transform 0.2s;
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem; margin-top: 2rem;
 }
-.btn--imm-gold:hover { transform: scale(1.04); }
-
-/* Final actions */
-.imm-final-actions {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.8rem; max-width: 360px; margin: 0.4rem auto 0.8rem;
+.gallery-item {
+  aspect-ratio: 1/1; background: #111; overflow: hidden; border-radius: 10px;
+  cursor: pointer; transition: all 0.4s; border: 1px solid #222;
 }
-.btn--imm-save {
-  background: #FFD700; color: #000; border: none;
-  font-family: 'Raven Hell Bold', sans-serif; font-size: 0.95rem;
-  padding: 0.8rem 1rem; border-radius: 8px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-  box-shadow: 0 0 18px rgba(255,215,0,0.4);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.btn--imm-save:hover { box-shadow: 0 0 28px rgba(255,215,0,0.6); transform: translateY(-2px); }
-.btn--imm-send {
-  background: #0050ff; color: #fff; border: none;
-  font-family: 'Raven Hell Bold', sans-serif; font-size: 0.95rem;
-  padding: 0.8rem 1rem; border-radius: 8px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-  box-shadow: 0 0 18px rgba(0,80,255,0.4);
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.btn--imm-send:hover { box-shadow: 0 0 28px rgba(0,80,255,0.6); transform: translateY(-2px); }
-
-/* instruction text */
-.simulator-floating-panel .step-instruction {
-  color: #ccc; font-family: 'Inter', sans-serif;
-  font-size: 0.95rem; margin-bottom: 0.8rem;
+.gallery-item:hover { transform: scale(1.05) translateY(-5px); border-color: #0050ff; box-shadow: 0 10px 25px rgba(0,80,255,0.3); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+.modal-close {
+  position: fixed; top: 1.5rem; right: 2rem; color: #fff; font-size: 3rem; cursor: pointer; z-index: 110000;
 }
 
-/* legacy compat */
-.simulator-stepper-container { display: flex; flex-direction: column; gap: 1.5rem; }
+.step-instruction { color: #888; margin-bottom: 0.5rem; font-size: 0.82rem; font-family: 'Inter', sans-serif; }
+
+/* === ULTIMATE HYPER-GLASS OVERRIDE (FORCE) === */
+.navbar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 80px !important;
+  background: rgba(10, 15, 20, 0.25) !important;
+  backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
+  z-index: 10000 !important;
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.05) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+}
+
+.navbar::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: radial-gradient(circle at center, transparent 60%, rgba(255, 215, 0, 0.02) 100%) !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+@media (max-width: 900px) {
+  .navbar__links {
+    background: rgba(10, 15, 20, 0.85) !important; /* Más opaco para notar mejor el blur */
+    backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important;
+    z-index: 2147483640 !important;
+  }
+  .navbar__links.active {
+    background: rgba(10, 15, 20, 0.85) !important;
+    border-bottom: 3px solid #FFD700 !important;
+    backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
+  }
+}
+
+/* ====== HERO IMAGE RESPONSIVE ====== */
+.hero__bg--mobile { display: none; }
+.hero__bg--desktop { display: block; }
+
+@media (max-width: 900px) {
+  .hero__bg--desktop { display: none !important; }
+  .hero__bg--mobile  { display: block !important; }
+}
+
+/* ====== LOGO NAVBAR LINK ====== */
+.navbar__logo a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+.navbar__logo a:hover {
+  opacity: 0.8;
+}

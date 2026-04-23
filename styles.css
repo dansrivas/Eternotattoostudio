@@ -290,6 +290,15 @@ body {
   color: #ffffff;
 }
 
+/* Hide scrollbar for promo carousel track */
+#promo-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+#promo-carousel-track {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .artist {
   display: grid;
   grid-template-columns: 1.5fr 1fr minmax(0, 1.5fr); /* Constrain catalog column */

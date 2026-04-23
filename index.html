@@ -9,7 +9,7 @@
     content="Eterno Tattoo Studio — Tatuajes de alta gama en Culiacán. Especialistas en realismo, blackwork y arte inmersivo por Dans y Salem. ¡Hazlo Eterno!" />
   <meta name="keywords" content="tatuajes culiacan, eterno tattoo studio, dans tattoos, salem tattoos, realismo oscuro, black and grey, tatuajes sinaloa" />
   
-  <link rel="icon" type="image/png" href="Eterno Tattoo Studio LOGO 2.png" />
+  <link rel="icon" type="image/webp" href="Eterno Tattoo Studio LOGO 2.webp" />
   <link rel="apple-touch-icon" href="icon-180.png">
   <meta name="apple-mobile-web-app-title" content="Eterno WEB">
   
@@ -20,239 +20,7 @@
     rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css?v=1.5" />
-  <style>
-/* ============================================================
-   IMMERSIVE SIMULATOR OVERLAY — v5 GOLDEN GLOW + SITE FIX
-   ============================================================ */
-
-.simulator-overlay {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 99999;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-/* 1. Header Band */
-.sim-immersive-header {
-  position: relative;
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: #0a1118;
-  border-bottom: 1px solid rgba(255,215,0,0.2);
-  z-index: 10002;
-}
-
-.btn-close-immersive {
-  background: #1a2228;
-  border: 1px solid #333;
-  color: #fff;
-  font-size: 1.4rem;
-  width: 40px; height: 40px;
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s ease;
-}
-.btn-close-immersive:hover { background: #ff3333; border-color: #ff3333; transform: rotate(90deg); }
-
-.sim-progress-container {
-  display: flex; gap: 0.8rem; flex: 1; justify-content: center;
-}
-.sim-step-indicator {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: #111;
-  border: 1px solid #333;
-  color: #555;
-  font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.8rem;
-  display: flex; align-items: center; justify-content: center;
-}
-.sim-step-indicator.active { background: #FFD700; color: #000; border-color: #FFD700; box-shadow: 0 0 15px rgba(255,215,0,0.4); }
-
-/* 2. Main Area (The Image Box) */
-.immersive-canvas-wrapper {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  background: #050505;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.ar-canvas {
-  width: 100%; height: 100%;
-  display: block; touch-action: none;
-}
-
-/* 3. Controls Band — THE NEW GOLD BOX */
-.simulator-floating-panel {
-  position: relative;
-  flex: 0 0 auto;
-  width: 100%;
-  padding: 0.8rem 1.2rem;
-  background: #0a1118;
-  border-top: 2px solid #FFD700;
-  box-sizing: border-box;
-  height: 210px; /* Fixed height — canvas never shifts between steps */
-  overflow-y: auto;
-}
-
-/* Standard Aesthetic Buttons (matching Hero) */
-.btn--imm-gold {
-  background: #FFD700;
-  color: #000;
-  border: none;
-  font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.85rem;
-  padding: 0.6rem 1.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
-}
-.btn--imm-gold:hover {
-  transform: scale(1.05);
-  background: #fff;
-  box-shadow: 0 12px 35px rgba(255, 215, 0, 0.4);
-}
-
-.imm-toolbar {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5rem; max-width: 420px; margin: 0 auto;
-}
-.btn--imm-tool {
-  background: #16212a;
-  border: 1px solid #333;
-  color: #FFD700;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-family: 'Raven Hell Bold', sans-serif;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-.btn--imm-tool:hover:not(:disabled) {
-  background: #FFD700;
-  color: #000;
-  border-color: #FFD700;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 8px 20px rgba(255,215,0,0.3);
-}
-.btn--imm-tool.active { 
-  background: #fff; color: #000; border-color: #fff;
-}
-.btn--imm-tool:disabled { opacity: 0.2; }
-
-/* Restoring site-wide Modal & Catalog styles (in case styles.css fails) */
-.modal {
-  display: none; position: fixed; z-index: 100000; inset: 0;
-  background: rgba(0,0,0,0.92); backdrop-filter: blur(10px);
-  align-items: center; justify-content: center;
-}
-.modal.active { display: flex; }
-.modal-content {
-  background: #0d161d; padding: 2.5rem; border-radius: 12px;
-  width: 95%; max-width: 1000px; border: 1px solid #333;
-  max-height: 90vh; overflow-y: auto; position: relative;
-}
-.gallery-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem; margin-top: 2rem;
-}
-.gallery-item {
-  aspect-ratio: 1/1; background: #111; overflow: hidden; border-radius: 10px;
-  cursor: pointer; transition: all 0.4s; border: 1px solid #222;
-}
-.gallery-item:hover { transform: scale(1.05) translateY(-5px); border-color: #0050ff; box-shadow: 0 10px 25px rgba(0,80,255,0.3); }
-.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
-.modal-close {
-  position: fixed; top: 1.5rem; right: 2rem; color: #fff; font-size: 3rem; cursor: pointer; z-index: 110000;
-}
-
-.step-instruction { color: #888; margin-bottom: 0.5rem; font-size: 0.82rem; font-family: 'Inter', sans-serif; }
-
-/* === ULTIMATE HYPER-GLASS OVERRIDE (FORCE) === */
-.navbar {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: 80px !important;
-  background: rgba(10, 15, 20, 0.25) !important;
-  backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
-  z-index: 10000 !important;
-  border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.05) !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 5%;
-}
-
-.navbar::before {
-  content: '' !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background: radial-gradient(circle at center, transparent 60%, rgba(255, 215, 0, 0.02) 100%) !important;
-  pointer-events: none !important;
-  z-index: -1 !important;
-}
-
-@media (max-width: 900px) {
-  .navbar__links {
-    background: rgba(10, 15, 20, 0.85) !important; /* Más opaco para notar mejor el blur */
-    backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
-    border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important;
-    z-index: 2147483640 !important;
-  }
-  .navbar__links.active {
-    background: rgba(10, 15, 20, 0.85) !important;
-    border-bottom: 3px solid #FFD700 !important;
-    backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
-    -webkit-backdrop-filter: blur(25px) saturate(180%) brightness(1.1) !important;
-  }
-}
-
-
-/* ====== HERO IMAGE RESPONSIVE ====== */
-/* Por defecto (desktop): mostrar escritorio, ocultar móvil */
-.hero__bg--mobile { display: none; }
-.hero__bg--desktop { display: block; }
-
-/* En móvil: ocultar escritorio, mostrar portada móvil */
-@media (max-width: 900px) {
-  .hero__bg--desktop { display: none !important; }
-  .hero__bg--mobile  { display: block !important; }
-}
-
-/* ====== LOGO NAVBAR LINK ====== */
-.navbar__logo a {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.25s ease;
-}
-.navbar__logo a:hover {
-  opacity: 0.8;
-}
-
-  </style>
+  <link rel="stylesheet" href="simulator.css?v=1.0" />
 </head>
 
 <body>
@@ -273,7 +41,7 @@
   <header class="navbar">
     <div class="navbar__logo">
       <a href="#hero" aria-label="Ir al inicio">
-        <img src="Eterno Tattoo Studio LOGO 2.png" alt="Eterno Tattoo Studio" />
+        <img src="Eterno Tattoo Studio LOGO 2.webp" alt="Eterno Tattoo Studio" />
       </a>
     </div>
     <div class="hamburger" id="hamburger-menu">
@@ -303,8 +71,8 @@
         Somos artistas comprometidos con nuestro trabajo, enfocados en mejorar cada día, perfeccionar nuestra técnica y ofrecer la mejor experiencia posible. Cada pieza es realizada con atención al detalle, buscando siempre resultados de alto nivel y clientes satisfechos.
       </p>
     </div>
-    <img src="Gemini_Generated_Image_9sfxq69sfxq69sfx.png" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--desktop" />
-    <img src="portadamobil.png" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--mobile" />
+    <img src="Gemini_Generated_Image_9sfxq69sfxq69sfx.webp" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--desktop" />
+    <img src="portadamobil.webp" alt="Banner de Eterno Tattoo Studio" class="hero__bg hero__bg--mobile" />
   </section>
 
   <!-- ==================== RESIDENTES ==================== -->
@@ -316,7 +84,7 @@
       <div class="artist">
         <div class="artist__photo">
           <div class="photo-placeholder">
-            <img src="perfil_dans.png" class="real-photo" alt="Dans Tattoo Artist" />
+            <img src="perfil_dans.webp" class="real-photo" alt="Dans Tattoo Artist" />
           </div>
         </div>
         <div class="artist__info">
@@ -454,7 +222,7 @@
           <div style="color: #FABA20; margin-bottom: 1.5rem;">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto;"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
           </div>
-          <h3 style="font-family: 'Raven Hell Bold', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase;">Paquete Detalle</h3>
+          <h3 style="font-family: 'Raven Hell Bold', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase;">Paquete<br>Detalle</h3>
           <p style="color: #FABA20; font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem;">$1,500</p>
           <button style="background: #FABA20; color: #000; font-family: 'Raven Hell Bold', sans-serif; padding: 0.5rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.3s ease;">Ver Detalles</button>
         </div>
@@ -464,7 +232,7 @@
           <div style="color: #FABA20; margin-bottom: 1.5rem;">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           </div>
-          <h3 style="font-family: 'Raven Hell Bold', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase;">Almas Gemelas</h3>
+          <h3 style="font-family: 'Raven Hell Bold', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase;">Almas<br>Gemelas</h3>
           <p style="color: #FABA20; font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem;">$1,200</p>
           <button style="background: #FABA20; color: #000; font-family: 'Raven Hell Bold', sans-serif; padding: 0.5rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.3s ease;">Ver Detalles</button>
         </div>
@@ -876,7 +644,7 @@
 
   <section id="contacto" class="contact contact--elegant">
     <div class="contact__half-circle">
-      <img src="letrero.JPG" alt="Letrero Eterno Tattoo Studio" class="contact__half-bg">
+      <img src="letrero.webp" alt="Letrero Eterno Tattoo Studio" class="contact__half-bg">
       <div class="contact__half-overlay"></div>
       <div class="contact__half-content">
         <h2 class="section-title" style="margin-bottom: 0.5rem;"><span class="diamond">◆</span> CONTACTO</h2>
@@ -944,7 +712,7 @@
         <!-- The visual card (Smaller Preview) -->
         <div class="gift-card-preview" id="gcp-wrapper"
           style="position:relative; width:100%; max-width:550px; margin: 0 auto 1.5rem auto; container-type: inline-size; background:transparent !important; padding:0 !important; box-shadow:none !important; border:none !important;">
-          <img id="gc-bg-image" src="tarjeta_definitiva.png" alt="Gift Card Background" style="width:100%; height:auto; display:block; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);">
+          <img id="gc-bg-image" src="tarjeta_definitiva.webp" alt="Gift Card Background" style="width:100%; height:auto; display:block; border-radius:12px; border: 1px solid rgba(255,255,255,0.1);">
           <div id="gcp-overlay" style="position:absolute; inset:0; z-index:10; pointer-events:none;">
             <span id="gcp-preview-para"
               style="position:absolute; top: 43.5%; left: 22.8%; width: 60%; font-family: 'Inter', sans-serif; font-weight: 700; font-size:2.6cqi; color:#000; white-space: nowrap; pointer-events: none;"></span>
@@ -1023,7 +791,7 @@
       <div id="gift-card-capture" 
         style="position: absolute; left: -9999px; top: -9999px; width: 1050px; height: 600px; background-color: transparent; padding: 0; border: none; margin: 0; box-shadow: none;">
         
-        <img id="gc-capture-bg" src="tarjeta_definitiva.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; object-fit: cover;">
+        <img id="gc-capture-bg" src="tarjeta_definitiva.webp" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; object-fit: cover;">
         
         <div style="position: relative; z-index: 2; width: 100%; height: 100%;">
           <span id="gcp-capture-para" style="position:absolute; top: 435px; left: 240px; font-family: 'Inter', sans-serif; font-weight: bold; font-size: 28px; color:#000; white-space: nowrap;"></span>
@@ -1086,6 +854,13 @@
     </div>
   </div>
 
+  <!-- Third Party Libraries -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Application Logic -->
+  <script src="portfolio-data.js?v=1.0" defer></script>
+  <script src="app.js?v=2.0"></script>
 </body>
 
 </html>
