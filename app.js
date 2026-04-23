@@ -108,8 +108,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnGcSiguiente = document.getElementById('btn-gc-siguiente');
   if (btnGcSiguiente) {
     btnGcSiguiente.onclick = async () => {
-      if (!gcInputPara?.value || !gcInputDe?.value || !gcInputMonto?.value || !gcInputPhone?.value) {
-        alert("Por favor llena todos los campos.");
+      const para = gcInputPara?.value;
+      const de = gcInputDe?.value;
+      const monto = gcInputMonto?.value;
+      const phone = gcInputPhone?.value;
+
+      if (!para || !de || !monto || !phone) {
+        alert("Por favor llena todos los campos para continuar.");
+        return;
+      }
+
+      if (Number(monto) < 500) {
+        alert("El monto mínimo para una tarjeta de regalo es de $500 MXN.");
         return;
       }
 
@@ -143,12 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgCont = document.getElementById('generated-gc-image');
         if(imgCont) imgCont.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:500px; border-radius:12px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">`;
 
-        // Step transition
-        document.getElementById('giftcard-step-2').style.display = 'block';
-        document.getElementById('giftcard-step-1').style.display = 'none';
-        document.querySelector('.gift-form').style.display = 'none';
-        document.querySelector('.giftcard-how-to').style.display = 'none';
-        document.getElementById('gcp-wrapper').style.display = 'none';
+        // Step transition - Safe Checks
+        const s1 = document.getElementById('giftcard-step-1');
+        const s2 = document.getElementById('giftcard-step-2');
+        const gform = document.querySelector('.gift-form');
+        const ghow = document.querySelector('.giftcard-how-to');
+        const gwrap = document.getElementById('gcp-wrapper');
+        
+        if(s2) s2.style.display = 'block';
+        if(s1) s1.style.display = 'none';
+        if(gform) gform.style.display = 'none';
+        if(ghow) ghow.style.display = 'none';
+        if(gwrap) gwrap.style.display = 'none';
 
         // Set up links
         const studioWA = document.getElementById('btn-gc-whatsapp-studio');
