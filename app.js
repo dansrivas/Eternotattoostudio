@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
           cMonto.style.fontSize = "20px";
         } else {
           cMonto.textContent = `$${gcInputMonto.value} MXN`;
-          cMonto.style.fontSize = "28px"; // Original Legacy Size
+          cMonto.style.fontSize = "24px";
         }
       }
       if(cCode) cCode.textContent = gcInputPhone.value.slice(-4);
