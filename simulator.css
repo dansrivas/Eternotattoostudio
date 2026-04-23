@@ -6,7 +6,7 @@
   position: fixed;
   inset: 0;
   background: #000;
-  z-index: 99999;
+  z-index: 9999; /* Below navbar */
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -167,10 +167,10 @@
   right: 0 !important;
   width: 100% !important;
   height: 80px !important;
-  background: rgba(10, 15, 20, 0.25) !important;
+  background: rgba(10, 15, 20, 0.95) !important; /* Increased opacity for reliability */
   backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
   -webkit-backdrop-filter: blur(20px) saturate(220%) brightness(1.2) contrast(1.1) !important;
-  z-index: 10000 !important;
+  z-index: 100000 !important; /* Above everything */
   border-bottom: 2px solid rgba(255, 215, 0, 0.3) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.05) !important;
