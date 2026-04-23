@@ -74,12 +74,13 @@
   position: relative;
   flex: 0 0 auto;
   width: 100%;
-  padding: 0.8rem 1.2rem;
+  padding: 1rem 1.2rem;
   background: #0a1118;
   border-top: 2px solid #FFD700;
   box-sizing: border-box;
-  height: 210px; /* Fixed height — canvas never shifts between steps */
-  overflow-y: auto;
+  min-height: 180px;
+  z-index: 10005;
+  display: block !important; /* Ensure it's always visible */
 }
 
 /* Standard Aesthetic Buttons (matching Hero) */
