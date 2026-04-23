@@ -152,18 +152,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Set up links
         const studioWA = document.getElementById('btn-gc-whatsapp-studio');
-        if(studioWA) studioWA.href = `https://wa.me/526675819798?text=${encodeURIComponent("Hola Eterno, envío comprobante de tarjeta de regalo.")}`;
+        if(studioWA) {
+          const msg = `Hola Eterno, envío comprobante de la tarjeta de regalo para ${para} por $${monto}. Quedo atento a la activación.`;
+          studioWA.href = `https://wa.me/526675819798?text=${encodeURIComponent(msg)}`;
+        }
 
-        const friendWA = document.getElementById('btn-gc-whatsapp-friend');
-        if(friendWA) friendWA.href = `https://wa.me/52${gcInputPhone.value}?text=${encodeURIComponent("¡Sorpresa! Te regalé un tatuaje en Eterno.")}`;
+        // WhatsApp Friend is now generic in HTML, no need to update it here.
 
         const downloadBtn = document.getElementById('btn-gc-download');
-        if(downloadBtn) downloadBtn.onclick = () => {
-          const l = document.createElement('a');
-          l.download = `tarjeta-eterno-${gcInputPara.value}.png`;
-          l.href = dataUrl;
-          l.click();
-        };
+        if(downloadBtn) {
+          downloadBtn.onclick = () => {
+            const l = document.createElement('a');
+            l.download = `tarjeta-eterno-${para}.png`;
+            l.href = dataUrl;
+            l.click();
+          };
+        }
 
       } catch (e) {
         console.error(e);
@@ -174,6 +178,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
   }
+
+  safeClick('btn-gc-finalize', () => {
+    const modal = document.getElementById('giftcard-modal');
+    if(modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      // Reset steps for next time
+      setTimeout(() => {
+        document.getElementById('giftcard-step-2').style.display = 'none';
+        document.getElementById('giftcard-step-1').style.display = 'block';
+        document.querySelector('.gift-form').style.display = 'block';
+        document.querySelector('.giftcard-how-to').style.display = 'block';
+        document.getElementById('gcp-wrapper').style.display = 'block';
+      }, 500);
+    }
+  });
 
   safeClick('btn-gc-back', () => {
     document.getElementById('giftcard-step-2').style.display = 'none';
