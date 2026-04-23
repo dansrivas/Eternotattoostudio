@@ -1,10 +1,9 @@
 /**
  * ETERNO TATTOO STUDIO - MAIN APPLICATION
- * Final Version: Optimized Performance + Restored Legacy Gift Card Precision.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("Eterno App: Starting core...");
+  console.log("Eterno App: Initializing...");
 
   const safeListen = (id, event, callback) => {
     const el = document.getElementById(id);
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
     if (!isSimulatorLoaded) {
       const script = document.createElement('script');
-      script.src = 'simulator.js?v=1.4';
+      script.src = 'simulator.js?v=1.5';
       script.onload = () => {
         isSimulatorLoaded = true;
         if (window.initSimulator) window.initSimulator();
@@ -117,30 +116,28 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Por favor llena todos los campos para continuar.");
         return;
       }
-
       if (Number(monto) < 500) {
         alert("El monto mínimo para una tarjeta de regalo es de $500 MXN.");
         return;
       }
 
-      // 1. SYNC CAPTURE AREA (Legacy Precision)
       const cPara = document.getElementById('gcp-capture-para');
       const cDe = document.getElementById('gcp-capture-de');
       const cMonto = document.getElementById('gcp-capture-monto');
       const cCode = document.getElementById('gcp-capture-codigo');
 
-      if(cPara) cPara.textContent = gcInputPara.value.toUpperCase();
-      if(cDe) cDe.textContent = gcInputDe.value.toUpperCase();
+      if(cPara) cPara.textContent = para.toUpperCase();
+      if(cDe) cDe.textContent = de.toUpperCase();
       if(cMonto) {
         if (gcHideAmount?.checked) {
           cMonto.textContent = "DISEÑO SELECCIONADO";
           cMonto.style.fontSize = "20px";
         } else {
-          cMonto.textContent = `$${gcInputMonto.value} MXN`;
+          cMonto.textContent = `$${monto} MXN`;
           cMonto.style.fontSize = "24px";
         }
       }
-      if(cCode) cCode.textContent = gcInputPhone.value.slice(-4);
+      if(cCode) cCode.textContent = phone.slice(-4);
 
       btnGcSiguiente.textContent = "GENERANDO...";
       btnGcSiguiente.disabled = true;
@@ -153,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgCont = document.getElementById('generated-gc-image');
         if(imgCont) imgCont.innerHTML = `<img src="${dataUrl}" style="width:100%; max-width:500px; border-radius:12px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);">`;
 
-        // Step transition - Safe Checks
         const s1 = document.getElementById('giftcard-step-1');
         const s2 = document.getElementById('giftcard-step-2');
         const gform = document.querySelector('.gift-form');
@@ -166,14 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(ghow) ghow.style.display = 'none';
         if(gwrap) gwrap.style.display = 'none';
 
-        // Set up links
         const studioWA = document.getElementById('btn-gc-whatsapp-studio');
         if(studioWA) {
           const msg = `Hola Eterno, envío comprobante de la tarjeta de regalo para ${para} por $${monto}. Quedo atento a la activación.`;
           studioWA.href = `https://wa.me/526675819798?text=${encodeURIComponent(msg)}`;
         }
-
-        // WhatsApp Friend is now generic in HTML, no need to update it here.
 
         const downloadBtn = document.getElementById('btn-gc-download');
         if(downloadBtn) {
@@ -187,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       } catch (e) {
         console.error(e);
-        alert("Error al generar imagen.");
       } finally {
         btnGcSiguiente.textContent = "GENERAR TARJETA Y CONTINUAR";
         btnGcSiguiente.disabled = false;
@@ -200,8 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(modal) {
       modal.classList.remove('active');
       document.body.style.overflow = '';
-      
-      // Reset steps for next time
       setTimeout(() => {
         document.getElementById('giftcard-step-2').style.display = 'none';
         document.getElementById('giftcard-step-1').style.display = 'block';
@@ -220,19 +210,103 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('gcp-wrapper').style.display = 'block';
   });
 
+  // --- PROMOCIONES DATA & MODAL ---
+  const promos = {
+    'flash': {
+      title: '¿Qué es un Flash?',
+      price: 'Info Esencial',
+      detail: 'Diseños originales creados por el artista, listos para ser tatuados. Una forma rápida y profesional de llevar arte único en tu piel.',
+      requirements: [
+        'Diseños de autor (no se modifican)',
+        'Tamaño definido por el artista',
+        'Precio reducido comparado con piezas personalizadas',
+        'Disponibilidad inmediata'
+      ],
+      image: 'flash1.webp',
+      whatsappMsg: 'Hola Eterno, me interesa saber más sobre los diseños Flash disponibles.'
+    },
+    'trilogia': {
+      title: 'Trilogía de Línea',
+      price: '$1,000',
+      detail: 'La promo favorita de todos. Tres tatuajes minimalistas para una sola persona en una misma sesión.',
+      requirements: [
+        'Solo línea negra',
+        'Hasta 5cm por diseño',
+        'Misma persona, misma sesión',
+        'No incluye sombras ni rellenos sólidos'
+      ],
+      image: 'flash 2.webp',
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Trilogía de Línea ($1,000) que vi en la web.'
+    },
+    'detalle': {
+      title: 'Paquete Detalle',
+      price: '$1,500',
+      detail: 'Especializado en piezas con alto nivel de realismo o micro-detalle. Perfecto para tatuajes pequeños pero complejos.',
+      requirements: [
+        'Hasta 10cm de tamaño',
+        'Realismo, micro-detalle o geometría',
+        'Incluye diseño personalizado',
+        'Ideal para antebrazo, pantorrilla o pecho'
+      ],
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Paquete de Detalle ($1,500) que vi en la web.'
+    },
+    'gemelas': {
+      title: 'Almas Gemelas',
+      price: '$1,200',
+      detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle.',
+      requirements: [
+        '2 personas (1 tatuaje c/u)',
+        'Diseños de hasta 6cm c/u',
+        'Incluye sombras y detalles simples',
+        'Deben acudir juntos a la cita'
+      ],
+      image: 'flash pareja.webp',
+      whatsappMsg: 'Hola Eterno, me interesa la promoción Almas Gemelas ($1,200) que vi en la web.'
+    }
+  };
+
+  window.openPromoModal = function(id) {
+    const promo = promos[id];
+    const modal = document.getElementById('promo-modal');
+    const content = document.getElementById('promo-modal-content');
+    if (!promo || !modal || !content) return;
+    let mediaHtml = promo.image ? `<div style="margin-bottom: 1.5rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);"><img src="${promo.image}" style="width:100%; height:auto; display:block;"></div>` : '';
+    content.innerHTML = `
+      <div style="text-align: center;">
+        ${mediaHtml}
+        <h2 style="font-family: 'Raven Hell Bold', sans-serif; color: #FABA20; font-size: 2.2rem; margin-bottom: 0.5rem; text-transform: uppercase;">${promo.title}</h2>
+        <p style="color: #fff; font-size: 2.8rem; font-family: 'Bebas Neue', sans-serif; font-weight: bold; letter-spacing: 0.05em; margin-bottom: 1rem;">${promo.price}</p>
+        <p style="color: #ccc; line-height: 1.6; font-size: 1rem; margin-bottom: 2rem; text-align: left;">${promo.detail}</p>
+        <div style="text-align: left; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+          <h4 style="color: #FABA20; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 1rem;">REQUISITOS Y DETALLES</h4>
+          <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.75rem;">
+            ${promo.requirements.map(req => `<li style="display: flex; align-items: start; gap: 0.75rem; color: #ddd;"><span style="color: #FABA20;">•</span><span>${req}</span></li>`).join('')}
+          </ul>
+        </div>
+        <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsappMsg)}" target="_blank" style="display: block; background: #FABA20; color: #000; text-decoration: none; padding: 1.2rem; border-radius: 12px; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.3rem; transition: transform 0.3s ease;">AGENDAR POR WHATSAPP</a>
+      </div>
+    `;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+  window.closePromoModal = () => {
+    document.getElementById('promo-modal').style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
   // --- PORTFOLIO & GALLERY ---
   const styleTriggers = document.querySelectorAll('.style-trigger');
   styleTriggers.forEach(t => {
     t.onclick = (e) => {
       e.preventDefault();
-      if (!window.portfolioData) return alert("Cargando portafolio...");
+      if (!window.portfolioData) return;
       const artist = t.getAttribute('data-artist');
       const style = t.getAttribute('data-style');
       const grid = document.getElementById('gallery-grid');
       const imgs = window.portfolioData[artist]?.[style] || [];
       if(grid) {
         grid.innerHTML = '';
-        imgs.forEach((s, i) => {
+        imgs.forEach(s => {
           const it = document.createElement('div');
           it.className = 'gallery-item';
           it.innerHTML = `<img src="${s}" loading="lazy">`;
@@ -248,86 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('gallery-modal')?.classList.add('active');
     };
   });
-
-  safeClick('close-gallery', () => document.getElementById('gallery-modal')?.classList.remove('active'));
-  safeClick('close-lightbox', () => document.getElementById('lightbox-modal')?.classList.remove('active'));
-
-  // --- PROMOCIONES DATA & MODAL ---
-  const promos = {
-    'flash': {
-      title: '¿Qué es un Flash?',
-      subtitle: 'Diseños Listos para Tatuar',
-      desc: 'Un flash es un diseño original creado por el artista, listo para ser tatuado tal cual. <br><br>• <b>Ventajas:</b> Son más económicos que un diseño personalizado y se pueden tatuar de inmediato.<br>• <b>Regla de Oro:</b> No se modifican (pueden ser de tamaño fijo o ajustable).',
-      price: 'Varía según diseño',
-      whatsapp: 'Hola, me interesa saber más sobre los diseños Flash disponibles.'
-    },
-    'trilogia': {
-      title: 'Trilogía de Línea',
-      subtitle: '3 Tatuajes Minimalistas',
-      desc: 'Ideal para quienes aman lo sutil. Obtén 3 tatuajes de línea fina (hasta 5cm cada uno) en la misma sesión.<br><br>• <b>Condiciones:</b> Deben ser para la misma persona y en la misma cita.<br>• <b>Estilo:</b> Únicamente línea fina negra.',
-      price: '$1,000 MXN',
-      whatsapp: 'Hola, quiero agendar la promo Trilogía de Línea ($1,000).'
-    },
-    'detalle': {
-      title: 'Paquete Detalle',
-      subtitle: 'Realismo y Precisión',
-      desc: 'Un tatuaje con alto nivel de detalle (hasta 10cm) especializado en micro-realismo o geometría fina.<br><br>• <b>Incluye:</b> Diseño personalizado y kit de cuidados básico.',
-      price: '$1,500 MXN',
-      whatsapp: 'Hola, me interesa el Paquete Detalle de $1,500.'
-    },
-    'gemelas': {
-      title: 'Almas Gemelas',
-      subtitle: 'Promoción para Parejas o Amigos',
-      desc: 'Dos tatuajes iguales o complementarios (uno para cada persona) de hasta 6cm.<br><br>• <b>Perfecto para:</b> Parejas, mejores amigos o hermanos.<br>• <b>Incluye:</b> Foto de recuerdo de la sesión.',
-      price: '$1,200 MXN',
-      image: 'flash pareja.webp',
-      whatsapp: 'Hola, queremos la promo de Almas Gemelas ($1,200).'
-    }
-  };
-
-  window.openPromoModal = function(id) {
-    const promo = promos[id];
-    if (!promo) return;
-
-    const modal = document.getElementById('promo-modal');
-    const content = document.getElementById('promo-modal-content');
-
-    if (modal && content) {
-      let imageHtml = '';
-      if (promo.image) {
-        imageHtml = `<img src="${promo.image}" style="width:100%; border-radius:12px; margin-bottom:1rem; border:1px solid rgba(255,255,255,0.1);">`;
-      }
-
-      content.innerHTML = `
-        <div style="text-align: center;">
-          ${imageHtml}
-          <h2 style="font-family: 'Raven Hell Bold', sans-serif; color: #FABA20; font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase;">${promo.title}</h2>
-          <p style="color: #00d2ff; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.1rem; letter-spacing: 0.1em; margin-bottom: 1.5rem;">${promo.subtitle}</p>
-          <div style="color: #ccc; line-height: 1.6; font-size: 1rem; text-align: left; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
-            ${promo.desc}
-          </div>
-          <div style="margin-bottom: 2rem;">
-            <span style="display: block; color: #888; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Precio Especial</span>
-            <span style="color: #fff; font-size: 2.5rem; font-family: 'Bebas Neue', sans-serif; font-weight: bold; letter-spacing: 0.05em;">${promo.price}</span>
-          </div>
-          <a href="https://wa.me/526675819798?text=${encodeURIComponent(promo.whatsapp)}" target="_blank" 
-             style="display: block; background: #25D366; color: #fff; text-decoration: none; padding: 1.2rem; border-radius: 12px; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.2rem; transition: transform 0.3s ease;">
-            AGENDAR POR WHATSAPP
-          </a>
-        </div>
-      `;
-      modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
-  };
-
-  window.closePromoModal = function() {
-    const modal = document.getElementById('promo-modal');
-    if (modal) {
-      modal.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  };
+  safeClick('close-gallery', () => document.getElementById('gallery-modal').classList.remove('active'));
+  safeClick('close-lightbox', () => document.getElementById('lightbox-modal').classList.remove('active'));
 
   // --- COPY CLIPBOARD ---
   document.addEventListener('click', (e) => {
