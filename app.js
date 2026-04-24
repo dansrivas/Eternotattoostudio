@@ -323,35 +323,97 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --- PORTFOLIO & GALLERY ---
+  let currentGalleryImages = [];
+  let currentGalleryIndex = 0;
+  let currentArtist = "";
+  let currentStyle = "";
+
   const styleTriggers = document.querySelectorAll('.style-trigger');
   styleTriggers.forEach(t => {
     t.onclick = (e) => {
       e.preventDefault();
       if (!window.portfolioData) return;
-      const artist = t.getAttribute('data-artist');
-      const style = t.getAttribute('data-style');
+      currentArtist = t.getAttribute('data-artist');
+      currentStyle = t.getAttribute('data-style');
       const grid = document.getElementById('gallery-grid');
-      const imgs = window.portfolioData[artist]?.[style] || [];
+      currentGalleryImages = window.portfolioData[currentArtist]?.[currentStyle] || [];
+      
+      const sub = document.getElementById('gallery-subtitle');
+      if(sub) sub.textContent = currentStyle.toUpperCase();
+
       if(grid) {
         grid.innerHTML = '';
-        imgs.forEach(s => {
+        currentGalleryImages.forEach((s, idx) => {
           const it = document.createElement('div');
           it.className = 'gallery-item';
           it.innerHTML = `<img src="${s}" loading="lazy">`;
-          it.onclick = () => {
-            const lb = document.getElementById('lightbox-modal');
-            const track = document.getElementById('lightbox-track');
-            if(track) track.innerHTML = `<img src="${s}">`;
-            if(lb) lb.classList.add('active');
-          };
+          it.onclick = () => openLightbox(idx);
           grid.appendChild(it);
         });
       }
       document.getElementById('gallery-modal')?.classList.add('active');
     };
   });
+
+  function openLightbox(index) {
+    currentGalleryIndex = index;
+    const lb = document.getElementById('lightbox-modal');
+    updateLightbox();
+    if(lb) lb.classList.add('active');
+  }
+
+  function updateLightbox() {
+    const track = document.getElementById('lightbox-track');
+    const cat = document.getElementById('lightbox-category');
+    const qbtn = document.getElementById('btn-lightbox-quote');
+    const imgUrl = currentGalleryImages[currentGalleryIndex];
+
+    if(track) track.innerHTML = `<img src="${imgUrl}" style="max-width:100%; max-height:80vh; border-radius:8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9);">`;
+    if(cat) cat.textContent = currentStyle.toUpperCase();
+    if(qbtn) {
+      const msg = `Hola, me interesa este tatuaje de estilo ${currentStyle} de ${currentArtist}: ${window.location.origin}/${imgUrl}`;
+      qbtn.href = `https://wa.me/526675819798?text=${encodeURIComponent(msg)}`;
+    }
+  }
+
+  safeClick('prev-img', (e) => {
+    if(e) e.stopPropagation();
+    if(currentGalleryIndex > 0) {
+      currentGalleryIndex--;
+      updateLightbox();
+    }
+  });
+
+  safeClick('next-img', (e) => {
+    if(e) e.stopPropagation();
+    if(currentGalleryIndex < currentGalleryImages.length - 1) {
+      currentGalleryIndex++;
+      updateLightbox();
+    }
+  });
+
+  // Touch Support for Lightbox
+  let touchStartX = 0;
+  const lbContent = document.getElementById('lightbox-content');
+  if(lbContent) {
+    lbContent.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+    lbContent.addEventListener('touchend', e => {
+      const touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) document.getElementById('next-img').click();
+      if (touchEndX - touchStartX > 50) document.getElementById('prev-img').click();
+    });
+  }
+
   safeClick('close-gallery', () => document.getElementById('gallery-modal').classList.remove('active'));
   safeClick('close-lightbox', () => document.getElementById('lightbox-modal').classList.remove('active'));
+
+  // Close lightbox on background click
+  const lbModal = document.getElementById('lightbox-modal');
+  if(lbModal) {
+    lbModal.onclick = (e) => {
+      if(e.target === lbModal) lbModal.classList.remove('active');
+    };
+  }
 
   // --- PREMIUM SLIDER ARROWS ---
   document.querySelectorAll('.slider-arrow').forEach(arrow => {
