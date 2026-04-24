@@ -368,7 +368,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const qbtn = document.getElementById('btn-lightbox-quote');
     const imgUrl = currentGalleryImages[currentGalleryIndex];
 
-    if(track) track.innerHTML = `<img src="${imgUrl}" style="max-width:100%; max-height:80vh; border-radius:8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9);">`;
+    if(track) {
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+      track.innerHTML = `<img src="${imgUrl}" style="max-width:100%; max-height:80vh; width:auto; height:auto; object-fit:contain; border-radius:8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9); display:block; margin:0 auto;">`;
+    }
     if(cat) cat.textContent = currentStyle.toUpperCase();
     if(qbtn) {
       const msg = `Hola, me interesa este tatuaje de estilo ${currentStyle} de ${currentArtist}: ${window.location.origin}/${imgUrl}`;
@@ -392,15 +396,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch Support for Lightbox
+  // Touch Support for Lightbox (Real-time following)
   let touchStartX = 0;
+  let isDragging = false;
   const lbContent = document.getElementById('lightbox-content');
-  if(lbContent) {
-    lbContent.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+  const lbTrack = document.getElementById('lightbox-track');
+
+  if(lbContent && lbTrack) {
+    lbContent.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      isDragging = true;
+      lbTrack.style.transition = 'none';
+    }, {passive: true});
+
+    lbContent.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      const currentX = e.touches[0].clientX;
+      const diff = currentX - touchStartX;
+      lbTrack.style.transform = `translateX(${diff}px)`;
+    }, {passive: true});
+
     lbContent.addEventListener('touchend', e => {
-      const touchEndX = e.changedTouches[0].screenX;
-      if (touchStartX - touchEndX > 50) document.getElementById('next-img').click();
-      if (touchEndX - touchStartX > 50) document.getElementById('prev-img').click();
+      if (!isDragging) return;
+      isDragging = false;
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchEndX - touchStartX;
+      
+      lbTrack.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      
+      if (diff > 80 && currentGalleryIndex > 0) {
+        document.getElementById('prev-img').click();
+      } else if (diff < -80 && currentGalleryIndex < currentGalleryImages.length - 1) {
+        document.getElementById('next-img').click();
+      }
+      
+      lbTrack.style.transform = 'translateX(0)';
     });
   }
 
