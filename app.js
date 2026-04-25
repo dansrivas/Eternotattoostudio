@@ -358,23 +358,40 @@ document.addEventListener('DOMContentLoaded', () => {
   function openLightbox(index) {
     currentGalleryIndex = index;
     const lb = document.getElementById('lightbox-modal');
-    updateLightbox();
+    const track = document.getElementById('lightbox-track');
+    
+    if(track) {
+      // Create the strip of all images
+      track.style.display = 'flex';
+      track.style.transition = 'none';
+      track.innerHTML = currentGalleryImages.map(img => `
+        <div style="flex: 0 0 100%; width: 100vw; display: flex; align-items: center; justify-content: center;">
+          <img src="${img}" style="max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9);">
+        </div>
+      `).join('');
+      
+      updateLightboxPos();
+    }
+    
+    const cat = document.getElementById('lightbox-category');
+    if(cat) cat.textContent = currentStyle.toUpperCase();
+    updateQuoteBtn();
+    
     if(lb) lb.classList.add('active');
   }
 
-  function updateLightbox() {
+  function updateLightboxPos(offset = 0) {
     const track = document.getElementById('lightbox-track');
-    const cat = document.getElementById('lightbox-category');
+    if(track) {
+      const baseTranslate = -currentGalleryIndex * 100;
+      track.style.transform = `translateX(calc(${baseTranslate}% + ${offset}px))`;
+    }
+  }
+
+  function updateQuoteBtn() {
     const qbtn = document.getElementById('btn-lightbox-quote');
     const imgUrl = currentGalleryImages[currentGalleryIndex];
-
-    if(track) {
-      track.style.transition = 'none';
-      track.style.transform = 'translateX(0)';
-      track.innerHTML = `<img src="${imgUrl}" style="max-width:100%; max-height:80vh; width:auto; height:auto; object-fit:contain; border-radius:8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9); display:block; margin:0 auto;">`;
-    }
-    if(cat) cat.textContent = currentStyle.toUpperCase();
-    if(qbtn) {
+    if(qbtn && imgUrl) {
       const msg = `Hola, me interesa este tatuaje de estilo ${currentStyle} de ${currentArtist}: ${window.location.origin}/${imgUrl}`;
       qbtn.href = `https://wa.me/526675819798?text=${encodeURIComponent(msg)}`;
     }
@@ -384,7 +401,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if(e) e.stopPropagation();
     if(currentGalleryIndex > 0) {
       currentGalleryIndex--;
-      updateLightbox();
+      const track = document.getElementById('lightbox-track');
+      if(track) track.style.transition = 'transform 0.3s ease-out';
+      updateLightboxPos();
+      updateQuoteBtn();
     }
   });
 
@@ -392,28 +412,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if(e) e.stopPropagation();
     if(currentGalleryIndex < currentGalleryImages.length - 1) {
       currentGalleryIndex++;
-      updateLightbox();
+      const track = document.getElementById('lightbox-track');
+      if(track) track.style.transition = 'transform 0.3s ease-out';
+      updateLightboxPos();
+      updateQuoteBtn();
     }
   });
 
-  // Touch Support for Lightbox (Real-time following)
+  // Touch Support for Lightbox (Real-time strip following)
   let touchStartX = 0;
   let isDragging = false;
   const lbContent = document.getElementById('lightbox-content');
   const lbTrack = document.getElementById('lightbox-track');
 
-  if(lbContent && lbTrack) {
+  if(lbContent) {
     lbContent.addEventListener('touchstart', e => {
       touchStartX = e.touches[0].clientX;
       isDragging = true;
-      lbTrack.style.transition = 'none';
+      if(lbTrack) lbTrack.style.transition = 'none';
     }, {passive: true});
 
     lbContent.addEventListener('touchmove', e => {
       if (!isDragging) return;
       const currentX = e.touches[0].clientX;
       const diff = currentX - touchStartX;
-      lbTrack.style.transform = `translateX(${diff}px)`;
+      updateLightboxPos(diff);
     }, {passive: true});
 
     lbContent.addEventListener('touchend', e => {
@@ -422,22 +445,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const touchEndX = e.changedTouches[0].clientX;
       const diff = touchEndX - touchStartX;
       
-      lbTrack.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+      if(lbTrack) lbTrack.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.5, 0.3, 1)';
       
       if (diff > 80 && currentGalleryIndex > 0) {
-        document.getElementById('prev-img').click();
+        currentGalleryIndex--;
       } else if (diff < -80 && currentGalleryIndex < currentGalleryImages.length - 1) {
-        document.getElementById('next-img').click();
+        currentGalleryIndex++;
       }
       
-      lbTrack.style.transform = 'translateX(0)';
+      updateLightboxPos();
+      updateQuoteBtn();
     });
   }
 
   safeClick('close-gallery', () => document.getElementById('gallery-modal').classList.remove('active'));
   safeClick('close-lightbox', () => document.getElementById('lightbox-modal').classList.remove('active'));
 
-  // Close lightbox on background click
   const lbModal = document.getElementById('lightbox-modal');
   if(lbModal) {
     lbModal.onclick = (e) => {
