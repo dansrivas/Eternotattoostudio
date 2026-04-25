@@ -361,16 +361,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('lightbox-track');
     
     if(track) {
-      // Create the strip of all images
       track.style.display = 'flex';
       track.style.transition = 'none';
-      track.innerHTML = currentGalleryImages.map(img => `
-        <div style="flex: 0 0 100%; width: 100vw; display: flex; align-items: center; justify-content: center;">
-          <img src="${img}" style="max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9);">
-        </div>
-      `).join('');
-      
-      updateLightboxPos();
+      renderLightboxWindow();
     }
     
     const cat = document.getElementById('lightbox-category');
@@ -378,6 +371,29 @@ document.addEventListener('DOMContentLoaded', () => {
     updateQuoteBtn();
     
     if(lb) lb.classList.add('active');
+  }
+
+  function renderLightboxWindow() {
+    const track = document.getElementById('lightbox-track');
+    if(!track) return;
+
+    // We only render a small "window" around the current index to save memory
+    const windowSize = 2; // current + 2 each side
+    const start = Math.max(0, currentGalleryIndex - windowSize);
+    const end = Math.min(currentGalleryImages.length - 1, currentGalleryIndex + windowSize);
+
+    track.innerHTML = currentGalleryImages.map((img, idx) => {
+      if (idx < start || idx > end) {
+        return `<div style="flex: 0 0 100%; width: 100vw;"></div>`;
+      }
+      return `
+        <div style="flex: 0 0 100%; width: 100vw; display: flex; align-items: center; justify-content: center;">
+          <img src="${img}" style="max-width: 95%; max-height: 80vh; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.9);">
+        </div>
+      `;
+    }).join('');
+    
+    updateLightboxPos();
   }
 
   function updateLightboxPos(offset = 0) {
@@ -403,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
       currentGalleryIndex--;
       const track = document.getElementById('lightbox-track');
       if(track) track.style.transition = 'transform 0.3s ease-out';
-      updateLightboxPos();
+      renderLightboxWindow();
       updateQuoteBtn();
     }
   });
@@ -414,12 +430,12 @@ document.addEventListener('DOMContentLoaded', () => {
       currentGalleryIndex++;
       const track = document.getElementById('lightbox-track');
       if(track) track.style.transition = 'transform 0.3s ease-out';
-      updateLightboxPos();
+      renderLightboxWindow();
       updateQuoteBtn();
     }
   });
 
-  // Touch Support for Lightbox (Real-time strip following)
+  // Touch Support for Lightbox (Optimized Swipe)
   let touchStartX = 0;
   let isDragging = false;
   const lbContent = document.getElementById('lightbox-content');
@@ -447,13 +463,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if(lbTrack) lbTrack.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.5, 0.3, 1)';
       
-      if (diff > 80 && currentGalleryIndex > 0) {
+      const threshold = 60;
+      if (diff > threshold && currentGalleryIndex > 0) {
         currentGalleryIndex--;
-      } else if (diff < -80 && currentGalleryIndex < currentGalleryImages.length - 1) {
+      } else if (diff < -threshold && currentGalleryIndex < currentGalleryImages.length - 1) {
         currentGalleryIndex++;
       }
       
-      updateLightboxPos();
+      renderLightboxWindow();
       updateQuoteBtn();
     });
   }
