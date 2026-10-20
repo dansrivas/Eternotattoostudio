@@ -240,8 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     'detalle': {
       title: 'Paquete Detalle',
-      price: '$1,000',
-      detail: '2 Tatuajes Flash con detalles a sombra y puntillismo sencillos.',
+      price: '$1,500',
+      detail: '3 Tatuajes Flash con detalles a sombra y puntillismo sencillos.',
       requirements: [
         'Tamaño: No mayor a 6 cm',
         'Detalles a sombra y puntillismo sencillos',
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'gemelas': {
       title: 'Almas Gemelas',
       price: '$1,200',
-      detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle.',
+      detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle. (puede ser para la misma persona también)',
       requirements: [
         '2 personas (1 tatuaje c/u)',
         'Tamaño: No mayor a 6 cm c/u',
