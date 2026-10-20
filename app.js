@@ -31,31 +31,153 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- DYNAMIC LOADER FOR SIMULATOR ---
-  let isSimulatorLoaded = false;
-  const simOverlay = document.getElementById('simulator-overlay');
-  window.openSimulator = function() {
-    if (!simOverlay) return;
-    simOverlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    if (!isSimulatorLoaded) {
-      const script = document.createElement('script');
-      script.src = 'simulator.js?v=1.5';
-      script.onload = () => {
-        isSimulatorLoaded = true;
-        if (window.initSimulator) window.initSimulator();
-      };
-      document.head.appendChild(script);
+  // --- WIZARD COTIZADOR INTELIGENTE (VENTANA POR VENTANA) ---
+  function initQuoteWizard() {
+    const zoneDisplay = document.querySelector('#selected-zone-display .highlight');
+    const zones = document.querySelectorAll('.zone');
+    const flipBtn = document.getElementById('body-flip-btn');
+    const bodyFlip = document.getElementById('body-flip');
+    const flipLabel = document.getElementById('flip-label');
+    
+    const btnNext2 = document.getElementById('btn-next-step-2');
+    const btnNext3 = document.getElementById('btn-next-step-3');
+    const btnBack1 = document.getElementById('btn-back-step-1');
+    const btnBack2 = document.getElementById('btn-back-step-2');
+
+    const pane1 = document.getElementById('quote-pane-1');
+    const pane2 = document.getElementById('quote-pane-2');
+    const pane3 = document.getElementById('quote-pane-3');
+
+    const ind1 = document.getElementById('qp-ind-1');
+    const ind2 = document.getElementById('qp-ind-2');
+    const ind3 = document.getElementById('qp-ind-3');
+
+    let selectedZone = '';
+
+    // 1. Seleccionar Zona
+    zones.forEach(zone => {
+      zone.addEventListener('click', () => {
+        zones.forEach(z => z.classList.remove('selected'));
+        zone.classList.add('selected');
+        selectedZone = zone.getAttribute('data-zone') || 'Indefinida';
+        
+        if (zoneDisplay) zoneDisplay.textContent = selectedZone;
+        if (btnNext2) btnNext2.disabled = false;
+      });
+    });
+
+    // Girar Cuerpo
+    if (flipBtn && bodyFlip) {
+      let isBack = false;
+      flipBtn.addEventListener('click', () => {
+        isBack = !isBack;
+        bodyFlip.classList.toggle('flipped', isBack);
+        if (flipLabel) flipLabel.textContent = isBack ? 'Ver frente' : 'Ver espalda';
+      });
     }
-  };
-  window.closeSimulator = function() {
-    if (simOverlay) {
-      simOverlay.style.display = 'none';
-      document.body.style.overflow = '';
+
+    // Slider de Tamaño
+    const sizeSlider = document.getElementById('size-slider');
+    const sizeCmDisplay = document.getElementById('size-cm-display');
+    const sizeRefDisplay = document.getElementById('size-ref-display');
+
+    if (sizeSlider) {
+      sizeSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        let refText = '≈ Tamaño de una moneda';
+
+        if (val > 5 && val <= 10) refText = '≈ Tamaño de una tarjeta';
+        else if (val > 10 && val <= 20) refText = '≈ Tamaño de una mano';
+        else if (val > 20 && val <= 30) refText = '≈ Tamaño de una hoja';
+        else if (val > 30) refText = '≈ Pieza grande / Completa';
+
+        if (sizeCmDisplay) sizeCmDisplay.textContent = `${val} cm`;
+        if (sizeRefDisplay) sizeRefDisplay.textContent = refText;
+      });
     }
-  };
-  safeClick('btn-select-simulator', openSimulator);
-  safeClick('btn-close-sim', closeSimulator);
+
+    // Toggle Idea
+    const noRefCheck = document.getElementById('no-reference-check');
+    const ideaTextArea = document.getElementById('idea-description');
+
+    if (noRefCheck && ideaTextArea) {
+      noRefCheck.addEventListener('change', (e) => {
+        ideaTextArea.disabled = !e.target.checked;
+        if (e.target.checked) ideaTextArea.focus();
+      });
+    }
+
+    // --- NAVEGACIÓN PASO A PASO ---
+    if (btnNext2) {
+      btnNext2.addEventListener('click', () => {
+        if (!selectedZone) return;
+        if (pane1) pane1.style.display = 'none';
+        if (pane2) pane2.style.display = 'block';
+        if (ind1) { ind1.classList.remove('active'); ind1.classList.add('completed'); }
+        if (ind2) ind2.classList.add('active');
+      });
+    }
+
+    if (btnBack1) {
+      btnBack1.addEventListener('click', () => {
+        if (pane2) pane2.style.display = 'none';
+        if (pane1) pane1.style.display = 'block';
+        if (ind2) ind2.classList.remove('active');
+        if (ind1) { ind1.classList.remove('completed'); ind1.classList.add('active'); }
+      });
+    }
+
+    if (btnNext3) {
+      btnNext3.addEventListener('click', () => {
+        if (pane2) pane2.style.display = 'none';
+        if (pane3) pane3.style.display = 'block';
+        if (ind2) { ind2.classList.remove('active'); ind2.classList.add('completed'); }
+        if (ind3) ind3.classList.add('active');
+
+        // Actualizar resumen
+        const summaryZone = document.getElementById('summary-zone');
+        const summarySize = document.getElementById('summary-size');
+        const summaryIdea = document.getElementById('summary-idea');
+
+        if (summaryZone) summaryZone.textContent = selectedZone || 'No elegida';
+        if (summarySize) summarySize.textContent = `${sizeSlider ? sizeSlider.value : '5'} cm (${sizeRefDisplay ? sizeRefDisplay.textContent : ''})`;
+        if (summaryIdea) {
+          summaryIdea.textContent = (noRefCheck && noRefCheck.checked && ideaTextArea.value) ? ideaTextArea.value : 'Tengo imagen de referencia para enviar';
+        }
+      });
+    }
+
+    if (btnBack2) {
+      btnBack2.addEventListener('click', () => {
+        if (pane3) pane3.style.display = 'none';
+        if (pane2) pane2.style.display = 'block';
+        if (ind3) ind3.classList.remove('active');
+        if (ind2) { ind2.classList.remove('completed'); ind2.classList.add('active'); }
+      });
+    }
+
+    // Envío a WhatsApp
+    const btnWhats = document.getElementById('btn-whatsapp');
+    if (btnWhats) {
+      btnWhats.addEventListener('click', (e) => {
+        e.preventDefault();
+        const sizeVal = sizeSlider ? sizeSlider.value : '5';
+        const ideaText = (noRefCheck && noRefCheck.checked && ideaTextArea) ? ideaTextArea.value : '';
+
+        let text = `¡Hola! Me gustaría cotizar un tatuaje en Eterno Tattoo Studio.\n\n`;
+        text += `📍 *Zona:* ${selectedZone}\n`;
+        text += `📏 *Tamaño:* ${sizeVal} cm\n`;
+        if (ideaText) text += `💡 *Idea:* ${ideaText}\n`;
+        else text += `💡 *Idea:* Te enviaré mi imagen de referencia.\n`;
+
+        const phone = '526675819798';
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+      });
+    }
+  }
+
+  // Inicializar cotizador
+  initQuoteWizard();
 
   // --- GIFT CARD MODAL ---
   safeClick('giftcard-trigger', () => {
@@ -377,8 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const track = document.getElementById('lightbox-track');
     if(!track) return;
 
-    // We only render a small "window" around the current index to save memory
-    const windowSize = 2; // current + 2 each side
+    const windowSize = 2;
     const start = Math.max(0, currentGalleryIndex - windowSize);
     const end = Math.min(currentGalleryImages.length - 1, currentGalleryIndex + windowSize);
 
@@ -435,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch Support for Lightbox (Optimized Swipe)
+  // Touch Support for Lightbox
   let touchStartX = 0;
   let isDragging = false;
   const lbContent = document.getElementById('lightbox-content');

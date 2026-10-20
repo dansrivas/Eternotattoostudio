@@ -280,97 +280,114 @@
     </div>
   </section>
 
-<!-- ==================== COTIZADOR INTELIGENTE ==================== -->
+<!-- ==================== COTIZADOR INTELIGENTE (VENTANA PASO A PASO) ==================== -->
   <section id="cotizador" class="calculator">
     <div class="container">
       <h2 class="section-title"><span class="diamond">◆</span> COTIZADOR INTELIGENTE</h2>
 
-      <!-- MODO: Cotización Paso a Paso -->
-      <div id="quote-wizard-view" class="quote-view">
-        <div class="calc-grid">
-          <!-- Paso 1: Zona -->
-          <div class="calc-step">
-            <h3 class="step-title">1. Selecciona la zona</h3>
-            <div class="body-map-wrapper">
-              <div class="body-flip-container" id="body-flip">
-                <!-- FRENTE -->
-                <div class="body-face body-front">
-                  <svg viewBox="0 0 200 400" class="body-map">
-                    <ellipse cx="100" cy="32" rx="16" ry="20" data-zone="Cara" class="zone" />
-                    <!-- Rasgos faciales (frente) -->
-                    <g style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round">
-                      <path d="M 94 28 L 96 28" /> <!-- Ojo izquierdo -->
-                      <path d="M 104 28 L 106 28" /> <!-- Ojo derecho -->
-                      <path d="M 96 36 Q 100 40 104 36" /> <!-- Boca (sonrisa) -->
-                    </g>
-                    <rect x="92" y="52" width="16" height="14" rx="3" data-zone="Cuello (frente)" class="zone" />
-                    <path d="M 72 68 L 55 72 L 52 82 L 72 78 Z" data-zone="Hombro Izquierdo" class="zone" />
-                    <path d="M 128 68 L 145 72 L 148 82 L 128 78 Z" data-zone="Hombro Derecho" class="zone" />
-                    <path d="M 72 68 L 128 68 L 128 105 L 72 105 Z" data-zone="Pecho" class="zone" />
-                    <rect x="72" y="105" width="56" height="20" data-zone="Underboob / Costillas" class="zone" />
-                    <rect x="75" y="125" width="50" height="30" data-zone="Abdomen" class="zone" />
-                    <path d="M 75 155 L 125 155 L 120 175 L 80 175 Z" data-zone="Pelvis / Cadera" class="zone" />
-                    <path d="M 52 82 L 40 138 L 50 140 L 60 84 Z" data-zone="Bícep Izquierdo" class="zone" />
-                    <path d="M 148 82 L 160 138 L 150 140 L 140 84 Z" data-zone="Bícep Derecho" class="zone" />
-                    <path d="M 40 138 L 28 200 L 38 202 L 50 140 Z" data-zone="Antebrazo Izq. (interior)" class="zone" />
-                    <path d="M 160 138 L 172 200 L 162 202 L 150 140 Z" data-zone="Antebrazo Der. (interior)" class="zone" />
-                    <ellipse cx="33" cy="212" rx="9" ry="12" data-zone="Mano Izquierda" class="zone" />
-                    <ellipse cx="167" cy="212" rx="9" ry="12" data-zone="Mano Derecha" class="zone" />
-                    <path d="M 80 175 L 70 270 L 85 272 L 98 178 Z" data-zone="Muslo Izq. (frente)" class="zone" />
-                    <path d="M 120 175 L 130 270 L 115 272 L 102 178 Z" data-zone="Muslo Der. (frente)" class="zone" />
-                    <path d="M 70 272 L 65 360 L 80 362 L 85 274 Z" data-zone="Espinilla Izquierda" class="zone" />
-                    <path d="M 130 272 L 135 360 L 120 362 L 115 274 Z" data-zone="Espinilla Derecha" class="zone" />
-                    <ellipse cx="72" cy="372" rx="12" ry="10" data-zone="Pie Izquierdo" class="zone" />
-                    <ellipse cx="128" cy="372" rx="12" ry="10" data-zone="Pie Derecho" class="zone" />
-                  </svg>
-                </div>
-                <!-- ESPALDA -->
-                <div class="body-face body-back">
-                  <svg viewBox="0 0 200 400" class="body-map">
-                    <ellipse cx="100" cy="32" rx="16" ry="20" data-zone="Nuca / Cabeza (atrás)" class="zone" />
-                    <!-- Rasgos espalda (nuca) -->
-                    <g style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round">
-                      <path d="M 88 35 Q 100 48 112 35" /> <!-- Línea baja de cabello/nuca -->
-                    </g>
-                    <rect x="92" y="52" width="16" height="14" rx="3" data-zone="Cuello (atrás)" class="zone" />
-                    <path d="M 72 68 L 55 72 L 52 82 L 72 78 Z" data-zone="Hombro Izq. (atrás)" class="zone" />
-                    <path d="M 128 68 L 145 72 L 148 82 L 128 78 Z" data-zone="Hombro Der. (atrás)" class="zone" />
-                    <path d="M 72 68 L 128 68 L 128 105 L 72 105 Z" data-zone="Espalda alta" class="zone" />
-                    <rect x="72" y="105" width="56" height="25" data-zone="Espalda media" class="zone" />
-                    <rect x="75" y="130" width="50" height="25" data-zone="Espalda baja / Lumbar" class="zone" />
-                    <path d="M 75 155 L 125 155 L 120 175 L 80 175 Z" data-zone="Glúteos" class="zone" />
-                    <!-- Columna Vertebral -->
-                    <path d="M 100 68 L 100 160" style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="4,6" stroke-linecap="round" />
-                    <path d="M 52 82 L 40 138 L 50 140 L 60 84 Z" data-zone="Trícep Izquierdo" class="zone" />
-                    <path d="M 148 82 L 160 138 L 150 140 L 140 84 Z" data-zone="Trícep Derecho" class="zone" />
-                    <path d="M 40 138 L 28 200 L 38 202 L 50 140 Z" data-zone="Antebrazo Izq. (exterior)" class="zone" />
-                    <path d="M 160 138 L 172 200 L 162 202 L 150 140 Z" data-zone="Antebrazo Der. (exterior)" class="zone" />
-                    <ellipse cx="33" cy="212" rx="9" ry="12" data-zone="Dorso mano Izq." class="zone" />
-                    <ellipse cx="167" cy="212" rx="9" ry="12" data-zone="Dorso mano Der." class="zone" />
-                    <path d="M 80 175 L 70 270 L 85 272 L 98 178 Z" data-zone="Muslo Izq. (atrás)" class="zone" />
-                    <path d="M 120 175 L 130 270 L 115 272 L 102 178 Z" data-zone="Muslo Der. (atrás)" class="zone" />
-                    <path d="M 70 272 L 65 360 L 80 362 L 85 274 Z" data-zone="Pantorrilla Izquierda" class="zone" />
-                    <path d="M 130 272 L 135 360 L 120 362 L 115 274 Z" data-zone="Pantorrilla Derecha" class="zone" />
-                    <ellipse cx="72" cy="372" rx="12" ry="10" data-zone="Talón Izquierdo" class="zone" />
-                    <ellipse cx="128" cy="372" rx="12" ry="10" data-zone="Talón Derecho" class="zone" />
-                  </svg>
-                </div>
-              </div>
-              <button class="body-flip-btn" id="body-flip-btn">
-                <span class="flip-icon">&#8635;</span> <span id="flip-label">Ver espalda</span>
-              </button>
-            </div>
-            <p id="selected-zone-display" class="selected-text">Zona: <span class="highlight">Indefinida</span></p>
-          </div>
+      <div class="quote-step-card">
+        
+        <!-- Indicador de pasos arriba -->
+        <div class="quote-progress-bar">
+          <div class="qp-step active" id="qp-ind-1">1. Zona</div>
+          <div class="qp-step" id="qp-ind-2">2. Tamaño e Idea</div>
+          <div class="qp-step" id="qp-ind-3">3. Confirmar</div>
+        </div>
 
-          <!-- Paso 2: Tamaño y Cierre -->
-          <div class="calc-step">
-            <h3 class="step-title">2. ¿Qué tamaño?</h3>
+        <!-- VENTANA PASO 1: SELECCIONAR ZONA -->
+        <div class="quote-step-pane active" id="quote-pane-1">
+          <h3 class="step-title">1. Selecciona la zona en el cuerpo</h3>
+          <p style="color: #aaa; margin-bottom: 1.5rem;">Toca la parte del cuerpo donde te gustaría el tatuaje:</p>
+          
+          <div class="body-map-wrapper">
+            <div class="body-flip-container" id="body-flip">
+              <!-- FRENTE -->
+              <div class="body-face body-front">
+                <svg viewBox="0 0 200 400" class="body-map">
+                  <ellipse cx="100" cy="32" rx="16" ry="20" data-zone="Cara" class="zone" />
+                  <g style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round">
+                    <path d="M 94 28 L 96 28" />
+                    <path d="M 104 28 L 106 28" />
+                    <path d="M 96 36 Q 100 40 104 36" />
+                  </g>
+                  <rect x="92" y="52" width="16" height="14" rx="3" data-zone="Cuello (frente)" class="zone" />
+                  <path d="M 72 68 L 55 72 L 52 82 L 72 78 Z" data-zone="Hombro Izquierdo" class="zone" />
+                  <path d="M 128 68 L 145 72 L 148 82 L 128 78 Z" data-zone="Hombro Derecho" class="zone" />
+                  <path d="M 72 68 L 128 68 L 128 105 L 72 105 Z" data-zone="Pecho" class="zone" />
+                  <rect x="72" y="105" width="56" height="20" data-zone="Underboob / Costillas" class="zone" />
+                  <rect x="75" y="125" width="50" height="30" data-zone="Abdomen" class="zone" />
+                  <path d="M 75 155 L 125 155 L 120 175 L 80 175 Z" data-zone="Pelvis / Cadera" class="zone" />
+                  <path d="M 52 82 L 40 138 L 50 140 L 60 84 Z" data-zone="Bícep Izquierdo" class="zone" />
+                  <path d="M 148 82 L 160 138 L 150 140 L 140 84 Z" data-zone="Bícep Derecho" class="zone" />
+                  <path d="M 40 138 L 28 200 L 38 202 L 50 140 Z" data-zone="Antebrazo Izq. (interior)" class="zone" />
+                  <path d="M 160 138 L 172 200 L 162 202 L 150 140 Z" data-zone="Antebrazo Der. (interior)" class="zone" />
+                  <ellipse cx="33" cy="212" rx="9" ry="12" data-zone="Mano Izquierda" class="zone" />
+                  <ellipse cx="167" cy="212" rx="9" ry="12" data-zone="Mano Derecha" class="zone" />
+                  <path d="M 80 175 L 70 270 L 85 272 L 98 178 Z" data-zone="Muslo Izq. (frente)" class="zone" />
+                  <path d="M 120 175 L 130 270 L 115 272 L 102 178 Z" data-zone="Muslo Der. (frente)" class="zone" />
+                  <path d="M 70 272 L 65 360 L 80 362 L 85 274 Z" data-zone="Espinilla Izquierda" class="zone" />
+                  <path d="M 130 272 L 135 360 L 120 362 L 115 274 Z" data-zone="Espinilla Derecha" class="zone" />
+                  <ellipse cx="72" cy="372" rx="12" ry="10" data-zone="Pie Izquierdo" class="zone" />
+                  <ellipse cx="128" cy="372" rx="12" ry="10" data-zone="Pie Derecho" class="zone" />
+                </svg>
+              </div>
+              <!-- ESPALDA -->
+              <div class="body-face body-back">
+                <svg viewBox="0 0 200 400" class="body-map">
+                  <ellipse cx="100" cy="32" rx="16" ry="20" data-zone="Nuca / Cabeza (atrás)" class="zone" />
+                  <g style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round">
+                    <path d="M 88 35 Q 100 48 112 35" />
+                  </g>
+                  <rect x="92" y="52" width="16" height="14" rx="3" data-zone="Cuello (atrás)" class="zone" />
+                  <path d="M 72 68 L 55 72 L 52 82 L 72 78 Z" data-zone="Hombro Izq. (atrás)" class="zone" />
+                  <path d="M 128 68 L 145 72 L 148 82 L 128 78 Z" data-zone="Hombro Der. (atrás)" class="zone" />
+                  <path d="M 72 68 L 128 68 L 128 105 L 72 105 Z" data-zone="Espalda alta" class="zone" />
+                  <rect x="72" y="105" width="56" height="25" data-zone="Espalda media" class="zone" />
+                  <rect x="75" y="130" width="50" height="25" data-zone="Espalda baja / Lumbar" class="zone" />
+                  <path d="M 75 155 L 125 155 L 120 175 L 80 175 Z" data-zone="Glúteos" class="zone" />
+                  <path d="M 100 68 L 100 160" style="pointer-events:none;" fill="none" stroke="#111" stroke-width="2" stroke-dasharray="4,6" stroke-linecap="round" />
+                  <path d="M 52 82 L 40 138 L 50 140 L 60 84 Z" data-zone="Trícep Izquierdo" class="zone" />
+                  <path d="M 148 82 L 160 138 L 150 140 L 140 84 Z" data-zone="Trícep Derecho" class="zone" />
+                  <path d="M 40 138 L 28 200 L 38 202 L 50 140 Z" data-zone="Antebrazo Izq. (exterior)" class="zone" />
+                  <path d="M 160 138 L 172 200 L 162 202 L 150 140 Z" data-zone="Antebrazo Der. (exterior)" class="zone" />
+                  <ellipse cx="33" cy="212" rx="9" ry="12" data-zone="Dorso mano Izq." class="zone" />
+                  <ellipse cx="167" cy="212" rx="9" ry="12" data-zone="Dorso mano Der." class="zone" />
+                  <path d="M 80 175 L 70 270 L 85 272 L 98 178 Z" data-zone="Muslo Izq. (atrás)" class="zone" />
+                  <path d="M 120 175 L 130 270 L 115 272 L 102 178 Z" data-zone="Muslo Der. (atrás)" class="zone" />
+                  <path d="M 70 272 L 65 360 L 80 362 L 85 274 Z" data-zone="Pantorrilla Izquierda" class="zone" />
+                  <path d="M 130 272 L 135 360 L 120 362 L 115 274 Z" data-zone="Pantorrilla Derecha" class="zone" />
+                  <ellipse cx="72" cy="372" rx="12" ry="10" data-zone="Talón Izquierdo" class="zone" />
+                  <ellipse cx="128" cy="372" rx="12" ry="10" data-zone="Talón Derecho" class="zone" />
+                </svg>
+              </div>
+            </div>
+            <button class="body-flip-btn" id="body-flip-btn">
+              <span class="flip-icon">&#8635;</span> <span id="flip-label">Ver espalda</span>
+            </button>
+          </div>
+          
+          <p id="selected-zone-display" class="selected-text" style="margin-top: 1rem;">Zona seleccionada: <span class="highlight">Ninguna</span></p>
+
+          <div style="margin-top: 2rem;">
+            <button class="btn btn--gold-main" id="btn-next-step-2" style="width: 100%; max-width: 320px; font-size: 1.2rem;" disabled>
+              Continuar al Paso 2 &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- VENTANA PASO 2: TAMAÑO E IDEA -->
+        <div class="quote-step-pane" id="quote-pane-2" style="display: none;">
+          <h3 class="step-title">2. Define el tamaño e idea</h3>
+
+          <div style="max-width: 500px; margin: 0 auto; text-align: left;">
+            <label style="color: #FABA20; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.2rem; display: block; margin-bottom: 0.5rem;">Ajusta el tamaño (cm):</label>
             <input type="range" id="size-slider" min="1" max="40" value="5" class="slider" />
+            
             <div id="size-reference" class="size-reference-display">
               <span class="size-cm" id="size-cm-display">5 cm</span>
               <span class="size-ref" id="size-ref-display">≈ Tamaño de una moneda</span>
             </div>
+            
             <div class="slider-labels">
               <span>1cm</span>
               <span>10cm</span>
@@ -378,27 +395,44 @@
               <span>30cm</span>
               <span>40cm</span>
             </div>
-            <p id="selected-size-display" class="selected-text" style="margin-bottom: 3rem;">Tamaño: <span
-                class="highlight">5 cm — Moneda</span></p>
 
-            <h3 class="step-title">3. Solicita Precio</h3>
-            <p style="font-size:0.9rem; color:#aaa; margin-bottom:1rem;">La foto de referencia la podrás enviar
-              directamente en el chat.</p>
-              
-            <div class="custom-idea-toggle">
-              <input type="checkbox" id="no-reference-check">
-              <label for="no-reference-check">No tengo imagen, quiero explicar mi idea</label>
+            <div style="margin-top: 2rem;">
+              <div class="custom-idea-toggle">
+                <input type="checkbox" id="no-reference-check">
+                <label for="no-reference-check">No tengo imagen, quiero explicar mi idea</label>
+              </div>
+              <textarea id="idea-description" class="idea-textarea" placeholder="Describe tu idea aquí..." disabled style="margin-top: 0.5rem;"></textarea>
             </div>
-            
-            <textarea id="idea-description" class="idea-textarea" placeholder="Describe brevemente qué te gustaría tatuarte (ej. Un león realista con un reloj...)" disabled></textarea>
+          </div>
 
-            <a href="#" id="btn-whatsapp" class="btn btn--whats" target="_blank">Enviar a WhatsApp</a>
+          <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
+            <button class="btn btn--outline" id="btn-back-step-1">&larr; Regresar</button>
+            <button class="btn btn--gold-main" id="btn-next-step-3">Ver Resumen &rarr;</button>
           </div>
         </div>
-      </div> <!-- End Wizard View -->
+
+        <!-- VENTANA PASO 3: CONFIRMACIÓN Y ENVÍO -->
+        <div class="quote-step-pane" id="quote-pane-3" style="display: none;">
+          <h3 class="step-title">3. Resumen de tu Cotización</h3>
+          <p style="color: #aaa; margin-bottom: 2rem;">Todo está listo. Revisa tu información antes de enviar:</p>
+
+          <div style="background: rgba(250, 186, 32, 0.05); border: 1px solid rgba(250, 186, 32, 0.3); border-radius: 12px; padding: 2rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+            <p style="margin-bottom: 0.8rem; font-size: 1.1rem;"><strong style="color: #FABA20;">📍 Zona elegida:</strong> <span id="summary-zone" style="color: #fff;">-</span></p>
+            <p style="margin-bottom: 0.8rem; font-size: 1.1rem;"><strong style="color: #FABA20;">📏 Tamaño:</strong> <span id="summary-size" style="color: #fff;">-</span></p>
+            <p style="font-size: 1.1rem;"><strong style="color: #FABA20;">💡 Detalle:</strong> <span id="summary-idea" style="color: #fff;">Enviaré imagen de referencia</span></p>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="btn btn--outline" id="btn-back-step-2">&larr; Cambiar datos</button>
+            <a href="#" id="btn-whatsapp" class="btn btn--whats" target="_blank" style="padding: 1rem 2rem; font-size: 1.2rem;">Enviar a WhatsApp &rarr;</a>
+          </div>
+        </div>
+
+      </div><!-- End quote-step-card -->
+
     </div>
   </section>
-
+  
   <!-- ==================== RESERVA ==================== -->
   <section id="reserva" class="booking">
     <div class="container">

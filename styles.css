@@ -3062,3 +3062,88 @@ body.modal-open {
     margin: 0 auto 1.5rem !important;
   }
 }
+
+/* ==================== WIZARD COTIZADOR INTELIGENTE ==================== */
+.quote-step-card {
+  background: rgba(10, 17, 24, 0.95);
+  border: 1px solid rgba(250, 186, 32, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.quote-progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+  position: relative;
+  gap: 0.5rem;
+}
+
+.qp-step {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #777;
+  padding: 0.6rem 0.3rem;
+  border-radius: 8px;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.qp-step.active {
+  background: #FABA20;
+  color: #000;
+  border-color: #FABA20;
+  box-shadow: 0 0 15px rgba(250, 186, 32, 0.3);
+}
+
+.qp-step.completed {
+  color: #FABA20;
+  border-color: #FABA20;
+  background: rgba(250, 186, 32, 0.1);
+}
+
+.btn--gold-main {
+  background: #FABA20;
+  color: #000;
+  padding: 0.8rem 1.8rem;
+  font-family: 'Raven Hell Bold', sans-serif;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn--gold-main:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: #555;
+  color: #888;
+}
+
+.btn--gold-main:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(250, 186, 32, 0.4);
+}
+
+/* Transición de las ventanas del Wizard */
+.quote-step-pane {
+  animation: fadeInPane 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
