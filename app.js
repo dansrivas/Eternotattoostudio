@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'Diseños originales creados por el artista, listos para ser tatuados. Una forma rápida y profesional de llevar arte único en tu piel.',
       requirements: [
         'Diseños de autor (no se modifican)',
-        'Tamaño: No mayor a 5 cm',
+        'Tamaño: No mayor a 6 cm',
         'Precio reducido comparado con piezas personalizadas',
         'Disponibilidad inmediata'
       ],
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'La promo favorita de todos. Tres tatuajes minimalistas para una sola persona en una misma sesión.',
       requirements: [
         'Solo línea negra',
-        'Tamaño: No mayor a 5 cm c/u',
+        'Tamaño: No mayor a 6 cm c/u',
         'Misma persona, misma sesión',
         'No incluye sombras ni rellenos sólidos'
       ],
@@ -240,10 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     'detalle': {
       title: 'Paquete Detalle',
-      price: '$1,500',
-      detail: 'Flash con detalles a sombra y puntillismo sencillos. Especializado en piezas con alto nivel de precisión.',
+      price: '$1,000',
+      detail: '2 Tatuajes Flash con detalles a sombra y puntillismo sencillos.',
       requirements: [
-        'Tamaño: No mayor a 5 cm',
+        'Tamaño: No mayor a 6 cm',
         'Detalles a sombra y puntillismo sencillos',
         'Incluye diseño seleccionado del catálogo',
         'Ideal para antebrazo o pierna'
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detail: 'Comparte la experiencia con alguien especial. Un tatuaje para cada uno con un toque de sombra y detalle.',
       requirements: [
         '2 personas (1 tatuaje c/u)',
-        'Tamaño: No mayor a 5 cm c/u',
+        'Tamaño: No mayor a 6 cm c/u',
         'Incluye sombras y detalles simples',
         'Deben acudir juntos a la cita'
       ],
