@@ -332,30 +332,33 @@ body {
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-.photo-placeholder img:not(.real-photo) {
-  width: 80%;
-  height: auto;
-  opacity: 0.7;
-  filter: grayscale(100%);
-  transition: all 0.5s ease;
-}
-
-.real-photo {
+/* Regla general para TODAS las fotos dentro del contenedor */
+.photo-placeholder img {
   width: 100%;
   height: 100%;
-  max-width: 100%; /* Ensure it doesn't overflow */
-  object-fit: cover;
-  transition: transform 0.5s ease;
+  object-fit: cover; /* Asegura que llenen todo el recuadro sin deformarse */
+  filter: grayscale(100%); /* Blanco y negro por defecto */
+  opacity: 0.8;
+  transition: transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease;
 }
 
-.artist:hover .real-photo {
-  transform: scale(1.05);
-}
-
-.artist:hover .photo-placeholder img:not(.real-photo) {
-  filter: grayscale(0%);
+/* EFECTO HOVER: Color + Zoom suave para todas */
+.artist:hover .photo-placeholder img {
+  filter: grayscale(0%); /* Se activa el color */
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.05); /* Zoom sutil al pasar el mouse */
+}
+
+/* AJUSTE ESPECÍFICO PARA DANS: Zoom permanente del 20% */
+.artist:nth-child(1) .photo-placeholder img,
+img[src*="perfil_dans"] {
+  transform: scale(1.20); /* Foto 20% más grande de base */
+}
+
+/* Hover de Dans manteniendo su escala ampliada */
+.artist:nth-child(1):hover .photo-placeholder img,
+img[src*="perfil_dans"]:hover {
+  transform: scale(1.25); /* Se amplía un poco más al hacer hover */
 }
 
 .artist__info {
