@@ -53,10 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const ind3 = document.getElementById('qp-ind-3');
 
     const artistBtns = document.querySelectorAll('.artist-select-btn');
+    const quoteCard = document.querySelector('.quote-step-card');
 
     let selectedZone = '';
     let selectedArtistName = 'Sin preferencia';
     let selectedArtistPhone = '526673276212'; // Número general del estudio para "Sin preferencia"
+
+    // Función auxiliar para mantener la pantalla centrada en la tarjeta al cambiar de paso
+    const scrollToStepHeader = () => {
+      if (quoteCard) {
+        quoteCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
 
     // 0. Seleccionar Artista y actualizar su teléfono dinámico
     artistBtns.forEach(btn => {
@@ -112,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ideaTextArea = document.getElementById('idea-description');
 
-    // --- NAVEGACIÓN PASO A PASO ---
+    // --- NAVEGACIÓN PASO A PASO CON CONTROL DE SCROLL ---
     if (btnNext2) {
       btnNext2.addEventListener('click', () => {
         if (!selectedZone) return;
@@ -120,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pane2) pane2.style.display = 'block';
         if (ind1) { ind1.classList.remove('active'); ind1.classList.add('completed'); }
         if (ind2) ind2.classList.add('active');
+        scrollToStepHeader();
       });
     }
 
@@ -129,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pane1) pane1.style.display = 'block';
         if (ind2) ind2.classList.remove('active');
         if (ind1) { ind1.classList.remove('completed'); ind1.classList.add('active'); }
+        scrollToStepHeader();
       });
     }
 
@@ -151,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (summaryIdea) {
           summaryIdea.textContent = (ideaTextArea && ideaTextArea.value.trim()) ? ideaTextArea.value.trim() : 'Tengo imagen de referencia para enviar';
         }
+        scrollToStepHeader();
       });
     }
 
@@ -160,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pane2) pane2.style.display = 'block';
         if (ind3) ind3.classList.remove('active');
         if (ind2) { ind2.classList.remove('completed'); ind2.classList.add('active'); }
+        scrollToStepHeader();
       });
     }
 
@@ -198,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('giftcard-modal')?.classList.remove('active');
     document.body.style.overflow = '';
   });
-
+  
   // --- GIFT CARD LIVE PREVIEW & GENERATION ---
   const gcInputPara = document.getElementById('gc-input-para');
   const gcInputDe = document.getElementById('gc-input-de');

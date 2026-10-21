@@ -3180,3 +3180,64 @@ body.modal-open {
   border-color: #FABA20;
   box-shadow: 0 0 12px rgba(250, 186, 32, 0.3);
 }
+
+/* ==================== OPTIMIZACIÓN Y ALTURA DEL WIZARD ==================== */
+.quote-step-card {
+  background: rgba(10, 17, 24, 0.95);
+  border: 1px solid rgba(250, 186, 32, 0.2);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  min-height: 520px; /* Mantiene la altura estable entre pasos */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Reducir y controlar la altura del mapa corporal */
+.body-map-wrapper {
+  width: 100%;
+  max-width: 200px; /* Reducido de 280px para evitar verticalidad excesiva */
+  margin: 0 auto 1rem auto;
+}
+
+.body-flip-container {
+  max-height: 300px; /* Limita la altura del cuerpo */
+}
+
+/* Grid de Artistas a 2 columnas bien alineadas */
+.artist-selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.artist-select-btn {
+  padding: 0.6rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* Transición suave entre paneles */
+.quote-step-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: fadeInPane 0.3s ease-in-out;
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
