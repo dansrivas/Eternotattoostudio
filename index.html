@@ -280,24 +280,44 @@
     </div>
   </section>
 
-<!-- ==================== COTIZADOR INTELIGENTE (VENTANA PASO A PASO) ==================== -->
+<!-- ==================== COTIZADOR INTELIGENTE ==================== -->
   <section id="cotizador" class="calculator">
     <div class="container">
       <h2 class="section-title"><span class="diamond">◆</span> COTIZADOR INTELIGENTE</h2>
 
       <div class="quote-step-card">
         
-        <!-- Indicador de pasos arriba -->
+        <!-- Indicador de pasos -->
         <div class="quote-progress-bar">
-          <div class="qp-step active" id="qp-ind-1">1. Zona</div>
+          <div class="qp-step active" id="qp-ind-1">1. Zona y Artista</div>
           <div class="qp-step" id="qp-ind-2">2. Tamaño e Idea</div>
           <div class="qp-step" id="qp-ind-3">3. Confirmar</div>
         </div>
 
-        <!-- VENTANA PASO 1: SELECCIONAR ZONA -->
+        <!-- VENTANA PASO 1: SELECCIONAR ZONA Y ARTISTA -->
         <div class="quote-step-pane active" id="quote-pane-1">
-          <h3 class="step-title">1. Selecciona la zona en el cuerpo</h3>
-          <p style="color: #aaa; margin-bottom: 1.5rem;">Toca la parte del cuerpo donde te gustaría el tatuaje:</p>
+          <h3 class="step-title">1. Selecciona la zona y el artista</h3>
+          
+          <!-- SELECCIÓN DE ARTISTA -->
+          <div style="margin-bottom: 2rem; text-align: left;">
+            <label style="color: #FABA20; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-align: center;">Elige tu artista preferido:</label>
+            <div class="artist-selector-grid">
+              <button type="button" class="artist-select-btn active" data-artist="Cualquiera" data-phone="526673276212">
+                Sin preferencia / Cualquier artista
+              </button>
+              <button type="button" class="artist-select-btn" data-artist="Dans Rivas" data-phone="526675819798">
+                Dans Rivas
+              </button>
+              <button type="button" class="artist-select-btn" data-artist="Salem" data-phone="526673805560">
+                Salem
+              </button>
+              <button type="button" class="artist-select-btn" data-artist="Adrian Tezca" data-phone="525533112144">
+                Adrian Tezca
+              </button>
+            </div>
+          </div>
+
+          <p style="color: #aaa; margin-bottom: 1rem;">Toca la parte del cuerpo donde te gustaría el tatuaje:</p>
           
           <div class="body-map-wrapper">
             <div class="body-flip-container" id="body-flip">
@@ -361,7 +381,7 @@
                 </svg>
               </div>
             </div>
-            <button class="body-flip-btn" id="body-flip-btn">
+            <button type="button" class="body-flip-btn" id="body-flip-btn">
               <span class="flip-icon">&#8635;</span> <span id="flip-label">Ver espalda</span>
             </button>
           </div>
@@ -369,7 +389,7 @@
           <p id="selected-zone-display" class="selected-text" style="margin-top: 1rem;">Zona seleccionada: <span class="highlight">Ninguna</span></p>
 
           <div style="margin-top: 2rem;">
-            <button class="btn btn--gold-main" id="btn-next-step-2" style="width: 100%; max-width: 320px; font-size: 1.2rem;" disabled>
+            <button type="button" class="btn btn--gold-main" id="btn-next-step-2" style="width: 100%; max-width: 320px; font-size: 1.2rem;" disabled>
               Continuar al Paso 2 &rarr;
             </button>
           </div>
@@ -397,17 +417,17 @@
             </div>
 
             <div style="margin-top: 2rem;">
-              <div class="custom-idea-toggle">
-                <input type="checkbox" id="no-reference-check">
-                <label for="no-reference-check">No tengo imagen, quiero explicar mi idea</label>
-              </div>
-              <textarea id="idea-description" class="idea-textarea" placeholder="Describe tu idea aquí..." disabled style="margin-top: 0.5rem;"></textarea>
+              <label style="color: #FABA20; font-family: 'Raven Hell Bold', sans-serif; font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">Explica tu idea (Opcional):</label>
+              <textarea id="idea-description" class="idea-textarea active" style="height: 90px; opacity: 1; pointer-events: auto; width: 100%;" placeholder="Ej. Quiero un dragón estilo japonés en blanco y negro..."></textarea>
+              <p style="color: #00d2ff; font-size: 0.85rem; margin-top: 0.4rem; font-style: italic;">
+                📷 Si tienes una foto de referencia en tu celular, podrás adjuntarla directamente al abrir el chat de WhatsApp.
+              </p>
             </div>
           </div>
 
           <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
-            <button class="btn btn--outline" id="btn-back-step-1">&larr; Regresar</button>
-            <button class="btn btn--gold-main" id="btn-next-step-3">Ver Resumen &rarr;</button>
+            <button type="button" class="btn btn--outline" id="btn-back-step-1">&larr; Regresar</button>
+            <button type="button" class="btn btn--gold-main" id="btn-next-step-3">Ver Resumen &rarr;</button>
           </div>
         </div>
 
@@ -417,13 +437,14 @@
           <p style="color: #aaa; margin-bottom: 2rem;">Todo está listo. Revisa tu información antes de enviar:</p>
 
           <div style="background: rgba(250, 186, 32, 0.05); border: 1px solid rgba(250, 186, 32, 0.3); border-radius: 12px; padding: 2rem; max-width: 450px; margin: 0 auto 2rem auto; text-align: left;">
+            <p style="margin-bottom: 0.8rem; font-size: 1.1rem;"><strong style="color: #FABA20;">🎨 Artista:</strong> <span id="summary-artist" style="color: #fff;">Sin preferencia</span></p>
             <p style="margin-bottom: 0.8rem; font-size: 1.1rem;"><strong style="color: #FABA20;">📍 Zona elegida:</strong> <span id="summary-zone" style="color: #fff;">-</span></p>
             <p style="margin-bottom: 0.8rem; font-size: 1.1rem;"><strong style="color: #FABA20;">📏 Tamaño:</strong> <span id="summary-size" style="color: #fff;">-</span></p>
-            <p style="font-size: 1.1rem;"><strong style="color: #FABA20;">💡 Detalle:</strong> <span id="summary-idea" style="color: #fff;">Enviaré imagen de referencia</span></p>
+            <p style="font-size: 1.1rem;"><strong style="color: #FABA20;">💡 Detalle / Idea:</strong> <span id="summary-idea" style="color: #fff;">Tengo imagen de referencia para enviar</span></p>
           </div>
 
           <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <button class="btn btn--outline" id="btn-back-step-2">&larr; Cambiar datos</button>
+            <button type="button" class="btn btn--outline" id="btn-back-step-2">&larr; Cambiar datos</button>
             <a href="#" id="btn-whatsapp" class="btn btn--whats" target="_blank" style="padding: 1rem 2rem; font-size: 1.2rem;">Enviar a WhatsApp &rarr;</a>
           </div>
         </div>
@@ -432,7 +453,7 @@
 
     </div>
   </section>
-  
+    
   <!-- ==================== RESERVA ==================== -->
   <section id="reserva" class="booking">
     <div class="container">

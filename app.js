@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- WIZARD COTIZADOR INTELIGENTE (VENTANA POR VENTANA) ---
+// --- WIZARD COTIZADOR INTELIGENTE (VENTANA POR VENTANA) ---
   function initQuoteWizard() {
     const zoneDisplay = document.querySelector('#selected-zone-display .highlight');
     const zones = document.querySelectorAll('.zone');
@@ -52,7 +52,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const ind2 = document.getElementById('qp-ind-2');
     const ind3 = document.getElementById('qp-ind-3');
 
+    const artistBtns = document.querySelectorAll('.artist-select-btn');
+
     let selectedZone = '';
+    let selectedArtistName = 'Sin preferencia';
+    let selectedArtistPhone = '526673276212'; // Número general del estudio para "Sin preferencia"
+
+    // 0. Seleccionar Artista y actualizar su teléfono dinámico
+    artistBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        artistBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedArtistName = btn.getAttribute('data-artist') || 'Sin preferencia';
+        selectedArtistPhone = btn.getAttribute('data-phone') || '526673276212';
+      });
+    });
 
     // 1. Seleccionar Zona
     zones.forEach(zone => {
@@ -96,16 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Toggle Idea
-    const noRefCheck = document.getElementById('no-reference-check');
     const ideaTextArea = document.getElementById('idea-description');
-
-    if (noRefCheck && ideaTextArea) {
-      noRefCheck.addEventListener('change', (e) => {
-        ideaTextArea.disabled = !e.target.checked;
-        if (e.target.checked) ideaTextArea.focus();
-      });
-    }
 
     // --- NAVEGACIÓN PASO A PASO ---
     if (btnNext2) {
@@ -135,14 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ind3) ind3.classList.add('active');
 
         // Actualizar resumen
+        const summaryArtist = document.getElementById('summary-artist');
         const summaryZone = document.getElementById('summary-zone');
         const summarySize = document.getElementById('summary-size');
         const summaryIdea = document.getElementById('summary-idea');
 
+        if (summaryArtist) summaryArtist.textContent = selectedArtistName;
         if (summaryZone) summaryZone.textContent = selectedZone || 'No elegida';
         if (summarySize) summarySize.textContent = `${sizeSlider ? sizeSlider.value : '5'} cm (${sizeRefDisplay ? sizeRefDisplay.textContent : ''})`;
         if (summaryIdea) {
-          summaryIdea.textContent = (noRefCheck && noRefCheck.checked && ideaTextArea.value) ? ideaTextArea.value : 'Tengo imagen de referencia para enviar';
+          summaryIdea.textContent = (ideaTextArea && ideaTextArea.value.trim()) ? ideaTextArea.value.trim() : 'Tengo imagen de referencia para enviar';
         }
       });
     }
@@ -156,22 +163,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Envío a WhatsApp
+    // Envío a WhatsApp con número dinámico según artista
     const btnWhats = document.getElementById('btn-whatsapp');
     if (btnWhats) {
       btnWhats.addEventListener('click', (e) => {
         e.preventDefault();
         const sizeVal = sizeSlider ? sizeSlider.value : '5';
-        const ideaText = (noRefCheck && noRefCheck.checked && ideaTextArea) ? ideaTextArea.value : '';
+        const ideaText = (ideaTextArea && ideaTextArea.value.trim()) ? ideaTextArea.value.trim() : '';
 
         let text = `¡Hola! Me gustaría cotizar un tatuaje en Eterno Tattoo Studio.\n\n`;
+        text += `🎨 *Artista preferido:* ${selectedArtistName}\n`;
         text += `📍 *Zona:* ${selectedZone}\n`;
         text += `📏 *Tamaño:* ${sizeVal} cm\n`;
         if (ideaText) text += `💡 *Idea:* ${ideaText}\n`;
-        else text += `💡 *Idea:* Te enviaré mi imagen de referencia.\n`;
+        else text += `💡 *Idea:* Te enviaré mi imagen de referencia por aquí.\n`;
 
-        const phone = '526675819798';
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+        window.open(`https://wa.me/${selectedArtistPhone}?text=${encodeURIComponent(text)}`, '_blank');
       });
     }
   }
@@ -331,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.giftcard-how-to').style.display = 'block';
     document.getElementById('gcp-wrapper').style.display = 'block';
   });
-
+  
   // --- PROMOCIONES DATA & MODAL ---
   const promos = {
     'flash': {
