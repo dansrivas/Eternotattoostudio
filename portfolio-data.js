@@ -3,23 +3,22 @@
  * Selección limpia de los mejores trabajos por artista vía Cloudinary CDN
  */
 
-// Tu URL Base real de Cloudinary
-const CLOUDINARY_BASE = "https://res.cloudinary.com/io8hkdfh/image/upload/v1/";
+const CLOUDINARY_BASE = "https://res.cloudinary.com/io8hkdfh/image/upload/v1792628623/";
 
 window.portfolioData = {
   '@dansrivastattoo': [
-    CLOUDINARY_BASE + 'dans/foto1.webp',
-    CLOUDINARY_BASE + 'dans/foto2.webp',
-    CLOUDINARY_BASE + 'dans/foto3.webp',
-    CLOUDINARY_BASE + 'dans/foto4.webp',
-    CLOUDINARY_BASE + 'dans/foto5.webp',
-    CLOUDINARY_BASE + 'dans/foto6.webp',
-    CLOUDINARY_BASE + 'dans/foto7.webp',
-    CLOUDINARY_BASE + 'dans/foto8.webp',
-    CLOUDINARY_BASE + 'dans/foto9.webp',
-    CLOUDINARY_BASE + 'dans/foto10.webp'
+    CLOUDINARY_BASE + 'Foto1.webp',
+    CLOUDINARY_BASE + 'Foto2.webp',
+    CLOUDINARY_BASE + 'Foto3.webp',
+    CLOUDINARY_BASE + 'Foto4.webp',
+    CLOUDINARY_BASE + 'Foto5.webp',
+    CLOUDINARY_BASE + 'Foto6.webp',
+    CLOUDINARY_BASE + 'Foto7.webp',
+    CLOUDINARY_BASE + 'Foto8.webp',
+    CLOUDINARY_BASE + 'Foto9.webp',
+    CLOUDINARY_BASE + 'Foto10.webp'
   ],
-
+  
   '@tattooistsalem': [
     CLOUDINARY_BASE + 'salem/foto1.webp',
     CLOUDINARY_BASE + 'salem/foto2.webp',
