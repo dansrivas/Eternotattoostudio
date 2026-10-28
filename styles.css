@@ -1243,12 +1243,23 @@ body.sim-active .simulator-floating-panel {
   transform: rotateY(180deg);
 }
 
-.body-flip-btn {
+.body-map-wrapper {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.body-flip-btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin: 1rem auto 0;
+  margin: 1.2rem auto 0.5rem auto;
+  position: relative;
+  z-index: 10;
   padding: 0.6rem 1.5rem;
   background: rgba(250, 186, 32, 0.08);
   border: 1px solid rgba(250, 186, 32, 0.3);
@@ -1279,6 +1290,8 @@ body.sim-active .simulator-floating-panel {
 .body-map {
   width: 100%;
   height: auto;
+  max-height: 48vh;
+  display: block;
 }
 
 .body-map .zone {
@@ -1302,6 +1315,7 @@ body.sim-active .simulator-floating-panel {
 .selected-text {
   font-size: 1.2rem;
   color: #aaa;
+  margin-top: 0.5rem;
 }
 
 .selected-text .highlight {
@@ -3248,7 +3262,7 @@ body.modal-open {
 /* =========================================================
    OPTIMIZACIÓN MÓVIL EXACTA - COTIZADOR INTELIGENTE
    ========================================================= */
-@media (max-width: 1024px) {
+@media (max-width: 1366px) {
     /* 1. Contenedor principal sin tanto relleno */
   .calculator {
     padding: 1.5rem 0.5rem !important;
