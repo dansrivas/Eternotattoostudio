@@ -7,16 +7,16 @@ const CLOUDINARY_BASE = "https://res.cloudinary.com/io8hkdfh/image/upload/v17926
 
 window.portfolioData = {
   '@dansrivastattoo': [
-    CLOUDINARY_BASE + 'Foto1.webp',
-    CLOUDINARY_BASE + 'Foto2.webp',
-    CLOUDINARY_BASE + 'Foto3.webp',
-    CLOUDINARY_BASE + 'Foto4.webp',
-    CLOUDINARY_BASE + 'Foto5.webp',
-    CLOUDINARY_BASE + 'Foto6.webp',
-    CLOUDINARY_BASE + 'Foto7.webp',
-    CLOUDINARY_BASE + 'Foto8.webp',
-    CLOUDINARY_BASE + 'Foto9.webp',
-    CLOUDINARY_BASE + 'Foto10.webp'
+    CLOUDINARY_BASE + 'Dfoto1.webp',
+    CLOUDINARY_BASE + 'Dfoto2.webp',
+    CLOUDINARY_BASE + 'Dfoto3.webp',
+    CLOUDINARY_BASE + 'Dfoto4.webp',
+    CLOUDINARY_BASE + 'Dfoto5.webp',
+    CLOUDINARY_BASE + 'Dfoto6.webp',
+    CLOUDINARY_BASE + 'Dfoto7.webp',
+    CLOUDINARY_BASE + 'Dfoto8.webp',
+    CLOUDINARY_BASE + 'Dfoto9.webp',
+    CLOUDINARY_BASE + 'Dfoto10.webp'
   ],
   
   '@tattooistsalem': [
