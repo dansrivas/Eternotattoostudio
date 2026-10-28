@@ -20,16 +20,16 @@ window.portfolioData = {
   ],
   
   '@tattooistsalem': [
-    CLOUDINARY_BASE + 'salem/foto1.webp',
-    CLOUDINARY_BASE + 'salem/foto2.webp',
-    CLOUDINARY_BASE + 'salem/foto3.webp',
-    CLOUDINARY_BASE + 'salem/foto4.webp',
-    CLOUDINARY_BASE + 'salem/foto5.webp',
-    CLOUDINARY_BASE + 'salem/foto6.webp',
-    CLOUDINARY_BASE + 'salem/foto7.webp',
-    CLOUDINARY_BASE + 'salem/foto8.webp',
-    CLOUDINARY_BASE + 'salem/foto9.webp',
-    CLOUDINARY_BASE + 'salem/foto10.webp'
+    CLOUDINARY_BASE + 'foto1.webp',
+    CLOUDINARY_BASE + 'foto2.webp',
+    CLOUDINARY_BASE + 'foto3.webp',
+    CLOUDINARY_BASE + 'foto4.webp',
+    CLOUDINARY_BASE + 'foto5.webp',
+    CLOUDINARY_BASE + 'foto6.webp',
+    CLOUDINARY_BASE + 'foto7.webp',
+    CLOUDINARY_BASE + 'foto8.webp',
+    CLOUDINARY_BASE + 'foto9.webp',
+    CLOUDINARY_BASE + 'foto10.webp'
   ],
 
   '@Adrian_tezca': [
