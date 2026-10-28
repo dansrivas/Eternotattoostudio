@@ -3245,71 +3245,141 @@ body.modal-open {
   }
 }
 
+/* =========================================================
+   OPTIMIZACIÓN MÓVIL EXACTA - COTIZADOR INTELIGENTE
+   ========================================================= */
 @media (max-width: 600px) {
-  /* 1. Reducción de espacios del contenedor */
-  .cotizador-card, 
-  .steps-container {
-    padding: 12px 14px !important;
+  /* 1. Contenedor principal sin tanto relleno */
+  .calculator {
+    padding: 1.5rem 0.5rem !important;
+  }
+  
+  .section-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
   }
 
-  /* 2. Barra de pasos compacta */
-  .step-tabs, 
-  .steps-header {
-    gap: 4px !important;
-    margin-bottom: 12px !important;
+  .quote-step-card {
+    padding: 14px 10px !important;
+    border-radius: 12px !important;
   }
-  .step-tab {
+
+  /* 2. Barra de progreso compacta */
+  .quote-progress-bar {
+    gap: 4px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  .qp-step {
     padding: 6px 4px !important;
     font-size: 11px !important;
   }
 
-  /* 3. Títulos más concisos y sin tanto margen */
-  h1, h2, .step-title {
+  /* 3. Títulos y textos descriptivos */
+  .step-title {
     font-size: 1.15rem !important;
-    margin: 6px 0 !important;
+    margin-bottom: 6px !important;
   }
-  .step-subtitle, .instruction-text {
+
+  /* Anula el div contenedor con margin-bottom: 2rem */
+  .quote-step-pane > div[style*="margin-bottom: 2rem"] {
+    margin-bottom: 8px !important;
+  }
+
+  .quote-step-pane label {
+    font-size: 0.9rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .quote-step-pane p {
     font-size: 0.8rem !important;
     margin-bottom: 8px !important;
   }
 
-  /* 4. Selector de artistas en carrusel horizontal ultra-compacto */
-  .artist-selector-grid,
-  .artist-buttons {
+  /* 4. Selector de artistas: Fila deslizable horizontal (tipo chips) */
+  .artist-selector-grid {
     display: flex !important;
     flex-wrap: nowrap !important;
     overflow-x: auto !important;
     gap: 6px !important;
     padding-bottom: 4px !important;
-    margin-bottom: 10px !important;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
   }
-  .artist-btn {
+
+  .artist-selector-grid::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en iOS / Chrome */
+  }
+
+  .artist-select-btn {
     flex: 0 0 auto !important;
-    padding: 6px 12px !important;
+    height: 36px !important;
+    padding: 0 12px !important;
     font-size: 12px !important;
     white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  /* 5. Altura óptima del maniquí sin encogerlo de más */
-  .mannequin-container, 
-  #body-canvas-container,
-  svg#body-model {
-    max-height: 320px !important;
-    height: 40vh !important;
-    width: auto !important;
+  /* 5. Área del Maniquí interactivo */
+  .body-map-wrapper {
+    position: relative !important;
+    height: 300px !important;
+    max-height: 42vh !important;
     margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
   }
 
-  /* 6. Reposicionar el botón "Ver espalda" */
-  .btn-flip-mannequin {
-    bottom: 8px !important;
-    padding: 5px 12px !important;
-    font-size: 12px !important;
+  .body-flip-container {
+    height: 100% !important;
+    width: auto !important;
   }
 
-  .zona-seleccionada-info {
-    margin: 6px 0 !important;
-    font-size: 0.85rem !important;
+  .body-face {
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  svg.body-map {
+    height: 100% !important;
+    width: auto !important;
+    max-height: 100% !important;
+  }
+
+  /* 6. Botón "Ver espalda": Botón flotante arriba a la derecha (no tapa los pies) */
+  #body-flip-btn.body-flip-btn {
+    position: absolute !important;
+    top: 6px !important;
+    right: 8px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: 15 !important;
+    padding: 6px 12px !important;
+    font-size: 11px !important;
+    background: rgba(10, 10, 10, 0.85) !important;
+    border: 1px solid #FABA20 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* 7. Texto de zona y botón de continuar */
+  #selected-zone-display.selected-text {
+    margin-top: 6px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Anula el div con margin-top: 2rem del botón siguiente */
+  .quote-step-pane > div[style*="margin-top: 2rem"] {
+    margin-top: 8px !important;
+  }
+
+  #btn-next-step-2 {
+    padding: 10px 16px !important;
+    font-size: 1.05rem !important;
   }
 }
