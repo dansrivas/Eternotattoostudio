@@ -3244,3 +3244,72 @@ body.modal-open {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 600px) {
+  /* 1. Reducción de espacios del contenedor */
+  .cotizador-card, 
+  .steps-container {
+    padding: 12px 14px !important;
+  }
+
+  /* 2. Barra de pasos compacta */
+  .step-tabs, 
+  .steps-header {
+    gap: 4px !important;
+    margin-bottom: 12px !important;
+  }
+  .step-tab {
+    padding: 6px 4px !important;
+    font-size: 11px !important;
+  }
+
+  /* 3. Títulos más concisos y sin tanto margen */
+  h1, h2, .step-title {
+    font-size: 1.15rem !important;
+    margin: 6px 0 !important;
+  }
+  .step-subtitle, .instruction-text {
+    font-size: 0.8rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* 4. Selector de artistas en carrusel horizontal ultra-compacto */
+  .artist-selector-grid,
+  .artist-buttons {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    gap: 6px !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 10px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .artist-btn {
+    flex: 0 0 auto !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  /* 5. Altura óptima del maniquí sin encogerlo de más */
+  .mannequin-container, 
+  #body-canvas-container,
+  svg#body-model {
+    max-height: 320px !important;
+    height: 40vh !important;
+    width: auto !important;
+    margin: 0 auto !important;
+  }
+
+  /* 6. Reposicionar el botón "Ver espalda" */
+  .btn-flip-mannequin {
+    bottom: 8px !important;
+    padding: 5px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .zona-seleccionada-info {
+    margin: 6px 0 !important;
+    font-size: 0.85rem !important;
+  }
+}
