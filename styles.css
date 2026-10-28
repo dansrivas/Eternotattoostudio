@@ -3248,8 +3248,8 @@ body.modal-open {
 /* =========================================================
    OPTIMIZACIÓN MÓVIL EXACTA - COTIZADOR INTELIGENTE
    ========================================================= */
-@media (max-width: 600px) {
-  /* 1. Contenedor principal sin tanto relleno */
+@media (max-width: 1024px) {
+    /* 1. Contenedor principal sin tanto relleno */
   .calculator {
     padding: 1.5rem 0.5rem !important;
   }
