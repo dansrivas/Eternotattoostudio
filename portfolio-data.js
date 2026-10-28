@@ -33,15 +33,15 @@ window.portfolioData = {
   ],
 
   '@Adrian_tezca': [
-    CLOUDINARY_BASE + 'tezca/foto1.webp',
-    CLOUDINARY_BASE + 'tezca/foto2.webp',
-    CLOUDINARY_BASE + 'tezca/foto3.webp',
-    CLOUDINARY_BASE + 'tezca/foto4.webp',
-    CLOUDINARY_BASE + 'tezca/foto5.webp',
-    CLOUDINARY_BASE + 'tezca/foto6.webp',
-    CLOUDINARY_BASE + 'tezca/foto7.webp',
-    CLOUDINARY_BASE + 'tezca/foto8.webp',
-    CLOUDINARY_BASE + 'tezca/foto9.webp',
-    CLOUDINARY_BASE + 'tezca/foto10.webp'
+    CLOUDINARY_BASE + 'tfoto1.webp',
+    CLOUDINARY_BASE + 'tfoto2.webp',
+    CLOUDINARY_BASE + 'tfoto3.webp',
+    CLOUDINARY_BASE + 'tfoto4.webp',
+    CLOUDINARY_BASE + 'tfoto5.webp',
+    CLOUDINARY_BASE + 'tfoto6.webp',
+    CLOUDINARY_BASE + 'tfoto7.webp',
+    CLOUDINARY_BASE + 'tfoto8.webp',
+    CLOUDINARY_BASE + 'tfoto9.webp',
+    CLOUDINARY_BASE + 'tfoto10.webp'
   ]
 };
