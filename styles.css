@@ -3304,11 +3304,11 @@ body.modal-open {
     gap: 6px !important;
     padding-bottom: 4px !important;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+    scrollbar-width: none;
   }
 
   .artist-selector-grid::-webkit-scrollbar {
-    display: none; /* Oculta scrollbar en iOS / Chrome */
+    display: none;
   }
 
   .artist-select-btn {
@@ -3322,20 +3322,25 @@ body.modal-open {
     justify-content: center !important;
   }
 
-  /* 5. Área del Maniquí interactivo */
+  /* 5. Área del Maniquí interactivo vertical */
   .body-map-wrapper {
     position: relative !important;
-    height: 300px !important;
-    max-height: 42vh !important;
+    width: 100% !important;
+    max-width: 280px !important;
     margin: 0 auto !important;
     display: flex !important;
-    justify-content: center !important;
+    flex-direction: column !important;
     align-items: center !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   .body-flip-container {
-    height: 100% !important;
-    width: auto !important;
+    height: 280px !important;
+    max-height: 36vh !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
   }
 
   .body-face {
@@ -3350,32 +3355,37 @@ body.modal-open {
     max-height: 100% !important;
   }
 
-  /* 6. Botón "Ver espalda": Botón flotante arriba a la derecha (no tapa los pies) */
+  /* 6. Botón "Ver espalda": debajo de los pies, sin tapar el maniquí */
   #body-flip-btn.body-flip-btn {
-    position: absolute !important;
-    top: 6px !important;
-    right: 8px !important;
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
     bottom: auto !important;
     left: auto !important;
     transform: none !important;
-    z-index: 15 !important;
-    padding: 6px 12px !important;
+    margin: 8px auto 0 auto !important;
+    padding: 6px 14px !important;
     font-size: 11px !important;
-    background: rgba(10, 10, 10, 0.85) !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(20, 20, 20, 0.9) !important;
     border: 1px solid #FABA20 !important;
+    color: #FABA20 !important;
     border-radius: 20px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+    z-index: 10 !important;
   }
 
   /* 7. Texto de zona y botón de continuar */
   #selected-zone-display.selected-text {
     margin-top: 6px !important;
+    margin-bottom: 6px !important;
     font-size: 0.9rem !important;
   }
 
-  /* Anula el div con margin-top: 2rem del botón siguiente */
   .quote-step-pane > div[style*="margin-top: 2rem"] {
-    margin-top: 8px !important;
+    margin-top: 6px !important;
   }
 
   #btn-next-step-2 {
